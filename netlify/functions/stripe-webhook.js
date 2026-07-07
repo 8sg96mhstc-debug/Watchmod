@@ -21,8 +21,12 @@ exports.handler = async function (event) {
 
   const session = stripeEvent.data.object;
 
-  const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 100 });
+  const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
+    limit: 100,
+    expand: ['data.price.product']
+  });
   const produits = lineItems.data.map(li => ({
+    reference: (li.price && li.price.product && li.price.product.metadata && li.price.product.metadata.reference) || null,
     nom: li.description,
     quantite: li.quantity,
     montant: li.amount_total / 100
