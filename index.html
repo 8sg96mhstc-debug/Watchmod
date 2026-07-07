@@ -73,6 +73,8 @@
 
   .logo span { color: var(--brass); }
 
+  .header-right { display: flex; align-items: center; gap: 28px; }
+
   nav { display: flex; gap: 32px; }
 
   nav a {
@@ -83,6 +85,30 @@
   }
 
   nav a:hover { color: var(--text); }
+
+  .cart-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+
+  .cart-badge {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--brass);
+    color: #14151a;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
 
   /* ---------- Hero ---------- */
 
@@ -463,11 +489,14 @@
 <header>
   <div class="wrap">
     <a href="index.html" class="logo">watch<span>mods</span>.ch</a>
-    <nav>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="#process">Process</a>
-      <a href="#waitlist">Contact</a>
-    </nav>
+    <div class="header-right">
+      <nav>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="#process">Process</a>
+        <a href="#waitlist">Contact</a>
+      </nav>
+      <a href="panier.html" class="cart-link">Panier <span class="cart-badge" id="cart-badge">0</span></a>
+    </div>
   </div>
 </header>
 
@@ -586,6 +615,22 @@
     <span>Genève, Suisse</span>
   </div>
 </footer>
+
+<script>
+  (function () {
+    var badge = document.getElementById('cart-badge');
+    function updateCartBadge() {
+      var cart = [];
+      try { cart = JSON.parse(localStorage.getItem('watchmods_cart') || '[]'); } catch (e) {}
+      var count = cart.reduce(function (sum, item) { return sum + (item.quantite || 1); }, 0);
+      if (!badge) return;
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+    updateCartBadge();
+    window.addEventListener('storage', updateCartBadge);
+  })();
+</script>
 
 </body>
 </html>

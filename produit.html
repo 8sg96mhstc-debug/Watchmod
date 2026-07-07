@@ -75,6 +75,8 @@
 
   .logo span { color: var(--brass); }
 
+  .header-right { display: flex; align-items: center; gap: 28px; }
+
   nav { display: flex; gap: 32px; }
 
   nav a {
@@ -85,6 +87,30 @@
   }
 
   nav a:hover, nav a.active { color: var(--text); }
+
+  .cart-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+
+  .cart-badge {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--brass);
+    color: #14151a;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
 
   /* ---------- Breadcrumb ---------- */
 
@@ -289,6 +315,33 @@
     max-width: 360px;
   }
 
+  .qty-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .qty-row label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .qty-row input {
+    width: 70px;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 10px 12px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+  }
+
+  .qty-row input:focus { outline: none; border-color: var(--brass); }
+
   .not-found {
     padding: 100px 0;
     text-align: center;
@@ -334,11 +387,14 @@
 <header>
   <div class="wrap">
     <a href="index.html" class="logo">watch<span>mods</span>.ch</a>
-    <nav>
-      <a href="index.html">Accueil</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="index.html#waitlist">Contact</a>
-    </nav>
+    <div class="header-right">
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="index.html#waitlist">Contact</a>
+      </nav>
+      <a href="panier.html" class="cart-link">Panier <span class="cart-badge" id="cart-badge">0</span></a>
+    </div>
   </div>
 </header>
 
@@ -423,21 +479,58 @@
             <div class="spec-row"><span class="label">Verre</span><span class="value">${produit.verre}</span></div>
             <div class="spec-row"><span class="label">Contrôle qualité</span><span class="value">Manuel</span></div>
           </div>
-          <button class="btn btn-primary" id="buy-btn" ${enStock ? '' : 'disabled'}>
-            ${enStock ? 'Acheter — CHF ' + produit.prix : 'Rupture de stock'}
+          ${enStock ? `
+          <div class="qty-row">
+            <label for="qty-input" class="mono">Quantité</label>
+            <input type="number" id="qty-input" min="1" max="${produit.stock}" value="1">
+          </div>
+          ` : ''}
+          <button class="btn btn-primary" id="add-cart-btn" ${enStock ? '' : 'disabled'}>
+            ${enStock ? 'Ajouter au panier' : 'Rupture de stock'}
           </button>
-          <div class="buy-note">Paiement sécurisé par Stripe — bientôt disponible sur le site.</div>
+          <div class="buy-note" id="add-confirm" style="display:none;">Ajouté au panier ✓ — <a href="panier.html" style="color:var(--brass);">voir mon panier</a></div>
+          <div class="buy-note" id="buy-note-default">Paiement sécurisé par Stripe, expédition rapide.</div>
         </div>
       </div>
     `;
 
-    const buyBtn = document.getElementById('buy-btn');
-    if (buyBtn && enStock) {
-      buyBtn.addEventListener('click', () => {
-        alert('Le paiement en ligne (Stripe) sera activé à l\'étape suivante du site.');
+    const addCartBtn = document.getElementById('add-cart-btn');
+    if (addCartBtn && enStock) {
+      addCartBtn.addEventListener('click', () => {
+        const qtyInput = document.getElementById('qty-input');
+        const quantiteVoulue = Math.max(1, Math.min(produit.stock, parseInt(qtyInput.value, 10) || 1));
+
+        let cart = [];
+        try { cart = JSON.parse(localStorage.getItem('watchmods_cart') || '[]'); } catch (e) {}
+
+        const existant = cart.find(item => item.reference === produit.reference);
+        if (existant) {
+          existant.quantite = Math.min(produit.stock, existant.quantite + quantiteVoulue);
+        } else {
+          cart.push({ reference: produit.reference, nom: produit.nom, prix: produit.prix, quantite: quantiteVoulue });
+        }
+        localStorage.setItem('watchmods_cart', JSON.stringify(cart));
+        window.dispatchEvent(new Event('storage'));
+
+        document.getElementById('add-confirm').style.display = 'block';
+        document.getElementById('buy-note-default').style.display = 'none';
       });
     }
   }
+
+  (function () {
+    var badge = document.getElementById('cart-badge');
+    function updateCartBadge() {
+      var cart = [];
+      try { cart = JSON.parse(localStorage.getItem('watchmods_cart') || '[]'); } catch (e) {}
+      var count = cart.reduce(function (sum, item) { return sum + (item.quantite || 1); }, 0);
+      if (!badge) return;
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+    updateCartBadge();
+    window.addEventListener('storage', updateCartBadge);
+  })();
 </script>
 
 </body>

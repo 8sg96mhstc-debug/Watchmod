@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merci pour votre commande — watchmods.ch</title>
+<meta name="description" content="Confirmation de commande watchmods.ch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #12151a;
+    --bg-panel: #191d24;
+    --brass: #c19a5b;
+    --brass-dim: #8a7143;
+    --text: #ece7de;
+    --muted: #888e97;
+    --line: #2a2f38;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a { color: inherit; }
+
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 28px; }
+
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  header {
+    border-bottom: 1px solid var(--line);
+    padding: 22px 0;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    max-width: 1120px;
+    margin: 0 auto;
+    display: block;
+    padding: 0 28px;
+  }
+
+  .logo span { color: var(--brass); }
+
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0;
+  }
+
+  .confirm-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 1px solid var(--brass-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 28px;
+    font-size: 1.6rem;
+    color: var(--brass);
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 36px;
+  }
+
+  .ref-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 20px 24px;
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .ref-card .label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .ref-card .value {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--brass);
+    font-size: 0.95rem;
+    word-break: break-all;
+  }
+
+  .actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 26px;
+    border-radius: 3px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary { background: var(--brass); color: #14151a; }
+  .btn-primary:hover { background: #d4ac6c; }
+
+  .btn-ghost { border-color: var(--line); color: var(--text); background: transparent; }
+  .btn-ghost:hover { border-color: var(--brass-dim); }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 28px 0;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">watch<span>mods</span>.ch</a>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="confirm-icon">✓</div>
+    <h1>Merci pour votre commande</h1>
+    <p class="subtitle">Le paiement a bien été reçu. Un email de confirmation vous sera envoyé par Stripe, et nous préparons votre montre pour l'expédition.</p>
+    <div class="ref-card" id="ref-card" style="display:none;">
+      <div class="label">Référence de paiement</div>
+      <div class="value mono" id="ref-value"></div>
+    </div>
+    <div class="actions">
+      <a href="catalogue.html" class="btn btn-primary">Continuer mes achats</a>
+      <a href="index.html" class="btn btn-ghost">Retour à l'accueil</a>
+    </div>
+  </div>
+</main>
+
+<footer>© 2026 watchmods.ch — Genève, Suisse</footer>
+
+<script>
+  // Le panier local n'a plus lieu d'être une fois le paiement confirmé par Stripe.
+  localStorage.removeItem('watchmods_cart');
+
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+  if (sessionId) {
+    document.getElementById('ref-card').style.display = 'block';
+    document.getElementById('ref-value').textContent = sessionId;
+  }
+</script>
+
+</body>
+</html>
