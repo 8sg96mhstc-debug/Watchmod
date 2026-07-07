@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Fiche produit — watchmods.ch</title>
+<meta name="description" content="Détail d'une montre Seiko modifiée watchmods.ch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #12151a;
+    --bg-panel: #191d24;
+    --bg-panel-2: #1f242c;
+    --brass: #c19a5b;
+    --brass-dim: #8a7143;
+    --steel: #6c8ca8;
+    --text: #ece7de;
+    --muted: #888e97;
+    --line: #2a2f38;
+    --red: #b5654f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- Header ---------- */
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(18, 21, 26, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  header .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--brass); }
+
+  nav { display: flex; gap: 32px; }
+
+  nav a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  nav a:hover, nav a.active { color: var(--text); }
+
+  /* ---------- Breadcrumb ---------- */
+
+  .breadcrumb {
+    padding: 24px 0;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .breadcrumb a { text-decoration: none; }
+  .breadcrumb a:hover { color: var(--text); }
+
+  /* ---------- Product ---------- */
+
+  .product {
+    padding: 20px 0 90px;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .gallery-main {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, #2a2f38, #14171c 70%);
+    border: 1px solid var(--line);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gallery-main::before {
+    content: '';
+    position: absolute;
+    inset: 10%;
+    border-radius: 50%;
+    border: 1px solid var(--brass-dim);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .gallery-main .hand {
+    position: absolute;
+    width: 3px;
+    background: var(--brass);
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    border-radius: 3px;
+  }
+
+  .gallery-main .hand:nth-of-type(1) { height: 27%; transform: translateX(-50%) rotate(35deg); }
+  .gallery-main .hand:nth-of-type(2) { height: 34%; width: 2px; transform: translateX(-50%) rotate(150deg); }
+
+  .gallery-thumbs {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .gallery-thumbs .thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+  }
+
+  .info-collection {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--brass);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .info-collection::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--brass);
+    box-shadow: 0 0 8px var(--brass);
+  }
+
+  .product h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+
+  .info-ref {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+  }
+
+  .info-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    color: var(--brass);
+    margin-bottom: 20px;
+  }
+
+  .stock-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    margin-bottom: 28px;
+  }
+
+  .stock-line.ok { color: #8fae8c; border-color: #33402f; }
+  .stock-line.rupture { color: var(--red); border-color: #3d2a24; }
+
+  .info-desc {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 32px;
+    max-width: 480px;
+  }
+
+  .spec-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 24px;
+    margin-bottom: 32px;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+
+  .spec-row:last-child { border-bottom: none; }
+  .spec-row .label { color: var(--muted); }
+  .spec-row .value {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 28px;
+    border-radius: 3px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .btn-primary {
+    background: var(--brass);
+    color: #14151a;
+  }
+
+  .btn-primary:hover { background: #d4ac6c; }
+
+  .btn-primary:disabled {
+    background: var(--line);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+
+  .buy-note {
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    max-width: 360px;
+  }
+
+  .not-found {
+    padding: 100px 0;
+    text-align: center;
+  }
+
+  .not-found h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.8rem;
+    margin-bottom: 14px;
+  }
+
+  .not-found p { color: var(--muted); margin-bottom: 24px; }
+
+  /* ---------- Footer ---------- */
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 36px 0;
+  }
+
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Responsive ---------- */
+
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .product-grid { grid-template-columns: 1fr; gap: 36px; }
+    .gallery-main { max-width: 340px; margin: 0 auto; }
+    .gallery-thumbs { justify-content: center; }
+    .btn, .buy-note { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">watch<span>mods</span>.ch</a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="index.html#waitlist">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap breadcrumb">
+  <a href="index.html">Accueil</a> / <a href="catalogue.html">Catalogue</a> / <span id="breadcrumb-nom">…</span>
+</div>
+
+<section class="product">
+  <div class="wrap" id="product-content"></div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 watchmods.ch</span>
+    <span>Genève, Suisse</span>
+  </div>
+</footer>
+
+<script>
+  // Données statiques temporaires — seront remplacées par une lecture Supabase (table "produits").
+  const produits = [
+    { reference: 'WM-001', nom: 'Midnight Fifty-Five', collection: 'Diver', prix: 249, stock: 4, photos: [],
+      description: "Chaque Midnight Fifty-Five part d'un mouvement Seiko NH35 authentique. Cadran noir sunburst, aiguilles luminova, boîtier 40mm en acier 316L et verre saphir bombé. Contrôlée à la main avant expédition.",
+      boitier: "40mm · acier 316L", etancheite: "100m", verre: "Saphir bombé" },
+    { reference: 'WM-002', nom: 'Verdant Diver', collection: 'Diver', prix: 279, stock: 0, photos: [],
+      description: "Lunette vert forêt sur base Seiko NH35, aiguilles luminova haute intensité, étanchéité 100m. Un diver au caractère affirmé.",
+      boitier: "41mm · acier 316L", etancheite: "100m", verre: "Saphir plat" },
+    { reference: 'WM-003', nom: 'Brass Explorer', collection: 'Explorer', prix: 289, stock: 6, photos: [],
+      description: "Aiguilles en laiton vieilli, cadran champagne, verre saphir bombé. Un hommage moderne aux montres d'exploration.",
+      boitier: "39mm · acier 316L", etancheite: "50m", verre: "Saphir bombé" },
+    { reference: 'WM-004', nom: 'Slate Fieldwatch', collection: 'Field', prix: 229, stock: 8, photos: [],
+      description: "Cadran ardoise mat, index façon militaire, bracelet toile. Robuste et lisible en toute condition.",
+      boitier: "38mm · acier brossé", etancheite: "50m", verre: "Minéral traité" },
+    { reference: 'WM-005', nom: 'Copper Alpinist', collection: 'Explorer', prix: 299, stock: 2, photos: [],
+      description: "Boîtier cuivré brossé, lunette compas, aiguilles cathédrale. Une pièce d'inspiration alpine, en série limitée.",
+      boitier: "39.5mm · acier plaqué cuivre", etancheite: "100m", verre: "Saphir bombé" },
+    { reference: 'WM-006', nom: 'Noir Dress', collection: 'Dress', prix: 259, stock: 5, photos: [],
+      description: "Cadran laqué noir, boîtier fin de 38mm, allure habillée. Pensée pour accompagner un costume comme une chemise décontractée.",
+      boitier: "38mm · acier poli", etancheite: "30m", verre: "Saphir plat" }
+  ];
+
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get('ref');
+  const produit = produits.find(p => p.reference === ref);
+
+  const content = document.getElementById('product-content');
+  const breadcrumbNom = document.getElementById('breadcrumb-nom');
+
+  if (!produit) {
+    breadcrumbNom.textContent = 'Introuvable';
+    content.innerHTML = `
+      <div class="not-found">
+        <h1>Montre introuvable</h1>
+        <p>Ce modèle n'existe pas ou n'est plus disponible.</p>
+        <a href="catalogue.html" class="btn btn-primary" style="display:inline-flex;width:auto;">Retour au catalogue</a>
+      </div>
+    `;
+  } else {
+    document.title = produit.nom + ' — watchmods.ch';
+    breadcrumbNom.textContent = produit.nom;
+
+    const enStock = produit.stock > 0;
+    const gallery = produit.photos && produit.photos.length
+      ? `<div class="gallery-main"><img src="${produit.photos[0]}" alt="${produit.nom}"></div>`
+      : `<div class="gallery-main"><div class="hand"></div><div class="hand"></div></div>`;
+
+    content.innerHTML = `
+      <div class="product-grid">
+        <div>
+          ${gallery}
+        </div>
+        <div>
+          <div class="info-collection">${produit.collection}</div>
+          <h1>${produit.nom}</h1>
+          <div class="info-ref mono">Référence ${produit.reference}</div>
+          <div class="info-price">CHF ${produit.prix}</div>
+          <div class="stock-line ${enStock ? 'ok' : 'rupture'}">${enStock ? `En stock — ${produit.stock} disponible(s)` : 'Rupture de stock'}</div>
+          <p class="info-desc">${produit.description}</p>
+          <div class="spec-card">
+            <div class="spec-row"><span class="label">Boîtier</span><span class="value">${produit.boitier}</span></div>
+            <div class="spec-row"><span class="label">Étanchéité</span><span class="value">${produit.etancheite}</span></div>
+            <div class="spec-row"><span class="label">Verre</span><span class="value">${produit.verre}</span></div>
+            <div class="spec-row"><span class="label">Contrôle qualité</span><span class="value">Manuel</span></div>
+          </div>
+          <button class="btn btn-primary" id="buy-btn" ${enStock ? '' : 'disabled'}>
+            ${enStock ? 'Acheter — CHF ' + produit.prix : 'Rupture de stock'}
+          </button>
+          <div class="buy-note">Paiement sécurisé par Stripe — bientôt disponible sur le site.</div>
+        </div>
+      </div>
+    `;
+
+    const buyBtn = document.getElementById('buy-btn');
+    if (buyBtn && enStock) {
+      buyBtn.addEventListener('click', () => {
+        alert('Le paiement en ligne (Stripe) sera activé à l\'étape suivante du site.');
+      });
+    }
+  }
+</script>
+
+</body>
+</html>

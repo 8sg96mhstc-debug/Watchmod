@@ -289,6 +289,17 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.2s ease;
+  }
+
+  .build-card:hover { background: var(--bg-panel-2); }
+
+  .catalogue-link {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
   }
 
   .build-face {
@@ -451,11 +462,11 @@
 
 <header>
   <div class="wrap">
-    <div class="logo">watch<span>mods</span>.ch</div>
+    <a href="index.html" class="logo">watch<span>mods</span>.ch</a>
     <nav>
-      <a href="#builds">Builds</a>
+      <a href="catalogue.html">Catalogue</a>
       <a href="#process">Process</a>
-      <a href="#waitlist">Accès anticipé</a>
+      <a href="#waitlist">Contact</a>
     </nav>
   </div>
 </header>
@@ -467,8 +478,8 @@
       <h1>Des mouvements Seiko, <em>repensés</em> à la main.</h1>
       <p class="lede">Chaque pièce part d'un mouvement Seiko authentique, modifié pièce par pièce — cadran, aiguilles, boîtier — puis contrôlée avant expédition depuis la Suisse.</p>
       <div class="hero-actions">
-        <a href="#waitlist" class="btn btn-primary">Rejoindre la liste d'attente</a>
-        <a href="#builds" class="btn btn-ghost">Voir les builds</a>
+        <a href="catalogue.html" class="btn btn-primary">Voir le catalogue</a>
+        <a href="#builds" class="btn btn-ghost">Montres en vedette</a>
       </div>
     </div>
 
@@ -503,21 +514,24 @@
       <p>Trois configurations de lancement, en nombre limité.</p>
     </div>
     <div class="builds">
-      <div class="build-card">
+      <a class="build-card" href="produit.html?ref=WM-001">
         <div class="build-face"><div class="hand"></div><div class="hand"></div></div>
         <h3>Midnight Fifty-Five</h3>
         <div class="build-meta"><span>Cadran noir sunburst</span><span class="price">CHF 249</span></div>
-      </div>
-      <div class="build-card">
+      </a>
+      <a class="build-card" href="produit.html?ref=WM-002">
         <div class="build-face"><div class="hand"></div><div class="hand"></div></div>
         <h3>Verdant Diver</h3>
         <div class="build-meta"><span>Lunette vert forêt</span><span class="price">CHF 279</span></div>
-      </div>
-      <div class="build-card">
+      </a>
+      <a class="build-card" href="produit.html?ref=WM-003">
         <div class="build-face"><div class="hand"></div><div class="hand"></div></div>
         <h3>Brass Explorer</h3>
         <div class="build-meta"><span>Aiguilles laiton vieilli</span><span class="price">CHF 289</span></div>
-      </div>
+      </a>
+    </div>
+    <div class="catalogue-link">
+      <a href="catalogue.html" class="btn btn-ghost">Voir tout le catalogue</a>
     </div>
   </div>
 </section>
