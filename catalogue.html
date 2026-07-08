@@ -464,19 +464,19 @@
         <label for="filter-collection">Modèle</label>
         <select id="filter-collection">
           <option value="all">Tous les modèles</option>
-          <option value="Diver">Diver</option>
-          <option value="Explorer">Explorer</option>
-          <option value="Field">Field</option>
-          <option value="Dress">Dress</option>
+          <option value="Meridian">Meridian</option>
+          <option value="Aviateur">Aviateur</option>
+          <option value="Marina">Marina</option>
+          <option value="Globetrotter">Globetrotter</option>
         </select>
       </div>
       <div class="filter-field">
         <label for="filter-prix">Prix</label>
         <select id="filter-prix">
           <option value="all">Tous les prix</option>
-          <option value="0-249">Jusqu'à CHF 249</option>
-          <option value="250-280">CHF 250 – 280</option>
-          <option value="281-9999">CHF 281 et plus</option>
+          <option value="0-259">Jusqu'à CHF 259</option>
+          <option value="260-300">CHF 260 – 300</option>
+          <option value="301-9999">CHF 301 et plus</option>
         </select>
       </div>
       <label class="filter-check">
@@ -505,12 +505,14 @@
 <script>
   // Données statiques temporaires — seront remplacées par une lecture Supabase (table "produits").
   const produits = [
-    { reference: 'WM-001', nom: 'Midnight Fifty-Five', collection: 'Diver', prix: 249, stock: 4, description: "Cadran noir sunburst, base Seiko NH35, boîtier 40mm acier 316L." },
-    { reference: 'WM-002', nom: 'Verdant Diver', collection: 'Diver', prix: 279, stock: 0, description: "Lunette vert forêt, aiguilles luminova, étanchéité 100m." },
-    { reference: 'WM-003', nom: 'Brass Explorer', collection: 'Explorer', prix: 289, stock: 6, description: "Aiguilles laiton vieilli, cadran champagne, verre saphir bombé." },
-    { reference: 'WM-004', nom: 'Slate Fieldwatch', collection: 'Field', prix: 229, stock: 8, description: "Cadran ardoise mat, index militaires, bracelet toile." },
-    { reference: 'WM-005', nom: 'Copper Alpinist', collection: 'Explorer', prix: 299, stock: 2, description: "Boîtier cuivré brossé, lunette compas, aiguilles cathédrale." },
-    { reference: 'WM-006', nom: 'Noir Dress', collection: 'Dress', prix: 259, stock: 5, description: "Cadran laqué noir, boîtier fin 38mm, allure habillée." }
+    { reference: 'WM-101', nom: 'Meridian Émeraude', collection: 'Meridian', prix: 279, stock: 5, description: "Boîtier rond à lunette cannelée, cadran vert sunburst à chiffres arabes, bracelet jubilé acier." },
+    { reference: 'WM-102', nom: 'Meridian Azur', collection: 'Meridian', prix: 279, stock: 3, description: "Même boîtier Meridian, cadran bleu sunburst à chiffres arabes, bracelet jubilé acier." },
+    { reference: 'WM-103', nom: 'Meridian Rosé', collection: 'Meridian', prix: 319, stock: 2, description: "Boîtier bi-ton acier et or rose, cadran vert sunburst, bracelet jubilé assorti." },
+    { reference: 'WM-201', nom: 'Aviateur Blanc', collection: 'Aviateur', prix: 259, stock: 6, description: "Boîtier carré à vis apparentes, cadran blanc chiffres romains, aiguilles bleues, bracelet acier." },
+    { reference: 'WM-202', nom: 'Aviateur Cuir Bleu', collection: 'Aviateur', prix: 249, stock: 4, description: "Même boîtier Aviateur, bracelet cuir bleu à surpiqûres, boucle déployante acier." },
+    { reference: 'WM-301', nom: 'Marina Noire', collection: 'Marina', prix: 289, stock: 5, description: "Boîtier octogonal intégré, cadran noir strié horizontal, bracelet acier intégré." },
+    { reference: 'WM-302', nom: 'Marina Cuivre', collection: 'Marina', prix: 329, stock: 2, description: "Boîtier octogonal plaqué or rose, cadran brun strié horizontal, bracelet assorti." },
+    { reference: 'WM-401', nom: 'Globetrotter GMT', collection: 'Globetrotter', prix: 339, stock: 3, description: "Boîtier rond, lunette bicolore noir/bleu, aiguille GMT, cadran noir, bracelet jubilé acier." }
   ];
 
   const grid = document.getElementById('grid');

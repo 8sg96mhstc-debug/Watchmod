@@ -455,24 +455,30 @@
 <script>
   // Données statiques temporaires — seront remplacées par une lecture Supabase (table "produits").
   const produits = [
-    { reference: 'WM-001', nom: 'Midnight Fifty-Five', collection: 'Diver', prix: 249, stock: 4, photos: [],
-      description: "Chaque Midnight Fifty-Five part d'un mouvement Seiko NH35 authentique. Cadran noir sunburst, aiguilles luminova, boîtier 40mm en acier 316L et verre saphir bombé. Contrôlée à la main avant expédition.",
-      boitier: "40mm · acier 316L", etancheite: "100m", verre: "Saphir bombé" },
-    { reference: 'WM-002', nom: 'Verdant Diver', collection: 'Diver', prix: 279, stock: 0, photos: [],
-      description: "Lunette vert forêt sur base Seiko NH35, aiguilles luminova haute intensité, étanchéité 100m. Un diver au caractère affirmé.",
-      boitier: "41mm · acier 316L", etancheite: "100m", verre: "Saphir plat" },
-    { reference: 'WM-003', nom: 'Brass Explorer', collection: 'Explorer', prix: 289, stock: 6, photos: [],
-      description: "Aiguilles en laiton vieilli, cadran champagne, verre saphir bombé. Un hommage moderne aux montres d'exploration.",
-      boitier: "39mm · acier 316L", etancheite: "50m", verre: "Saphir bombé" },
-    { reference: 'WM-004', nom: 'Slate Fieldwatch', collection: 'Field', prix: 229, stock: 8, photos: [],
-      description: "Cadran ardoise mat, index façon militaire, bracelet toile. Robuste et lisible en toute condition.",
-      boitier: "38mm · acier brossé", etancheite: "50m", verre: "Minéral traité" },
-    { reference: 'WM-005', nom: 'Copper Alpinist', collection: 'Explorer', prix: 299, stock: 2, photos: [],
-      description: "Boîtier cuivré brossé, lunette compas, aiguilles cathédrale. Une pièce d'inspiration alpine, en série limitée.",
-      boitier: "39.5mm · acier plaqué cuivre", etancheite: "100m", verre: "Saphir bombé" },
-    { reference: 'WM-006', nom: 'Noir Dress', collection: 'Dress', prix: 259, stock: 5, photos: [],
-      description: "Cadran laqué noir, boîtier fin de 38mm, allure habillée. Pensée pour accompagner un costume comme une chemise décontractée.",
-      boitier: "38mm · acier poli", etancheite: "30m", verre: "Saphir plat" }
+    { reference: 'WM-101', nom: 'Meridian Émeraude', collection: 'Meridian', prix: 279, stock: 5, photos: [],
+      description: "Boîtier rond à lunette cannelée, cadran vert sunburst à chiffres arabes, bracelet jubilé acier. Contrôlée à la main avant expédition.",
+      boitier: "39mm · acier poli", etancheite: "50m", verre: "Saphir bombé" },
+    { reference: 'WM-102', nom: 'Meridian Azur', collection: 'Meridian', prix: 279, stock: 3, photos: [],
+      description: "Même boîtier Meridian à lunette cannelée, cadran bleu sunburst à chiffres arabes, bracelet jubilé acier.",
+      boitier: "39mm · acier poli", etancheite: "50m", verre: "Saphir bombé" },
+    { reference: 'WM-103', nom: 'Meridian Rosé', collection: 'Meridian', prix: 319, stock: 2, photos: [],
+      description: "Boîtier bi-ton acier et or rose, cadran vert sunburst, bracelet jubilé assorti. Série limitée.",
+      boitier: "39mm · acier/or rose", etancheite: "50m", verre: "Saphir bombé" },
+    { reference: 'WM-201', nom: 'Aviateur Blanc', collection: 'Aviateur', prix: 259, stock: 6, photos: [],
+      description: "Boîtier carré à vis apparentes et couronne cabochon, cadran blanc chiffres romains, aiguilles bleues, bracelet acier.",
+      boitier: "40mm · acier brossé", etancheite: "30m", verre: "Saphir plat" },
+    { reference: 'WM-202', nom: 'Aviateur Cuir Bleu', collection: 'Aviateur', prix: 249, stock: 4, photos: [],
+      description: "Même boîtier Aviateur à vis apparentes, bracelet cuir bleu à surpiqûres et boucle déployante acier.",
+      boitier: "40mm · acier brossé", etancheite: "30m", verre: "Saphir plat" },
+    { reference: 'WM-301', nom: 'Marina Noire', collection: 'Marina', prix: 289, stock: 5, photos: [],
+      description: "Boîtier octogonal à bracelet intégré, cadran noir strié horizontal. Une silhouette forte et reconnaissable.",
+      boitier: "40mm · acier brossé", etancheite: "60m", verre: "Saphir bombé" },
+    { reference: 'WM-302', nom: 'Marina Cuivre', collection: 'Marina', prix: 329, stock: 2, photos: [],
+      description: "Boîtier octogonal plaqué or rose, cadran brun strié horizontal, bracelet assorti. Série limitée.",
+      boitier: "40mm · plaqué or rose", etancheite: "60m", verre: "Saphir bombé" },
+    { reference: 'WM-401', nom: 'Globetrotter GMT', collection: 'Globetrotter', prix: 339, stock: 3, photos: [],
+      description: "Boîtier rond, lunette bicolore noir/bleu, aiguille GMT dédiée pour un second fuseau horaire, cadran noir, bracelet jubilé acier.",
+      boitier: "40mm · acier poli", etancheite: "100m", verre: "Saphir bombé" }
   ];
 
   const params = new URLSearchParams(window.location.search);

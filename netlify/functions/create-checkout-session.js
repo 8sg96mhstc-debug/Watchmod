@@ -6,12 +6,14 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 // aux prix envoyés par le navigateur. À remplacer par une lecture Supabase
 // (table "produits") une fois les produits synchronisés en base.
 const PRODUITS = [
-  { reference: 'WM-001', nom: 'Midnight Fifty-Five', prix: 249, stock: 4 },
-  { reference: 'WM-002', nom: 'Verdant Diver', prix: 279, stock: 0 },
-  { reference: 'WM-003', nom: 'Brass Explorer', prix: 289, stock: 6 },
-  { reference: 'WM-004', nom: 'Slate Fieldwatch', prix: 229, stock: 8 },
-  { reference: 'WM-005', nom: 'Copper Alpinist', prix: 299, stock: 2 },
-  { reference: 'WM-006', nom: 'Noir Dress', prix: 259, stock: 5 }
+  { reference: 'WM-101', nom: 'Meridian Émeraude', prix: 279, stock: 5 },
+  { reference: 'WM-102', nom: 'Meridian Azur', prix: 279, stock: 3 },
+  { reference: 'WM-103', nom: 'Meridian Rosé', prix: 319, stock: 2 },
+  { reference: 'WM-201', nom: 'Aviateur Blanc', prix: 259, stock: 6 },
+  { reference: 'WM-202', nom: 'Aviateur Cuir Bleu', prix: 249, stock: 4 },
+  { reference: 'WM-301', nom: 'Marina Noire', prix: 289, stock: 5 },
+  { reference: 'WM-302', nom: 'Marina Cuivre', prix: 329, stock: 2 },
+  { reference: 'WM-401', nom: 'Globetrotter GMT', prix: 339, stock: 3 }
 ];
 
 exports.handler = async function (event) {
