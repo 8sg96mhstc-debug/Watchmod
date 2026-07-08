@@ -342,6 +342,24 @@
   .card-face .hand:nth-of-type(1) { height: 27%; }
   .card-face .hand:nth-of-type(2) { height: 34%; width: 1.5px; }
 
+  .card-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-panel-2);
+  }
+
+  .card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card:hover .card-photo img { transform: scale(1.06); }
+
   .stock-badge {
     position: absolute;
     top: 18px;
@@ -504,15 +522,16 @@
 
 <script>
   // Données statiques temporaires — seront remplacées par une lecture Supabase (table "produits").
+  const PHOTO_BASE = 'https://dthpbmiyebbhrtaqcoan.supabase.co/storage/v1/object/public/produits-photos/';
   const produits = [
-    { reference: 'WM-101', nom: 'Meridian Émeraude', collection: 'Meridian', prix: 279, stock: 5, description: "Boîtier rond à lunette cannelée, cadran vert sunburst à chiffres arabes, bracelet jubilé acier." },
-    { reference: 'WM-102', nom: 'Meridian Azur', collection: 'Meridian', prix: 279, stock: 3, description: "Même boîtier Meridian, cadran bleu sunburst à chiffres arabes, bracelet jubilé acier." },
-    { reference: 'WM-103', nom: 'Meridian Rosé', collection: 'Meridian', prix: 319, stock: 2, description: "Boîtier bi-ton acier et or rose, cadran vert sunburst, bracelet jubilé assorti." },
-    { reference: 'WM-201', nom: 'Aviateur Blanc', collection: 'Aviateur', prix: 259, stock: 6, description: "Boîtier carré à vis apparentes, cadran blanc chiffres romains, aiguilles bleues, bracelet acier." },
-    { reference: 'WM-202', nom: 'Aviateur Cuir Bleu', collection: 'Aviateur', prix: 249, stock: 4, description: "Même boîtier Aviateur, bracelet cuir bleu à surpiqûres, boucle déployante acier." },
-    { reference: 'WM-301', nom: 'Marina Noire', collection: 'Marina', prix: 289, stock: 5, description: "Boîtier octogonal intégré, cadran noir strié horizontal, bracelet acier intégré." },
-    { reference: 'WM-302', nom: 'Marina Cuivre', collection: 'Marina', prix: 329, stock: 2, description: "Boîtier octogonal plaqué or rose, cadran brun strié horizontal, bracelet assorti." },
-    { reference: 'WM-401', nom: 'Globetrotter GMT', collection: 'Globetrotter', prix: 339, stock: 3, description: "Boîtier rond, lunette bicolore noir/bleu, aiguille GMT, cadran noir, bracelet jubilé acier." }
+    { reference: 'WM-101', nom: 'Meridian Émeraude', collection: 'Meridian', prix: 279, stock: 5, description: "Boîtier rond à lunette cannelée, cadran vert sunburst à chiffres arabes, bracelet jubilé acier.", photos: [PHOTO_BASE + 'wm-101/01.jpg'] },
+    { reference: 'WM-102', nom: 'Meridian Azur', collection: 'Meridian', prix: 279, stock: 3, description: "Même boîtier Meridian, cadran bleu sunburst à chiffres arabes, bracelet jubilé acier.", photos: [PHOTO_BASE + 'wm-102/01.jpg'] },
+    { reference: 'WM-103', nom: 'Meridian Rosé', collection: 'Meridian', prix: 319, stock: 2, description: "Boîtier bi-ton acier et or rose, cadran vert sunburst, bracelet jubilé assorti.", photos: [] },
+    { reference: 'WM-201', nom: 'Aviateur Blanc', collection: 'Aviateur', prix: 259, stock: 6, description: "Boîtier carré à vis apparentes, cadran blanc chiffres romains, aiguilles bleues, bracelet acier.", photos: [PHOTO_BASE + 'wm-201/01.jpg'] },
+    { reference: 'WM-202', nom: 'Aviateur Cuir Bleu', collection: 'Aviateur', prix: 249, stock: 4, description: "Même boîtier Aviateur, bracelet cuir bleu à surpiqûres, boucle déployante acier.", photos: [PHOTO_BASE + 'wm-202/01.jpg'] },
+    { reference: 'WM-301', nom: 'Marina Noire', collection: 'Marina', prix: 289, stock: 5, description: "Boîtier octogonal intégré, cadran noir strié horizontal, bracelet acier intégré.", photos: [PHOTO_BASE + 'wm-301/01.jpg'] },
+    { reference: 'WM-302', nom: 'Marina Cuivre', collection: 'Marina', prix: 329, stock: 2, description: "Boîtier octogonal plaqué or rose, cadran brun strié horizontal, bracelet assorti.", photos: [PHOTO_BASE + 'wm-302/01.jpg'] },
+    { reference: 'WM-401', nom: 'Globetrotter GMT', collection: 'Globetrotter', prix: 339, stock: 3, description: "Boîtier rond, lunette bicolore noir/bleu, aiguille GMT, cadran noir, bracelet jubilé acier.", photos: [] }
   ];
 
   const grid = document.getElementById('grid');
@@ -547,7 +566,9 @@
     grid.innerHTML = filtered.map((p, i) => `
       <a class="card card-enter" style="animation-delay:${Math.min(i, 8) * 0.06}s" href="produit.html?ref=${encodeURIComponent(p.reference)}">
         <span class="stock-badge ${p.stock <= 0 ? 'rupture' : ''}">${p.stock <= 0 ? 'Rupture de stock' : 'En stock'}</span>
-        <div class="card-face"><div class="hand"></div><div class="hand"></div></div>
+        ${p.photos && p.photos.length
+          ? `<div class="card-photo"><img src="${p.photos[0]}" alt="${p.nom}" loading="lazy"></div>`
+          : `<div class="card-face"><div class="hand"></div><div class="hand"></div></div>`}
         <div>
           <div class="card-collection">${p.collection}</div>
           <h3>${p.nom}</h3>

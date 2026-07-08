@@ -454,26 +454,27 @@
 
 <script>
   // Données statiques temporaires — seront remplacées par une lecture Supabase (table "produits").
+  const PHOTO_BASE = 'https://dthpbmiyebbhrtaqcoan.supabase.co/storage/v1/object/public/produits-photos/';
   const produits = [
-    { reference: 'WM-101', nom: 'Meridian Émeraude', collection: 'Meridian', prix: 279, stock: 5, photos: [],
+    { reference: 'WM-101', nom: 'Meridian Émeraude', collection: 'Meridian', prix: 279, stock: 5, photos: [PHOTO_BASE + 'wm-101/01.jpg'],
       description: "Boîtier rond à lunette cannelée, cadran vert sunburst à chiffres arabes, bracelet jubilé acier. Contrôlée à la main avant expédition.",
       boitier: "39mm · acier poli", etancheite: "50m", verre: "Saphir bombé" },
-    { reference: 'WM-102', nom: 'Meridian Azur', collection: 'Meridian', prix: 279, stock: 3, photos: [],
+    { reference: 'WM-102', nom: 'Meridian Azur', collection: 'Meridian', prix: 279, stock: 3, photos: [PHOTO_BASE + 'wm-102/01.jpg'],
       description: "Même boîtier Meridian à lunette cannelée, cadran bleu sunburst à chiffres arabes, bracelet jubilé acier.",
       boitier: "39mm · acier poli", etancheite: "50m", verre: "Saphir bombé" },
     { reference: 'WM-103', nom: 'Meridian Rosé', collection: 'Meridian', prix: 319, stock: 2, photos: [],
       description: "Boîtier bi-ton acier et or rose, cadran vert sunburst, bracelet jubilé assorti. Série limitée.",
       boitier: "39mm · acier/or rose", etancheite: "50m", verre: "Saphir bombé" },
-    { reference: 'WM-201', nom: 'Aviateur Blanc', collection: 'Aviateur', prix: 259, stock: 6, photos: [],
+    { reference: 'WM-201', nom: 'Aviateur Blanc', collection: 'Aviateur', prix: 259, stock: 6, photos: [PHOTO_BASE + 'wm-201/01.jpg'],
       description: "Boîtier carré à vis apparentes et couronne cabochon, cadran blanc chiffres romains, aiguilles bleues, bracelet acier.",
       boitier: "40mm · acier brossé", etancheite: "30m", verre: "Saphir plat" },
-    { reference: 'WM-202', nom: 'Aviateur Cuir Bleu', collection: 'Aviateur', prix: 249, stock: 4, photos: [],
+    { reference: 'WM-202', nom: 'Aviateur Cuir Bleu', collection: 'Aviateur', prix: 249, stock: 4, photos: [PHOTO_BASE + 'wm-202/01.jpg'],
       description: "Même boîtier Aviateur à vis apparentes, bracelet cuir bleu à surpiqûres et boucle déployante acier.",
       boitier: "40mm · acier brossé", etancheite: "30m", verre: "Saphir plat" },
-    { reference: 'WM-301', nom: 'Marina Noire', collection: 'Marina', prix: 289, stock: 5, photos: [],
+    { reference: 'WM-301', nom: 'Marina Noire', collection: 'Marina', prix: 289, stock: 5, photos: [PHOTO_BASE + 'wm-301/01.jpg'],
       description: "Boîtier octogonal à bracelet intégré, cadran noir strié horizontal. Une silhouette forte et reconnaissable.",
       boitier: "40mm · acier brossé", etancheite: "60m", verre: "Saphir bombé" },
-    { reference: 'WM-302', nom: 'Marina Cuivre', collection: 'Marina', prix: 329, stock: 2, photos: [],
+    { reference: 'WM-302', nom: 'Marina Cuivre', collection: 'Marina', prix: 329, stock: 2, photos: [PHOTO_BASE + 'wm-302/01.jpg'],
       description: "Boîtier octogonal plaqué or rose, cadran brun strié horizontal, bracelet assorti. Série limitée.",
       boitier: "40mm · plaqué or rose", etancheite: "60m", verre: "Saphir bombé" },
     { reference: 'WM-401', nom: 'Globetrotter GMT', collection: 'Globetrotter', prix: 339, stock: 3, photos: [],
