@@ -392,7 +392,7 @@
       bracelets: { integre: 'Intégré' },
       caseMetals: { acier: 'Acier', orrose: 'Or rose' },
       gmt: false,
-      dialNote: "Cadran strié horizontal, noir (acier) ou brun (or rose) — nos deux vraies finitions.",
+      dialNote: "Cadran strié horizontal : noir avec ouverture open-heart (acier) ou brun avec guichet date (or rose) — nos deux vraies finitions.",
       handsNote: "Aiguilles assorties au boîtier.",
       braceletNote: "Bracelet intégré au boîtier, couleur assortie.",
       caseNote: "Boîtier octogonal acier ou plaqué or rose."
@@ -592,6 +592,21 @@
         ribs += `<line x1="${cx-70}" y1="${y}" x2="${cx+70}" y2="${y}" stroke="#00000022" stroke-width="1" clip-path="url(#dialClip)"/>`;
       }
       texture = ribs;
+      if (state.dial === 'noir') {
+        // Ouverture "open-heart" à 9h — vue sur nos pièces Marina acier/cadran noir.
+        texture += `
+          <circle cx="${cx-38}" cy="${cy}" r="15" fill="#00000060" stroke="#00000044" stroke-width="1"/>
+          <circle cx="${cx-38}" cy="${cy}" r="15" fill="none" stroke="${handColor}" stroke-width="1" stroke-dasharray="2 2"/>
+          <circle cx="${cx-38}" cy="${cy}" r="6" fill="none" stroke="${handColor}" stroke-width="1.2"/>
+          <line x1="${cx-38}" y1="${cy-6}" x2="${cx-38}" y2="${cy-15}" stroke="${handColor}" stroke-width="1"/>
+        `;
+      } else if (state.dial === 'brun') {
+        // Guichet de date à 3h — vu sur notre pièce Marina or rose/cadran brun.
+        texture += `
+          <rect x="${cx+50}" y="${cy-9}" width="17" height="18" rx="2" fill="#f2ede4" stroke="#00000044" stroke-width="0.6"/>
+          <text x="${cx+58.5}" y="${cy+4}" text-anchor="middle" font-size="9" font-family="'Space Grotesk', sans-serif" fill="#15171a">24</text>
+        `;
+      }
       crown = `<rect x="248" y="142" width="12" height="16" rx="2" fill="url(#caseGrad)"/>`;
     } else {
       // globetrotter — lunette bicolore
