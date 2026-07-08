@@ -7,18 +7,18 @@
 <meta name="description" content="watchmods.ch — Seiko mods sourcés, assemblés et contrôlés à la main. Bientôt disponible.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #12151a;
-    --bg-panel: #191d24;
-    --bg-panel-2: #1f242c;
-    --brass: #c19a5b;
-    --brass-dim: #8a7143;
-    --steel: #6c8ca8;
-    --text: #ece7de;
-    --muted: #888e97;
-    --line: #2a2f38;
+    --bg: #FAFAFA;
+    --bg-panel: #FFFFFF;
+    --bg-panel-2: #F1F2F4;
+    --accent: #E0263E;
+    --accent-dim: #B01F32;
+    --warning: #C2600F;
+    --text: #15171A;
+    --muted: #6B7078;
+    --line: #E4E5E9;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -52,7 +52,7 @@
     position: sticky;
     top: 0;
     z-index: 20;
-    background: rgba(18, 21, 26, 0.85);
+    background: rgba(250, 250, 250, 0.85);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
@@ -65,13 +65,13 @@
   }
 
   .logo {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 1.25rem;
     font-weight: 600;
     letter-spacing: -0.01em;
   }
 
-  .logo span { color: var(--brass); }
+  .logo span { color: var(--accent); }
 
   .header-right { display: flex; align-items: center; gap: 28px; }
 
@@ -92,7 +92,7 @@
     right: 100%;
     bottom: -4px;
     height: 1px;
-    background: var(--brass);
+    background: var(--accent);
     transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -149,7 +149,7 @@
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease;
   }
 
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(193, 154, 91, 0.5); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(224, 38, 62, 0.35); }
   .btn-primary:active { transform: translateY(0) scale(0.97); }
   .btn-ghost:hover { transform: translateY(-2px); }
   .btn-ghost:active { transform: translateY(0) scale(0.97); }
@@ -171,8 +171,8 @@
     height: 20px;
     padding: 0 6px;
     border-radius: 999px;
-    background: var(--brass);
-    color: #14151a;
+    background: var(--accent);
+    color: #FFFFFF;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
     font-weight: 500;
@@ -231,7 +231,7 @@
   .eyebrow {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.78rem;
-    color: var(--brass);
+    color: var(--accent);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-bottom: 22px;
@@ -245,12 +245,12 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--brass);
-    box-shadow: 0 0 8px var(--brass);
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
   }
 
   h1 {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 500;
     font-size: clamp(2.4rem, 5vw, 4rem);
     line-height: 1.06;
@@ -260,7 +260,7 @@
 
   h1 em {
     font-style: italic;
-    color: var(--brass);
+    color: var(--accent);
   }
 
   .hero p.lede {
@@ -292,11 +292,11 @@
   }
 
   .btn-primary {
-    background: var(--brass);
-    color: #14151a;
+    background: var(--accent);
+    color: #FFFFFF;
   }
 
-  .btn-primary:hover { background: #d4ac6c; }
+  .btn-primary:hover { background: var(--accent-dim); }
 
   .btn-ghost {
     border-color: var(--line);
@@ -304,7 +304,7 @@
     background: transparent;
   }
 
-  .btn-ghost:hover { border-color: var(--brass-dim); }
+  .btn-ghost:hover { border-color: var(--accent-dim); }
 
   /* ---------- Spec card ---------- */
 
@@ -355,7 +355,7 @@
   }
 
   .section-head h2 {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 500;
     font-size: 2rem;
     letter-spacing: -0.01em;
@@ -423,14 +423,14 @@
     position: absolute;
     inset: 14%;
     border-radius: 50%;
-    border: 1px solid var(--brass-dim);
+    border: 1px solid var(--accent-dim);
     opacity: 0.5;
   }
 
   .build-face .hand {
     position: absolute;
     width: 2px;
-    background: var(--brass);
+    background: var(--accent);
     bottom: 50%;
     left: 50%;
     transform-origin: bottom center;
@@ -445,7 +445,7 @@
   .build-card:nth-child(3) .hand:nth-of-type(2) { height: 34%; transform: translateX(-50%) rotate(20deg); width: 1.5px; }
 
   .build-card h3 {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 1.2rem;
     font-weight: 500;
   }
@@ -459,7 +459,7 @@
 
   .build-meta .price {
     font-family: 'JetBrains Mono', monospace;
-    color: var(--brass);
+    color: var(--accent);
   }
 
   /* ---------- Process ---------- */
@@ -472,13 +472,13 @@
 
   .process-step .num {
     font-family: 'JetBrains Mono', monospace;
-    color: var(--brass);
+    color: var(--accent);
     font-size: 0.85rem;
     margin-bottom: 14px;
   }
 
   .process-step h3 {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 500;
     font-size: 1.3rem;
     margin-bottom: 10px;
@@ -500,7 +500,7 @@
   }
 
   .waitlist h2 {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 500;
     font-size: 1.8rem;
     margin-bottom: 14px;
@@ -527,8 +527,8 @@
 
   .form-row input:focus {
     outline: none;
-    border-color: var(--brass);
-    box-shadow: 0 0 0 3px rgba(193, 154, 91, 0.15);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(224, 38, 62, 0.15);
   }
 
   .form-note {
@@ -608,7 +608,7 @@
       <defs>
         <path id="ringpath" d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0"/>
       </defs>
-      <text font-family="JetBrains Mono, monospace" font-size="6.2" fill="#8a7143" letter-spacing="3">
+      <text font-family="JetBrains Mono, monospace" font-size="6.2" fill="#B01F32" letter-spacing="3">
         <textPath href="#ringpath">
           WATCHMODS.CH • SOURCÉ • MODIFIÉ • CONTRÔLÉ • EXPÉDIÉ • WATCHMODS.CH • SOURCÉ • MODIFIÉ • CONTRÔLÉ • EXPÉDIÉ •
         </textPath>

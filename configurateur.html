@@ -7,21 +7,20 @@
 <meta name="description" content="Compose ta montre Seiko modifiée watchmods.ch : boîtier, cadran, aiguilles, lunette et bracelet.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
   :root {
-    --bg: #12151a;
-    --bg-panel: #191d24;
-    --bg-panel-2: #1f242c;
-    --brass: #c19a5b;
-    --brass-dim: #8a7143;
-    --steel: #6c8ca8;
-    --text: #ece7de;
-    --muted: #888e97;
-    --line: #2a2f38;
-    --red: #b5654f;
+    --bg: #FAFAFA;
+    --bg-panel: #FFFFFF;
+    --bg-panel-2: #F1F2F4;
+    --accent: #E0263E;
+    --accent-dim: #B01F32;
+    --warning: #C2600F;
+    --text: #15171A;
+    --muted: #6B7078;
+    --line: #E4E5E9;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -48,7 +47,7 @@
     position: sticky;
     top: 0;
     z-index: 30;
-    background: rgba(18, 21, 26, 0.85);
+    background: rgba(250, 250, 250, 0.85);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
@@ -61,14 +60,14 @@
   }
 
   .logo {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 1.25rem;
     font-weight: 600;
     letter-spacing: -0.01em;
     text-decoration: none;
   }
 
-  .logo span { color: var(--brass); }
+  .logo span { color: var(--accent); }
 
   .header-right { display: flex; align-items: center; gap: 28px; }
 
@@ -82,7 +81,7 @@
   .cart-badge {
     display: none; align-items: center; justify-content: center;
     min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px;
-    background: var(--brass); color: #14151a; font-family: 'JetBrains Mono', monospace;
+    background: var(--accent); color: #FFFFFF; font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem; font-weight: 500;
   }
 
@@ -91,14 +90,14 @@
   .page-head { padding: 56px 0 36px; border-bottom: 1px solid var(--line); }
 
   .eyebrow {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--brass);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent);
     letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px;
     display: flex; align-items: center; gap: 10px;
   }
-  .eyebrow::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--brass); box-shadow: 0 0 8px var(--brass); }
+  .eyebrow::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
 
   .page-head h1 {
-    font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(1.9rem, 4vw, 2.6rem);
+    font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(1.9rem, 4vw, 2.6rem);
     letter-spacing: -0.02em; margin-bottom: 14px; max-width: 640px;
   }
 
@@ -106,7 +105,7 @@
 
   .asset-note {
     margin-top: 20px; padding: 14px 18px; background: var(--bg-panel);
-    border: 1px solid var(--line); border-left: 3px solid var(--brass-dim);
+    border: 1px solid var(--line); border-left: 3px solid var(--accent-dim);
     border-radius: 4px; font-size: 0.85rem; color: var(--muted); max-width: 640px;
   }
 
@@ -159,12 +158,12 @@
   }
 
   .section-num {
-    font-family: 'JetBrains Mono', monospace; color: var(--brass); font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.8rem;
     margin-bottom: 10px;
   }
 
   .config-section h2 {
-    font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.5rem; margin-bottom: 8px;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 1.5rem; margin-bottom: 8px;
   }
 
   .config-section > p { color: var(--muted); font-size: 0.92rem; margin-bottom: 24px; max-width: 440px; }
@@ -192,8 +191,8 @@
     text-align: center;
   }
 
-  .swatch:hover { border-color: var(--brass-dim); }
-  .swatch.active { border-color: var(--brass); background: var(--bg-panel-2); }
+  .swatch:hover { border-color: var(--accent-dim); }
+  .swatch.active { border-color: var(--accent); background: var(--bg-panel-2); }
 
   .swatch-dot {
     width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
@@ -202,7 +201,7 @@
 
   .swatch-icon {
     width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
-    font-family: 'Fraunces', serif; font-size: 1rem; color: var(--brass);
+    font-family: 'Space Grotesk', sans-serif; font-size: 1rem; color: var(--accent);
   }
 
   /* ---------- Footer ---------- */
@@ -442,7 +441,7 @@
     if (!labels) return '';
     const positions = numeralPositions(cx, cy, r);
     return positions.map((p, i) =>
-      `<text x="${p[0]}" y="${p[1] + 5}" text-anchor="middle" font-family="Fraunces, serif" font-size="16" fill="${color}">${labels[i]}</text>`
+      `<text x="${p[0]}" y="${p[1] + 5}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="16" fill="${color}">${labels[i]}</text>`
     ).join('');
   }
 

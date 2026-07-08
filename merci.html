@@ -7,16 +7,16 @@
 <meta name="description" content="Confirmation de commande watchmods.ch.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #12151a;
-    --bg-panel: #191d24;
-    --brass: #c19a5b;
-    --brass-dim: #8a7143;
-    --text: #ece7de;
-    --muted: #888e97;
-    --line: #2a2f38;
+    --bg: #FAFAFA;
+    --bg-panel: #FFFFFF;
+    --accent: #E0263E;
+    --accent-dim: #B01F32;
+    --text: #15171A;
+    --muted: #6B7078;
+    --line: #E4E5E9;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -44,7 +44,7 @@
   }
 
   .logo {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 1.25rem;
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -55,7 +55,7 @@
     padding: 0 28px;
   }
 
-  .logo span { color: var(--brass); }
+  .logo span { color: var(--accent); }
 
   main {
     flex: 1;
@@ -70,13 +70,13 @@
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    border: 1px solid var(--brass-dim);
+    border: 1px solid var(--accent-dim);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 28px;
     font-size: 1.6rem;
-    color: var(--brass);
+    color: var(--accent);
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -88,7 +88,7 @@
       position: absolute;
       inset: -6px;
       border-radius: 50%;
-      border: 1px solid var(--brass-dim);
+      border: 1px solid var(--accent-dim);
       opacity: 0;
       animation: ringPulse 1.3s ease-out 0.45s;
     }
@@ -110,7 +110,7 @@
   }
 
   h1 {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 500;
     font-size: clamp(1.8rem, 4vw, 2.4rem);
     letter-spacing: -0.02em;
@@ -144,7 +144,7 @@
 
   .ref-card .value {
     font-family: 'JetBrains Mono', monospace;
-    color: var(--brass);
+    color: var(--accent);
     font-size: 0.95rem;
     word-break: break-all;
   }
@@ -164,12 +164,12 @@
     transition: all 0.2s ease;
   }
 
-  .btn-primary { background: var(--brass); color: #14151a; }
-  .btn-primary:hover { background: #d4ac6c; transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(193, 154, 91, 0.5); }
+  .btn-primary { background: var(--accent); color: #FFFFFF; }
+  .btn-primary:hover { background: var(--accent-dim); transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(224, 38, 62, 0.35); }
   .btn-primary:active { transform: translateY(0) scale(0.97); }
 
   .btn-ghost { border-color: var(--line); color: var(--text); background: transparent; }
-  .btn-ghost:hover { border-color: var(--brass-dim); transform: translateY(-2px); }
+  .btn-ghost:hover { border-color: var(--accent-dim); transform: translateY(-2px); }
   .btn-ghost:active { transform: translateY(0) scale(0.97); }
 
   footer {
