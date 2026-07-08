@@ -242,7 +242,7 @@
   <div class="wrap">
     <div class="eyebrow">Configurateur — bêta</div>
     <h1>Compose ta montre, pièce par pièce.</h1>
-    <p>Fais défiler pour choisir le boîtier, le cadran, les aiguilles, la lunette et le bracelet. L'aperçu se met à jour en direct.</p>
+    <p>Fais défiler pour choisir le boîtier, le cadran, les aiguilles, le bracelet et la couleur du boîtier. Les options changent selon le modèle choisi — seules les combinaisons réelles sont proposées.</p>
     <div class="asset-note">
       Illustration schématique dessinée d'après nos vraies pièces (formes et couleurs réelles) — pas des photos. Les photos définitives de chaque pièce arriveront une fois la sélection validée.
     </div>
@@ -265,80 +265,49 @@
     <div class="options-col">
 
       <div class="config-section" data-section="model">
-        <div class="section-num">01 / 06</div>
-        <h2>Modèle de boîtier</h2>
-        <p>Trois silhouettes de base, chacune modifiable ensuite.</p>
-        <div class="swatch-grid" data-group="model">
-          <div class="swatch" data-value="datejust"><div class="swatch-icon">◯</div>Datejust — rond</div>
-          <div class="swatch" data-value="santos"><div class="swatch-icon">▢</div>Santos — carré</div>
-          <div class="swatch" data-value="nautilus"><div class="swatch-icon">⯃</div>Nautilus — octogonal</div>
+        <div class="section-num">01 / 05</div>
+        <h2>Base du boîtier</h2>
+        <p>Quatre styles réels, chacun avec ses propres options ensuite.</p>
+        <div class="swatch-grid" data-group="model" id="group-model">
+          <div class="swatch" data-value="meridian"><div class="swatch-icon">◯</div>Meridian — rond</div>
+          <div class="swatch" data-value="aviateur"><div class="swatch-icon">▢</div>Aviateur — carré</div>
+          <div class="swatch" data-value="marina"><div class="swatch-icon">⯃</div>Marina — octogonal</div>
+          <div class="swatch" data-value="globetrotter"><div class="swatch-icon">◐</div>Globetrotter — GMT</div>
         </div>
       </div>
 
       <div class="config-section" data-section="dial">
-        <div class="section-num">02 / 06</div>
+        <div class="section-num">02 / 05</div>
         <h2>Couleur du cadran</h2>
-        <p>Finition sunburst sur toutes les teintes.</p>
-        <div class="swatch-grid" data-group="dial">
-          <div class="swatch" data-value="noir"><div class="swatch-dot" style="background:#1c1c1c;"></div>Noir</div>
-          <div class="swatch" data-value="blanc"><div class="swatch-dot" style="background:#e9e5da;"></div>Blanc</div>
-          <div class="swatch" data-value="vert"><div class="swatch-dot" style="background:#146149;"></div>Vert</div>
-          <div class="swatch" data-value="bleu"><div class="swatch-dot" style="background:#1c3f65;"></div>Bleu</div>
-          <div class="swatch" data-value="brun"><div class="swatch-dot" style="background:#805832;"></div>Champagne</div>
-          <div class="swatch" data-value="bordeaux"><div class="swatch-dot" style="background:#722430;"></div>Bordeaux</div>
-        </div>
-      </div>
-
-      <div class="config-section" data-section="numerals">
-        <div class="section-num">03 / 06</div>
-        <h2>Index du cadran</h2>
-        <p>Le style des chiffres, repris de nos vraies références fournisseur.</p>
-        <div class="swatch-grid" data-group="numerals">
-          <div class="swatch" data-value="batons"><div class="swatch-icon">❙❙</div>Bâtons</div>
-          <div class="swatch" data-value="romains"><div class="swatch-icon">XII</div>Romains</div>
-          <div class="swatch" data-value="arabes"><div class="swatch-icon">١٢</div>Arabes</div>
-        </div>
+        <p id="dial-note">Teintes disponibles pour ce modèle.</p>
+        <div class="swatch-grid" data-group="dial" id="group-dial"></div>
+        <p style="margin-top:22px;" id="numerals-label">Style d'index</p>
+        <div class="swatch-grid" data-group="numerals" id="group-numerals"></div>
       </div>
 
       <div class="config-section" data-section="hands">
-        <div class="section-num">04 / 06</div>
+        <div class="section-num">03 / 05</div>
         <h2>Aiguilles</h2>
-        <p>Finition des aiguilles et couleur de la trotteuse.</p>
-        <div class="swatch-grid" data-group="handFinish">
-          <div class="swatch" data-value="argent"><div class="swatch-dot" style="background:#d8dce0;"></div>Argent</div>
-          <div class="swatch" data-value="or"><div class="swatch-dot" style="background:#c9a24b;"></div>Or</div>
-        </div>
-        <p style="margin-top:22px;">Couleur de la trotteuse</p>
-        <div class="swatch-grid" data-group="accent">
-          <div class="swatch" data-value="bleu"><div class="swatch-dot" style="background:#2c6fbb;"></div>Bleu</div>
-          <div class="swatch" data-value="rouge"><div class="swatch-dot" style="background:#b3382c;"></div>Rouge</div>
-          <div class="swatch" data-value="orange"><div class="swatch-dot" style="background:#c97a2c;"></div>Orange</div>
-          <div class="swatch" data-value="vert"><div class="swatch-dot" style="background:#2c8a4e;"></div>Vert</div>
-          <div class="swatch" data-value="jaune"><div class="swatch-dot" style="background:#c9b02c;"></div>Jaune</div>
-        </div>
-      </div>
-
-      <div class="config-section" data-section="case">
-        <div class="section-num">05 / 06</div>
-        <h2>Finition du boîtier</h2>
-        <p>Le métal du boîtier et de la lunette.</p>
-        <div class="swatch-grid" data-group="caseMetal">
-          <div class="swatch" data-value="acier"><div class="swatch-dot" style="background:linear-gradient(135deg,#eef1f3,#8b9096);"></div>Acier</div>
-          <div class="swatch" data-value="or"><div class="swatch-dot" style="background:linear-gradient(135deg,#f0d998,#8a6a26);"></div>Or</div>
-          <div class="swatch" data-value="orrose"><div class="swatch-dot" style="background:linear-gradient(135deg,#f0c3b0,#8a5744);"></div>Or rose</div>
+        <p id="hands-note">Finition des aiguilles pour ce modèle.</p>
+        <div class="swatch-grid" data-group="handFinish" id="group-handFinish"></div>
+        <div id="accent-block" style="display:none;">
+          <p style="margin-top:22px;" id="accent-label">Couleur de la trotteuse</p>
+          <div class="swatch-grid" data-group="accent" id="group-accent"></div>
         </div>
       </div>
 
       <div class="config-section" data-section="bracelet">
-        <div class="section-num">06 / 06</div>
+        <div class="section-num">04 / 05</div>
         <h2>Bracelet</h2>
-        <p>Métal ou cuir, selon le style recherché.</p>
-        <div class="swatch-grid" data-group="bracelet">
-          <div class="swatch" data-value="oyster"><div class="swatch-icon">▤</div>Oyster acier</div>
-          <div class="swatch" data-value="jubile"><div class="swatch-icon">▥</div>Jubilé acier</div>
-          <div class="swatch" data-value="cuir_noir"><div class="swatch-dot" style="background:#1a1a1a;"></div>Cuir noir</div>
-          <div class="swatch" data-value="cuir_bleu"><div class="swatch-dot" style="background:#1c3f65;"></div>Cuir bleu</div>
-        </div>
+        <p id="bracelet-note">Options réellement disponibles pour ce modèle.</p>
+        <div class="swatch-grid" data-group="bracelet" id="group-bracelet"></div>
+      </div>
+
+      <div class="config-section" data-section="case">
+        <div class="section-num">05 / 05</div>
+        <h2>Couleur du boîtier</h2>
+        <p id="case-note">Le métal du boîtier (et de la lunette).</p>
+        <div class="swatch-grid" data-group="caseMetal" id="group-caseMetal"></div>
       </div>
 
     </div>
@@ -354,9 +323,10 @@
 
 <script>
   // ============================================================
-  // Données de couleurs — reprises des vraies teintes fournisseur
+  // Données par base réelle — chaque modèle n'expose que les options
+  // qui correspondent à une vraie pièce/photo de référence.
   // ============================================================
-  const DIAL_COLORS = {
+  const DIAL_HEX = {
     noir: { base: '#1c1c1c', light: '#3a3a3a' },
     blanc: { base: '#e2ddd0', light: '#ffffff' },
     vert: { base: '#146149', light: '#2e9c74' },
@@ -365,38 +335,105 @@
     bordeaux: { base: '#722430', light: '#a5424f' }
   };
 
-  const CASE_METALS = {
+  const CASE_METAL_HEX = {
     acier: { base: '#c7ccd1', light: '#eef1f3', dark: '#8b9096' },
     or: { base: '#c9a24b', light: '#f0d998', dark: '#8a6a26' },
     orrose: { base: '#c98b74', light: '#f0c3b0', dark: '#8a5744' }
   };
 
-  const HAND_FINISHES = { or: '#d8b569', argent: '#e9edf0' };
-  const ACCENT_COLORS = { bleu: '#3d7fce', rouge: '#c14636', orange: '#d68b3a', vert: '#3a9c5f', jaune: '#d6bf3a' };
+  const BEZEL_HEX = { noir: '#1a1a1a', bleu: '#1c3f65', rouge: '#7a2020' };
 
-  const NUMERAL_LABELS = {
+  const HAND_FINISH_HEX = { or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a' };
+  const ACCENT_HEX = { bleu: '#3d7fce', rouge: '#c14636', orange: '#d68b3a', vert: '#3a9c5f', jaune: '#d6bf3a', noir: '#1c1c1c' };
+
+  const NUMERAL_GLYPHS = {
     batons: null,
     romains: ['XII', 'III', 'VI', 'IX'],
     arabes: ['١٢', '٣', '٦', '٩']
   };
 
+  // Chaque base ne propose que des combinaisons réellement vues sur nos photos
+  // (ou une variation de couleur plausible du même composant physique).
+  const MODELS = {
+    meridian: {
+      label: 'Meridian — rond',
+      dials: { vert: 'Vert', bleu: 'Bleu', blanc: 'Blanc', bordeaux: 'Bordeaux' },
+      numerals: { arabes: 'Arabes', batons: 'Bâtons' },
+      handFinishes: { argent: 'Argent', or: 'Or' },
+      accents: { bleu: 'Bleu', rouge: 'Rouge', vert: 'Vert', jaune: 'Jaune', orange: 'Orange' },
+      bracelets: { jubile: 'Jubilé' },
+      caseMetals: { acier: 'Acier', orrose: 'Acier / or rose' },
+      gmt: false,
+      dialNote: "Cadrans sunburst vus sur nos pièces Meridian.",
+      handsNote: "Aiguilles dauphine, comme sur nos Meridian réelles.",
+      braceletNote: "Bracelet jubilé — la couleur suit le boîtier.",
+      caseNote: "Boîtier acier ou bi-ton acier/or rose, lunette cannelée."
+    },
+    aviateur: {
+      label: 'Aviateur — carré',
+      dials: { blanc: 'Blanc', noir: 'Noir' },
+      numerals: { romains: 'Romains', batons: 'Bâtons' },
+      handFinishes: { bleu: 'Bleu', argent: 'Argent' },
+      accents: {},
+      bracelets: { acier: 'Acier', cuir_bleu: 'Cuir bleu' },
+      caseMetals: { acier: 'Acier' },
+      gmt: false,
+      dialNote: "Cadran blanc chiffres romains vu sur nos Aviateur, variante noire proposée.",
+      handsNote: "Aiguilles bleues, comme sur notre pièce de référence.",
+      braceletNote: "Acier ou cuir bleu — les deux versions que nous avons réellement.",
+      caseNote: "Boîtier acier brossé à vis apparentes, couronne cabochon."
+    },
+    marina: {
+      label: 'Marina — octogonal',
+      dials: { noir: 'Noir', brun: 'Brun' },
+      numerals: { batons: 'Bâtons' },
+      handFinishes: { argent: 'Argent', or: 'Or' },
+      accents: {},
+      bracelets: { integre: 'Intégré' },
+      caseMetals: { acier: 'Acier', orrose: 'Or rose' },
+      gmt: false,
+      dialNote: "Cadran strié horizontal, noir (acier) ou brun (or rose) — nos deux vraies finitions.",
+      handsNote: "Aiguilles assorties au boîtier.",
+      braceletNote: "Bracelet intégré au boîtier, couleur assortie.",
+      caseNote: "Boîtier octogonal acier ou plaqué or rose."
+    },
+    globetrotter: {
+      label: 'Globetrotter — GMT',
+      dials: { noir: 'Noir', bleu: 'Bleu' },
+      numerals: { batons: 'Bâtons' },
+      handFinishes: { argent: 'Argent', or: 'Or' },
+      accents: { rouge: 'Rouge', bleu: 'Bleu', noir: 'Noir' },
+      bracelets: { jubile: 'Jubilé acier' },
+      caseMetals: { noir_bleu: 'Lunette noir / bleu', noir_rouge: 'Lunette noir / rouge', bleu_rouge: 'Lunette bleu / rouge' },
+      gmt: true,
+      dialNote: "Cadran noir (photo de référence) ou bleu, avec la 4ᵉ aiguille GMT.",
+      handsNote: "L'aiguille GMT est spécifique à ce modèle — jamais disponible sur les autres bases.",
+      braceletNote: "Bracelet jubilé acier, comme sur notre pièce de référence.",
+      caseNote: "Lunette bicolore céramique — la signature de ce modèle."
+    }
+  };
+
   const state = {
-    model: 'datejust',
-    dial: 'noir',
-    numerals: 'batons',
+    model: 'meridian',
+    dial: 'vert',
+    numerals: 'arabes',
     handFinish: 'argent',
     accent: 'bleu',
     caseMetal: 'acier',
-    bracelet: 'oyster'
+    bracelet: 'jubile'
   };
 
-  const MODEL_LABELS = { datejust: 'Datejust — rond', santos: 'Santos — carré', nautilus: 'Nautilus — octogonal' };
-  const DIAL_LABELS = { noir: 'Noir', blanc: 'Blanc', vert: 'Vert', bleu: 'Bleu', brun: 'Champagne', bordeaux: 'Bordeaux' };
-  const NUMERAL_TYPE_LABELS = { batons: 'Bâtons', romains: 'Romains', arabes: 'Arabes' };
-  const HAND_LABELS = { argent: 'Argent', or: 'Or' };
-  const ACCENT_LABELS = { bleu: 'Bleu', rouge: 'Rouge', orange: 'Orange', vert: 'Vert', jaune: 'Jaune' };
-  const CASE_LABELS = { acier: 'Acier', or: 'Or', orrose: 'Or rose' };
-  const BRACELET_LABELS = { oyster: 'Oyster acier', jubile: 'Jubilé acier', cuir_noir: 'Cuir noir', cuir_bleu: 'Cuir bleu' };
+  function firstKey(obj) { return Object.keys(obj)[0]; }
+
+  function applyModelDefaults() {
+    const m = MODELS[state.model];
+    if (!(state.dial in m.dials)) state.dial = firstKey(m.dials);
+    if (!(state.numerals in m.numerals)) state.numerals = firstKey(m.numerals);
+    if (!(state.handFinish in m.handFinishes)) state.handFinish = firstKey(m.handFinishes);
+    if (Object.keys(m.accents).length && !(state.accent in m.accents)) state.accent = firstKey(m.accents);
+    if (!(state.bracelet in m.bracelets)) state.bracelet = firstKey(m.bracelets);
+    if (!(state.caseMetal in m.caseMetals)) state.caseMetal = firstKey(m.caseMetals);
+  }
 
   function handPoint(cx, cy, length, minuteUnits) {
     const angle = (minuteUnits / 60) * 2 * Math.PI - Math.PI / 2;
@@ -437,7 +474,7 @@
   }
 
   function numeralGlyphs(cx, cy, r, style, color) {
-    const labels = NUMERAL_LABELS[style];
+    const labels = NUMERAL_GLYPHS[style];
     if (!labels) return '';
     const positions = numeralPositions(cx, cy, r);
     return positions.map((p, i) =>
@@ -445,23 +482,35 @@
     ).join('');
   }
 
-  function handsMarkup(cx, cy, handColor, accentColor) {
+  function handsMarkup(cx, cy, handColor, accentColor, gmtColor) {
     const hour = handPoint(cx, cy, 34, 50.8);
     const minute = handPoint(cx, cy, 56, 10);
     const second = handPoint(cx, cy, 62, 35);
-    return `
+    let markup = `
       <line x1="${cx}" y1="${cy}" x2="${hour[0]}" y2="${hour[1]}" stroke="${handColor}" stroke-width="5" stroke-linecap="round"/>
       <line x1="${cx}" y1="${cy}" x2="${minute[0]}" y2="${minute[1]}" stroke="${handColor}" stroke-width="3.5" stroke-linecap="round"/>
       <line x1="${cx}" y1="${cy}" x2="${second[0]}" y2="${second[1]}" stroke="${accentColor}" stroke-width="1.4" stroke-linecap="round"/>
-      <circle cx="${cx}" cy="${cy}" r="4" fill="${handColor}"/>
     `;
+    if (gmtColor) {
+      // 4e aiguille GMT : plus courte, pointe fléchée, fait un tour en 24h.
+      const gmtUnits = (17 % 24) / 24 * 60; // position figée pour l'aperçu
+      const gmt = handPoint(cx, cy, 46, gmtUnits);
+      const tipBack = handPoint(cx, cy, 40, gmtUnits - 1.2);
+      const tipFwd = handPoint(cx, cy, 40, gmtUnits + 1.2);
+      markup += `
+        <line x1="${cx}" y1="${cy}" x2="${gmt[0]}" y2="${gmt[1]}" stroke="${gmtColor}" stroke-width="2.6" stroke-linecap="round"/>
+        <polygon points="${gmt[0]},${gmt[1]} ${tipBack[0]},${tipBack[1]} ${tipFwd[0]},${tipFwd[1]}" fill="${gmtColor}"/>
+      `;
+    }
+    markup += `<circle cx="${cx}" cy="${cy}" r="4" fill="${handColor}"/>`;
+    return markup;
   }
 
-  function braceletMarkup(type, model) {
+  function braceletMarkup() {
     const b = state.bracelet;
-    const isLeather = b === 'cuir_noir' || b === 'cuir_bleu';
-    const color = isLeather ? (b === 'cuir_noir' ? '#161616' : '#1c3f65') : `url(#caseGrad)`;
-    const lugTop = model === 'santos' ? 60 : 40;
+    const isLeather = b.indexOf('cuir') === 0;
+    const color = isLeather ? (b === 'cuir_bleu' ? '#1c3f65' : '#161616') : 'url(#caseGrad)';
+    const lugTop = state.model === 'aviateur' ? 60 : 40;
     const lugBottom = 300 - lugTop;
     let links = '';
     if (!isLeather && b === 'jubile') {
@@ -470,6 +519,7 @@
         links += `<rect x="${118 + i * 22}" y="${lugBottom + 4}" width="14" height="26" rx="3" fill="${color}" stroke="#00000033"/>`;
       }
     } else if (!isLeather) {
+      // "acier" (Aviateur, façon oyster) ou "integre" (Marina, liens larges intégrés)
       links += `<rect x="105" y="${lugTop - 34}" width="90" height="30" rx="4" fill="${color}" stroke="#00000033"/>`;
       links += `<rect x="105" y="${lugBottom + 4}" width="90" height="30" rx="4" fill="${color}" stroke="#00000033"/>`;
       links += `<line x1="150" y1="${lugTop - 34}" x2="150" y2="${lugTop - 4}" stroke="#00000033"/>`;
@@ -483,13 +533,25 @@
     return links;
   }
 
+  function ringSectorPath(cx, cy, rOuter, rInner, startAngle, endAngle) {
+    function polar(r, angle) {
+      const a = (angle - 90) * Math.PI / 180;
+      return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+    }
+    const p1 = polar(rOuter, startAngle), p2 = polar(rOuter, endAngle);
+    const p3 = polar(rInner, endAngle), p4 = polar(rInner, startAngle);
+    const largeArc = (endAngle - startAngle) > 180 ? 1 : 0;
+    return `M ${p1[0]} ${p1[1]} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${p2[0]} ${p2[1]} L ${p3[0]} ${p3[1]} A ${rInner} ${rInner} 0 ${largeArc} 0 ${p4[0]} ${p4[1]} Z`;
+  }
+
   function renderWatch() {
     const svg = document.getElementById('watch-svg');
     const cx = 150, cy = 150;
-    const dial = DIAL_COLORS[state.dial];
-    const metal = CASE_METALS[state.caseMetal];
-    const handColor = HAND_FINISHES[state.handFinish];
-    const accentColor = ACCENT_COLORS[state.accent];
+    const dial = DIAL_HEX[state.dial];
+    const bodyMetal = CASE_METAL_HEX[state.model === 'globetrotter' ? 'acier' : state.caseMetal];
+    const handColor = HAND_FINISH_HEX[state.handFinish];
+    const accentColor = ACCENT_HEX[state.accent] || handColor;
+    const gmtColor = MODELS[state.model].gmt ? (ACCENT_HEX[state.accent] || '#c14636') : null;
 
     const defs = `
       <defs>
@@ -498,29 +560,29 @@
           <stop offset="100%" stop-color="${dial.base}"/>
         </radialGradient>
         <linearGradient id="caseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="${metal.light}"/>
-          <stop offset="55%" stop-color="${metal.base}"/>
-          <stop offset="100%" stop-color="${metal.dark}"/>
+          <stop offset="0%" stop-color="${bodyMetal.light}"/>
+          <stop offset="55%" stop-color="${bodyMetal.base}"/>
+          <stop offset="100%" stop-color="${bodyMetal.dark}"/>
         </linearGradient>
         <clipPath id="dialClip"><circle cx="${cx}" cy="${cy}" r="76"/></clipPath>
       </defs>
     `;
 
     let caseShape = '', dialShape = '', crown = '', texture = '';
-    const bracelet = braceletMarkup(state.bracelet, state.model);
+    const bracelet = braceletMarkup();
 
-    if (state.model === 'datejust') {
+    if (state.model === 'meridian') {
       caseShape = `<circle cx="${cx}" cy="${cy}" r="98" fill="url(#caseGrad)"/>
         <circle cx="${cx}" cy="${cy}" r="87" fill="none" stroke="url(#caseGrad)" stroke-width="15" stroke-dasharray="3.6 3.1"/>`;
       dialShape = `<circle cx="${cx}" cy="${cy}" r="76" fill="url(#dialGrad)"/>`;
       crown = `<rect x="246" y="141" width="14" height="18" rx="3" fill="url(#caseGrad)"/>`;
-    } else if (state.model === 'santos') {
+    } else if (state.model === 'aviateur') {
       caseShape = `<rect x="58" y="58" width="184" height="184" rx="22" fill="url(#caseGrad)"/>`;
       dialShape = `<rect x="80" y="80" width="140" height="140" rx="8" fill="url(#dialGrad)"/>`;
       const screwPos = [[74,74],[226,74],[74,226],[226,226],[150,66],[150,234]];
       texture = screwPos.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="#00000040"/><circle cx="${p[0]}" cy="${p[1]}" r="1.4" fill="#ffffff55"/>`).join('');
       crown = `<rect x="238" y="138" width="14" height="22" rx="3" fill="url(#caseGrad)"/><circle cx="245" cy="136" r="5" fill="#2c6fbb"/>`;
-    } else {
+    } else if (state.model === 'marina') {
       const outer = octagonPoints(cx, cy, 100, 22.5);
       const inner = octagonPoints(cx, cy, 76, 22.5);
       caseShape = `<polygon points="${outer}" fill="url(#caseGrad)"/>`;
@@ -531,22 +593,34 @@
       }
       texture = ribs;
       crown = `<rect x="248" y="142" width="12" height="16" rx="2" fill="url(#caseGrad)"/>`;
+    } else {
+      // globetrotter — lunette bicolore
+      const [colA, colB] = state.caseMetal.split('_').map(k => BEZEL_HEX[k]);
+      caseShape = `
+        <circle cx="${cx}" cy="${cy}" r="98" fill="url(#caseGrad)"/>
+        <path d="${ringSectorPath(cx, cy, 96, 84, 0, 180)}" fill="${colA}"/>
+        <path d="${ringSectorPath(cx, cy, 96, 84, 180, 360)}" fill="${colB}"/>
+        <circle cx="${cx}" cy="${cy}" r="84" fill="none" stroke="#00000022" stroke-width="1"/>
+      `;
+      dialShape = `<circle cx="${cx}" cy="${cy}" r="76" fill="url(#dialGrad)"/>`;
+      crown = `<rect x="246" y="141" width="14" height="18" rx="3" fill="url(#caseGrad)"/>`;
     }
 
     const marks = state.numerals === 'batons' ? batonMarks(cx, cy, 76, handColor) : numeralGlyphs(cx, cy, 76, state.numerals, handColor);
-    const hands = handsMarkup(cx, cy, handColor, accentColor);
+    const hands = handsMarkup(cx, cy, handColor, accentColor, gmtColor);
 
     svg.innerHTML = `${defs}${bracelet}${caseShape}${dialShape}${texture}${marks}${crown}${hands}`;
   }
 
   function updateSummary() {
+    const m = MODELS[state.model];
     const rows = [
-      ['Modèle', MODEL_LABELS[state.model]],
-      ['Cadran', DIAL_LABELS[state.dial]],
-      ['Index', NUMERAL_TYPE_LABELS[state.numerals]],
-      ['Aiguilles', HAND_LABELS[state.handFinish] + ' · trotteuse ' + ACCENT_LABELS[state.accent].toLowerCase()],
-      ['Boîtier', CASE_LABELS[state.caseMetal]],
-      ['Bracelet', BRACELET_LABELS[state.bracelet]]
+      ['Modèle', m.label],
+      ['Cadran', m.dials[state.dial]],
+      ['Index', m.numerals[state.numerals]],
+      ['Aiguilles', m.handFinishes[state.handFinish] + (m.accents[state.accent] ? (m.gmt ? ' · GMT ' : ' · trotteuse ') + m.accents[state.accent].toLowerCase() : '')],
+      ['Bracelet', m.bracelets[state.bracelet]],
+      ['Boîtier', m.caseMetals[state.caseMetal]]
     ];
     document.getElementById('preview-summary').innerHTML = rows.map(r =>
       `<div class="summary-row"><span class="label">${r[0]}</span><span class="value">${r[1]}</span></div>`
@@ -558,23 +632,102 @@
     updateSummary();
   }
 
-  document.querySelectorAll('.swatch-grid').forEach(group => {
-    const key = group.dataset.group;
-    group.querySelectorAll('.swatch').forEach(swatch => {
-      swatch.addEventListener('click', () => {
-        state[key] = swatch.dataset.value;
-        group.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
-        swatch.classList.add('active');
-        refresh();
-        if (window.gsap) {
-          gsap.fromTo('#watch-svg', { scale: 0.96, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.4, ease: 'back.out(2)' });
-        }
+  function dotSwatch(key, label, hexOrGradient, group) {
+    const active = state[group] === key ? ' active' : '';
+    return `<div class="swatch${active}" data-value="${key}"><div class="swatch-dot" style="background:${hexOrGradient};"></div>${label}</div>`;
+  }
+
+  function iconSwatch(key, label, icon, group) {
+    const active = state[group] === key ? ' active' : '';
+    return `<div class="swatch${active}" data-value="${key}"><div class="swatch-icon">${icon}</div>${label}</div>`;
+  }
+
+  const NUMERAL_ICONS = { batons: '❙❙', romains: 'XII', arabes: '١٢' };
+  const BRACELET_ICONS = { jubile: '▥', acier: '▤', integre: '▧', cuir_bleu: null };
+  const CASE_METAL_GRAD = {
+    acier: 'linear-gradient(135deg,#eef1f3,#8b9096)',
+    or: 'linear-gradient(135deg,#f0d998,#8a6a26)',
+    orrose: 'linear-gradient(135deg,#f0c3b0,#8a5744)',
+    noir_bleu: 'linear-gradient(135deg,#1a1a1a,#1c3f65)',
+    noir_rouge: 'linear-gradient(135deg,#1a1a1a,#7a2020)',
+    bleu_rouge: 'linear-gradient(135deg,#1c3f65,#7a2020)'
+  };
+
+  function renderOptions() {
+    const m = MODELS[state.model];
+
+    document.getElementById('dial-note').textContent = m.dialNote;
+    document.getElementById('hands-note').textContent = m.handsNote;
+    document.getElementById('bracelet-note').textContent = m.braceletNote;
+    document.getElementById('case-note').textContent = m.caseNote;
+
+    document.getElementById('group-dial').innerHTML = Object.keys(m.dials).map(key =>
+      dotSwatch(key, m.dials[key], DIAL_HEX[key].base, 'dial')
+    ).join('');
+
+    document.getElementById('group-numerals').innerHTML = Object.keys(m.numerals).map(key =>
+      iconSwatch(key, m.numerals[key], NUMERAL_ICONS[key], 'numerals')
+    ).join('');
+
+    document.getElementById('group-handFinish').innerHTML = Object.keys(m.handFinishes).map(key =>
+      dotSwatch(key, m.handFinishes[key], HAND_FINISH_HEX[key], 'handFinish')
+    ).join('');
+
+    const accentBlock = document.getElementById('accent-block');
+    const hasAccents = Object.keys(m.accents).length > 0;
+    accentBlock.style.display = hasAccents ? 'block' : 'none';
+    document.getElementById('accent-label').textContent = m.gmt ? "Couleur de l'aiguille GMT" : 'Couleur de la trotteuse';
+    if (hasAccents) {
+      document.getElementById('group-accent').innerHTML = Object.keys(m.accents).map(key =>
+        dotSwatch(key, m.accents[key], ACCENT_HEX[key], 'accent')
+      ).join('');
+    }
+
+    document.getElementById('group-bracelet').innerHTML = Object.keys(m.bracelets).map(key => {
+      if (key === 'cuir_bleu') return dotSwatch(key, m.bracelets[key], '#1c3f65', 'bracelet');
+      return iconSwatch(key, m.bracelets[key], BRACELET_ICONS[key] || '▥', 'bracelet');
+    }).join('');
+
+    document.getElementById('group-caseMetal').innerHTML = Object.keys(m.caseMetals).map(key =>
+      dotSwatch(key, m.caseMetals[key], CASE_METAL_GRAD[key], 'caseMetal')
+    ).join('');
+
+    attachSwatchHandlers();
+  }
+
+  function attachSwatchHandlers() {
+    document.querySelectorAll('.options-col .swatch-grid').forEach(group => {
+      const key = group.dataset.group;
+      group.querySelectorAll('.swatch').forEach(swatch => {
+        swatch.addEventListener('click', () => {
+          state[key] = swatch.dataset.value;
+          group.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+          swatch.classList.add('active');
+          refresh();
+          if (window.gsap) {
+            gsap.fromTo('#watch-svg', { scale: 0.96, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.4, ease: 'back.out(2)' });
+          }
+        });
       });
     });
-    const first = group.querySelector(`.swatch[data-value="${state[key]}"]`) || group.querySelector('.swatch');
-    if (first) first.classList.add('active');
-  });
+  }
 
+  document.getElementById('group-model').querySelectorAll('.swatch').forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      state.model = swatch.dataset.value;
+      document.getElementById('group-model').querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+      applyModelDefaults();
+      renderOptions();
+      refresh();
+      if (window.gsap) {
+        gsap.fromTo('#watch-svg', { scale: 0.92, opacity: 0.4, transformOrigin: '50% 50%' }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.7)' });
+      }
+    });
+  });
+  document.querySelector(`#group-model .swatch[data-value="${state.model}"]`).classList.add('active');
+
+  renderOptions();
   refresh();
 
   // ---------- GSAP scroll-in transitions ----------
