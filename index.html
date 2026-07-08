@@ -78,13 +78,81 @@
   nav { display: flex; gap: 32px; }
 
   nav a {
+    position: relative;
     text-decoration: none;
     color: var(--muted);
     font-size: 0.9rem;
     transition: color 0.2s ease;
   }
 
+  nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: -4px;
+    height: 1px;
+    background: var(--brass);
+    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   nav a:hover { color: var(--text); }
+  nav a:hover::after { right: 0; }
+
+  header {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  header.scrolled {
+    box-shadow: 0 12px 28px -20px rgba(0, 0, 0, 0.7);
+  }
+
+  /* ---------- Animations & micro-interactions ---------- */
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.in-view { opacity: 1; transform: none; }
+
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-stagger.in-view > * { opacity: 1; transform: none; }
+    .reveal-stagger.in-view > *:nth-child(1) { transition-delay: 0s; }
+    .reveal-stagger.in-view > *:nth-child(2) { transition-delay: 0.08s; }
+    .reveal-stagger.in-view > *:nth-child(3) { transition-delay: 0.16s; }
+    .reveal-stagger.in-view > *:nth-child(4) { transition-delay: 0.24s; }
+    .reveal-stagger.in-view > *:nth-child(5) { transition-delay: 0.32s; }
+    .reveal-stagger.in-view > *:nth-child(6) { transition-delay: 0.4s; }
+
+    .hero-load {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .hero-load:nth-child(1) { animation-delay: 0.05s; }
+    .hero-load:nth-child(2) { animation-delay: 0.15s; }
+    .hero-load:nth-child(3) { animation-delay: 0.25s; }
+    .hero-load:nth-child(4) { animation-delay: 0.35s; }
+
+    @keyframes heroFadeUp {
+      to { opacity: 1; transform: none; }
+    }
+  }
+
+  .btn {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(193, 154, 91, 0.5); }
+  .btn-primary:active { transform: translateY(0) scale(0.97); }
+  .btn-ghost:hover { transform: translateY(-2px); }
+  .btn-ghost:active { transform: translateY(0) scale(0.97); }
 
   .cart-link {
     display: flex;
@@ -317,10 +385,20 @@
     gap: 20px;
     text-decoration: none;
     color: var(--text);
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
   }
 
-  .build-card:hover { background: var(--bg-panel-2); }
+  .build-card:hover {
+    background: var(--bg-panel-2);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 36px -24px rgba(0, 0, 0, 0.7);
+  }
+
+  .build-card .build-face {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .build-card:hover .build-face { transform: rotate(8deg); }
 
   .catalogue-link {
     display: flex;
@@ -444,11 +522,13 @@
     color: var(--text);
     font-family: 'Inter', sans-serif;
     font-size: 0.92rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .form-row input:focus {
     outline: none;
     border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgba(193, 154, 91, 0.15);
   }
 
   .form-note {
@@ -504,16 +584,16 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow">Ouverture — automne 2026</div>
-      <h1>Des mouvements Seiko, <em>repensés</em> à la main.</h1>
-      <p class="lede">Chaque pièce part d'un mouvement Seiko authentique, modifié pièce par pièce — cadran, aiguilles, boîtier — puis contrôlée avant expédition depuis la Suisse.</p>
-      <div class="hero-actions">
+      <div class="eyebrow hero-load">Ouverture — automne 2026</div>
+      <h1 class="hero-load">Des mouvements Seiko, <em>repensés</em> à la main.</h1>
+      <p class="lede hero-load">Chaque pièce part d'un mouvement Seiko authentique, modifié pièce par pièce — cadran, aiguilles, boîtier — puis contrôlée avant expédition depuis la Suisse.</p>
+      <div class="hero-actions hero-load">
         <a href="catalogue.html" class="btn btn-primary">Voir le catalogue</a>
         <a href="#builds" class="btn btn-ghost">Montres en vedette</a>
       </div>
     </div>
 
-    <div class="spec-card">
+    <div class="spec-card reveal">
       <h3>Fiche technique — série 01</h3>
       <div class="spec-row"><span class="label">Base</span><span class="value">Seiko NH35</span></div>
       <div class="spec-row"><span class="label">Boîtier</span><span class="value">40mm · acier 316L</span></div>
@@ -539,11 +619,11 @@
 
 <section id="builds">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal">
       <h2>Builds en préparation</h2>
       <p>Trois configurations de lancement, en nombre limité.</p>
     </div>
-    <div class="builds">
+    <div class="builds reveal-stagger">
       <a class="build-card" href="produit.html?ref=WM-001">
         <div class="build-face"><div class="hand"></div><div class="hand"></div></div>
         <h3>Midnight Fifty-Five</h3>
@@ -568,11 +648,11 @@
 
 <section id="process">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal">
       <h2>De l'atelier à votre poignet</h2>
       <p>Trois étapes, aucune improvisation.</p>
     </div>
-    <div class="process">
+    <div class="process reveal-stagger">
       <div class="process-step">
         <div class="num">01</div>
         <h3>Sourcing</h3>
@@ -594,7 +674,7 @@
 
 <section id="waitlist">
   <div class="wrap">
-    <div class="waitlist">
+    <div class="waitlist reveal">
       <div>
         <h2>Soyez informé au lancement</h2>
         <p>Accès anticipé aux trois premiers builds, avant ouverture publique.</p>
@@ -630,6 +710,30 @@
     }
     updateCartBadge();
     window.addEventListener('storage', updateCartBadge);
+  })();
+
+  (function () {
+    var header = document.querySelector('header');
+    function onScroll() { if (header) header.classList.toggle('scrolled', window.scrollY > 8); }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+
+  (function () {
+    var targets = document.querySelectorAll('.reveal, .reveal-stagger');
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('in-view'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    targets.forEach(function (el) { io.observe(el); });
   })();
 </script>
 

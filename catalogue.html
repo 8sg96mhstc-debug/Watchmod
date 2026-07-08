@@ -80,13 +80,50 @@
   nav { display: flex; gap: 32px; }
 
   nav a {
+    position: relative;
     text-decoration: none;
     color: var(--muted);
     font-size: 0.9rem;
     transition: color 0.2s ease;
   }
 
+  nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: -4px;
+    height: 1px;
+    background: var(--brass);
+    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   nav a:hover, nav a.active { color: var(--text); }
+  nav a:hover::after, nav a.active::after { right: 0; }
+
+  header { transition: box-shadow 0.3s ease; }
+  header.scrolled { box-shadow: 0 12px 28px -20px rgba(0, 0, 0, 0.7); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.in-view { opacity: 1; transform: none; }
+
+    .card-enter {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: cardFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes cardFadeUp { to { opacity: 1; transform: none; } }
+  }
+
+  .btn { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(193, 154, 91, 0.5); }
+  .btn-primary:active { transform: translateY(0) scale(0.97); }
+  .btn-ghost:hover { transform: translateY(-2px); }
 
   .cart-link {
     display: flex;
@@ -195,7 +232,11 @@
     font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
     min-width: 190px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
+
+  .filter-field select:focus { outline: none; border-color: var(--brass); box-shadow: 0 0 0 3px rgba(193, 154, 91, 0.15); }
+  .filter-reset { transition: color 0.2s ease; }
 
   .filter-field select:focus { outline: none; border-color: var(--brass); }
 
@@ -255,10 +296,18 @@
     text-decoration: none;
     color: var(--text);
     position: relative;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
   }
 
-  .card:hover { background: var(--bg-panel-2); }
+  .card:hover {
+    background: var(--bg-panel-2);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 36px -24px rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+
+  .card .card-face { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .card:hover .card-face { transform: rotate(8deg); }
 
   .card-face {
     width: 100%;
@@ -402,7 +451,7 @@
 </header>
 
 <section class="page-head">
-  <div class="wrap">
+  <div class="wrap reveal">
     <div class="eyebrow">Catalogue</div>
     <h1>Toutes nos montres</h1>
     <p>Chaque pièce est modifiée puis contrôlée à la main avant expédition. Stock limité par modèle.</p>
@@ -494,8 +543,8 @@
       return;
     }
 
-    grid.innerHTML = filtered.map(p => `
-      <a class="card" href="produit.html?ref=${encodeURIComponent(p.reference)}">
+    grid.innerHTML = filtered.map((p, i) => `
+      <a class="card card-enter" style="animation-delay:${Math.min(i, 8) * 0.06}s" href="produit.html?ref=${encodeURIComponent(p.reference)}">
         <span class="stock-badge ${p.stock <= 0 ? 'rupture' : ''}">${p.stock <= 0 ? 'Rupture de stock' : 'En stock'}</span>
         <div class="card-face"><div class="hand"></div><div class="hand"></div></div>
         <div>
@@ -534,6 +583,30 @@
     }
     updateCartBadge();
     window.addEventListener('storage', updateCartBadge);
+  })();
+
+  (function () {
+    var header = document.querySelector('header');
+    function onScroll() { if (header) header.classList.toggle('scrolled', window.scrollY > 8); }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+
+  (function () {
+    var targets = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('in-view'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    targets.forEach(function (el) { io.observe(el); });
   })();
 </script>
 

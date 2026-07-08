@@ -80,13 +80,47 @@
   nav { display: flex; gap: 32px; }
 
   nav a {
+    position: relative;
     text-decoration: none;
     color: var(--muted);
     font-size: 0.9rem;
     transition: color 0.2s ease;
   }
 
+  nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: -4px;
+    height: 1px;
+    background: var(--brass);
+    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   nav a:hover, nav a.active { color: var(--text); }
+  nav a:hover::after, nav a.active::after { right: 0; }
+
+  header { transition: box-shadow 0.3s ease; }
+  header.scrolled { box-shadow: 0 12px 28px -20px rgba(0, 0, 0, 0.7); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: prodFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes prodFadeUp { to { opacity: 1; transform: none; } }
+  }
+
+  .btn { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.2s ease; }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(193, 154, 91, 0.5); }
+  .btn-primary:active:not(:disabled) { transform: translateY(0) scale(0.97); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pop-in { animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes popIn { from { opacity: 0.6; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+  }
 
   .cart-link {
     display: flex;
@@ -147,7 +181,11 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
+  .gallery-main:hover { transform: scale(1.03); }
+  .gallery-main:hover .hand:nth-of-type(1) { transform: translateX(-50%) rotate(45deg); }
 
   .gallery-main img {
     width: 100%;
@@ -173,6 +211,7 @@
     left: 50%;
     transform-origin: bottom center;
     border-radius: 3px;
+    transition: transform 0.6s ease;
   }
 
   .gallery-main .hand:nth-of-type(1) { height: 27%; transform: translateX(-50%) rotate(35deg); }
@@ -463,7 +502,7 @@
       : `<div class="gallery-main"><div class="hand"></div><div class="hand"></div></div>`;
 
     content.innerHTML = `
-      <div class="product-grid">
+      <div class="product-grid reveal">
         <div>
           ${gallery}
         </div>
@@ -513,8 +552,12 @@
         localStorage.setItem('watchmods_cart', JSON.stringify(cart));
         window.dispatchEvent(new Event('storage'));
 
-        document.getElementById('add-confirm').style.display = 'block';
+        var confirmEl = document.getElementById('add-confirm');
+        confirmEl.style.display = 'block';
+        confirmEl.classList.add('pop-in');
         document.getElementById('buy-note-default').style.display = 'none';
+        addCartBtn.classList.add('pop-in');
+        addCartBtn.addEventListener('animationend', function () { addCartBtn.classList.remove('pop-in'); }, { once: true });
       });
     }
   }
@@ -531,6 +574,13 @@
     }
     updateCartBadge();
     window.addEventListener('storage', updateCartBadge);
+  })();
+
+  (function () {
+    var header = document.querySelector('header');
+    function onScroll() { if (header) header.classList.toggle('scrolled', window.scrollY > 8); }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
   })();
 </script>
 

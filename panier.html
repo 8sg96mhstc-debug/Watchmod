@@ -75,13 +75,42 @@
   nav { display: flex; gap: 32px; }
 
   nav a {
+    position: relative;
     text-decoration: none;
     color: var(--muted);
     font-size: 0.9rem;
     transition: color 0.2s ease;
   }
 
+  nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: -4px;
+    height: 1px;
+    background: var(--brass);
+    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   nav a:hover, nav a.active { color: var(--text); }
+  nav a:hover::after, nav a.active::after { right: 0; }
+
+  header { transition: box-shadow 0.3s ease; }
+  header.scrolled { box-shadow: 0 12px 28px -20px rgba(0, 0, 0, 0.7); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .row-enter {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: rowFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes rowFadeUp { to { opacity: 1; transform: none; } }
+  }
+
+  .btn { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.2s ease; }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(193, 154, 91, 0.5); }
+  .btn-primary:active:not(:disabled) { transform: translateY(0) scale(0.97); }
 
   .cart-link {
     display: flex;
@@ -163,9 +192,10 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.88rem;
     text-align: center;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
-  .item-qty:focus { outline: none; border-color: var(--brass); }
+  .item-qty:focus { outline: none; border-color: var(--brass); box-shadow: 0 0 0 3px rgba(193, 154, 91, 0.15); }
 
   .item-price {
     font-family: 'JetBrains Mono', monospace;
@@ -182,6 +212,7 @@
     font-size: 0.8rem;
     text-decoration: underline;
     padding: 0;
+    transition: color 0.2s ease;
   }
 
   .item-remove:hover { color: var(--red); }
@@ -395,7 +426,7 @@
       total += sousTotal;
       count += item.quantite;
       return `
-        <div class="cart-item">
+        <div class="cart-item row-enter" style="animation-delay:${Math.min(index, 6) * 0.05}s">
           <div class="item-face"></div>
           <div>
             <div class="item-name">${item.nom}</div>
@@ -475,6 +506,13 @@
     }
     updateCartBadge();
     window.addEventListener('storage', updateCartBadge);
+  })();
+
+  (function () {
+    var header = document.querySelector('header');
+    function onScroll() { if (header) header.classList.toggle('scrolled', window.scrollY > 8); }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
   })();
 </script>
 

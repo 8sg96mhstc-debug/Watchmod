@@ -66,6 +66,7 @@
   }
 
   .confirm-icon {
+    position: relative;
     width: 64px;
     height: 64px;
     border-radius: 50%;
@@ -76,6 +77,36 @@
     margin: 0 auto 28px;
     font-size: 1.6rem;
     color: var(--brass);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .confirm-icon { animation: confirmPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+    @keyframes confirmPop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .confirm-icon::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px solid var(--brass-dim);
+      opacity: 0;
+      animation: ringPulse 1.3s ease-out 0.45s;
+    }
+    @keyframes ringPulse {
+      0% { opacity: 0.6; transform: scale(0.9); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: none; } }
+    h1.fade-in-up { animation-delay: 0.15s; }
+    .subtitle.fade-in-up { animation-delay: 0.28s; }
+    .ref-card.fade-in-up { animation-delay: 0.4s; }
+    .actions.fade-in-up { animation-delay: 0.52s; }
   }
 
   h1 {
@@ -134,10 +165,12 @@
   }
 
   .btn-primary { background: var(--brass); color: #14151a; }
-  .btn-primary:hover { background: #d4ac6c; }
+  .btn-primary:hover { background: #d4ac6c; transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(193, 154, 91, 0.5); }
+  .btn-primary:active { transform: translateY(0) scale(0.97); }
 
   .btn-ghost { border-color: var(--line); color: var(--text); background: transparent; }
-  .btn-ghost:hover { border-color: var(--brass-dim); }
+  .btn-ghost:hover { border-color: var(--brass-dim); transform: translateY(-2px); }
+  .btn-ghost:active { transform: translateY(0) scale(0.97); }
 
   footer {
     border-top: 1px solid var(--line);
@@ -157,13 +190,13 @@
 <main>
   <div class="wrap">
     <div class="confirm-icon">✓</div>
-    <h1>Merci pour votre commande</h1>
-    <p class="subtitle">Le paiement a bien été reçu. Un email de confirmation vous sera envoyé par Stripe, et nous préparons votre montre pour l'expédition.</p>
-    <div class="ref-card" id="ref-card" style="display:none;">
+    <h1 class="fade-in-up">Merci pour votre commande</h1>
+    <p class="subtitle fade-in-up">Le paiement a bien été reçu. Un email de confirmation vous sera envoyé par Stripe, et nous préparons votre montre pour l'expédition.</p>
+    <div class="ref-card fade-in-up" id="ref-card" style="display:none;">
       <div class="label">Référence de paiement</div>
       <div class="value mono" id="ref-value"></div>
     </div>
-    <div class="actions">
+    <div class="actions fade-in-up">
       <a href="catalogue.html" class="btn btn-primary">Continuer mes achats</a>
       <a href="index.html" class="btn btn-ghost">Retour à l'accueil</a>
     </div>
