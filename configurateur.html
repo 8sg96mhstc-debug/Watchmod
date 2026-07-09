@@ -267,12 +267,13 @@
       <div class="config-section" data-section="model">
         <div class="section-num">01 / 05</div>
         <h2>Base du boîtier</h2>
-        <p>Quatre styles réels, chacun avec ses propres options ensuite.</p>
+        <p>Cinq styles réels, chacun avec ses propres options ensuite.</p>
         <div class="swatch-grid" data-group="model" id="group-model">
           <div class="swatch" data-value="meridian"><div class="swatch-icon">◯</div>Meridian — rond</div>
           <div class="swatch" data-value="aviateur"><div class="swatch-icon">▢</div>Aviateur — carré</div>
           <div class="swatch" data-value="marina"><div class="swatch-icon">⯃</div>Marina — octogonal</div>
           <div class="swatch" data-value="globetrotter"><div class="swatch-icon">◐</div>Globetrotter — GMT</div>
+          <div class="swatch" data-value="octant"><div class="swatch-icon">◈</div>Octant — vis apparentes</div>
         </div>
       </div>
 
@@ -332,14 +333,26 @@
     vert: { base: '#146149', light: '#2e9c74' },
     bleu: { base: '#1c3f65', light: '#3d6fa0' },
     brun: { base: '#805832', light: '#b98a54' },
-    bordeaux: { base: '#722430', light: '#a5424f' }
+    bordeaux: { base: '#722430', light: '#a5424f' },
+    squelette_bleu: { base: '#1c2b38', light: '#33475a' },
+    tapisserie_argent: { base: '#c9cdd2', light: '#e8eaed' },
+    tapisserie_bleu: { base: '#7ba7c9', light: '#a8c9e0' },
+    tapisserie_marine: { base: '#1e3a5f', light: '#2f5580' },
+    tapisserie_noir: { base: '#161616', light: '#2c2c2c' },
+    tapisserie_kaki: { base: '#6b6b3a', light: '#9c9c5a' },
+    tapisserie_rouge: { base: '#1a0505', light: '#a5182a' },
+    tapisserie_jaune: { base: '#c9a812', light: '#f2d81a' },
+    tapisserie_vert: { base: '#0d1f0d', light: '#1f7a3f' }
   };
 
   const CASE_METAL_HEX = {
     acier: { base: '#c7ccd1', light: '#eef1f3', dark: '#8b9096' },
     or: { base: '#c9a24b', light: '#f0d998', dark: '#8a6a26' },
-    orrose: { base: '#c98b74', light: '#f0c3b0', dark: '#8a5744' }
+    orrose: { base: '#c98b74', light: '#f0c3b0', dark: '#8a5744' },
+    noir: { base: '#3a3a3d', light: '#57575c', dark: '#1b1b1d' }
   };
+
+  const LEATHER_HEX = { cuir_noir: '#161616', cuir_bleu: '#1c3f65', cuir_marron: '#5c3a22' };
 
   const BEZEL_HEX = { noir: '#1a1a1a', bleu: '#1c3f65', rouge: '#7a2020' };
 
@@ -410,6 +423,31 @@
       handsNote: "L'aiguille GMT est spécifique à ce modèle — jamais disponible sur les autres bases.",
       braceletNote: "Bracelet jubilé acier, comme sur notre pièce de référence.",
       caseNote: "Lunette bicolore céramique — la signature de ce modèle."
+    },
+    octant: {
+      label: 'Octant — vis apparentes',
+      dials: {
+        squelette_bleu: 'Squelette bleu',
+        tapisserie_argent: 'Tapisserie argent',
+        tapisserie_bleu: 'Tapisserie bleu ciel',
+        tapisserie_marine: 'Tapisserie bleu marine',
+        tapisserie_noir: 'Tapisserie noir',
+        tapisserie_kaki: 'Tapisserie kaki',
+        tapisserie_rouge: 'Tapisserie rouge',
+        tapisserie_jaune: 'Tapisserie jaune',
+        tapisserie_vert: 'Tapisserie vert'
+      },
+      numerals: { batons: 'Bâtons' },
+      handFinishes: { or: 'Or', orrose: 'Or rose', acier: 'Acier', noir: 'Noir' },
+      handsAuto: true,
+      accents: {},
+      bracelets: { cuir_noir: 'Cuir noir', cuir_bleu: 'Cuir bleu', cuir_marron: 'Cuir marron', metal: 'Métal intégré' },
+      caseMetals: { or: 'Or jaune', orrose: 'Or rose', acier: 'Acier', noir: 'Noir PVD' },
+      gmt: false,
+      dialNote: "Cadran squelette (mouvement apparent) ou motif tapisserie en 8 teintes — nos vraies pièces.",
+      handsNote: "Les aiguilles suivent toujours la couleur du boîtier — pas de choix indépendant sur ce style.",
+      braceletNote: "Cuir (boucle assortie au boîtier) ou métal intégré (couleur assortie au boîtier) — jamais de combinaison croisée.",
+      caseNote: "Boîtier octogonal à vis apparentes, 4 finitions réelles."
     }
   };
 
@@ -429,10 +467,14 @@
     const m = MODELS[state.model];
     if (!(state.dial in m.dials)) state.dial = firstKey(m.dials);
     if (!(state.numerals in m.numerals)) state.numerals = firstKey(m.numerals);
-    if (!(state.handFinish in m.handFinishes)) state.handFinish = firstKey(m.handFinishes);
-    if (Object.keys(m.accents).length && !(state.accent in m.accents)) state.accent = firstKey(m.accents);
     if (!(state.bracelet in m.bracelets)) state.bracelet = firstKey(m.bracelets);
     if (!(state.caseMetal in m.caseMetals)) state.caseMetal = firstKey(m.caseMetals);
+    if (m.handsAuto) {
+      state.handFinish = state.caseMetal;
+    } else if (!(state.handFinish in m.handFinishes)) {
+      state.handFinish = firstKey(m.handFinishes);
+    }
+    if (Object.keys(m.accents).length && !(state.accent in m.accents)) state.accent = firstKey(m.accents);
   }
 
   function handPoint(cx, cy, length, minuteUnits) {
@@ -509,7 +551,7 @@
   function braceletMarkup() {
     const b = state.bracelet;
     const isLeather = b.indexOf('cuir') === 0;
-    const color = isLeather ? (b === 'cuir_bleu' ? '#1c3f65' : '#161616') : 'url(#caseGrad)';
+    const color = isLeather ? (LEATHER_HEX[b] || '#161616') : 'url(#caseGrad)';
     const lugTop = state.model === 'aviateur' ? 60 : 40;
     const lugBottom = 300 - lugTop;
     let links = '';
@@ -519,7 +561,7 @@
         links += `<rect x="${118 + i * 22}" y="${lugBottom + 4}" width="14" height="26" rx="3" fill="${color}" stroke="#00000033"/>`;
       }
     } else if (!isLeather) {
-      // "acier" (Aviateur, façon oyster) ou "integre" (Marina, liens larges intégrés)
+      // "acier" (Aviateur, façon oyster) ou "integre"/"metal" (Marina, Octant — liens larges intégrés)
       links += `<rect x="105" y="${lugTop - 34}" width="90" height="30" rx="4" fill="${color}" stroke="#00000033"/>`;
       links += `<rect x="105" y="${lugBottom + 4}" width="90" height="30" rx="4" fill="${color}" stroke="#00000033"/>`;
       links += `<line x1="150" y1="${lugTop - 34}" x2="150" y2="${lugTop - 4}" stroke="#00000033"/>`;
@@ -529,6 +571,11 @@
       links += `<rect x="112" y="${lugBottom + 4}" width="76" height="36" rx="6" fill="${color}"/>`;
       links += `<line x1="150" y1="${lugTop - 40}" x2="150" y2="${lugTop - 4}" stroke="#ffffff22"/>`;
       links += `<line x1="150" y1="${lugBottom + 4}" x2="150" y2="${lugBottom + 40}" stroke="#ffffff22"/>`;
+      if (state.model === 'octant') {
+        // Boucle toujours assortie au boîtier, jamais à la couleur du cuir.
+        const buckleColor = CASE_METAL_HEX[state.caseMetal].base;
+        links += `<rect x="130" y="${lugBottom + 40}" width="40" height="18" rx="3" fill="${buckleColor}" stroke="#00000033"/>`;
+      }
     }
     return links;
   }
@@ -608,6 +655,41 @@
         `;
       }
       crown = `<rect x="248" y="142" width="12" height="16" rx="2" fill="url(#caseGrad)"/>`;
+    } else if (state.model === 'octant') {
+      const outer = octagonPoints(cx, cy, 100, 22.5);
+      const inner = octagonPoints(cx, cy, 74, 22.5);
+      let screws = '';
+      for (let i = 0; i < 8; i++) {
+        const angle = (Math.PI / 4) * i + (22.5 + 22.5) * Math.PI / 180;
+        const sx = cx + 88 * Math.cos(angle), sy = cy + 88 * Math.sin(angle);
+        screws += `<circle cx="${sx}" cy="${sy}" r="3.4" fill="#00000033"/><circle cx="${sx}" cy="${sy}" r="1.6" fill="#ffffff44"/>`;
+      }
+      caseShape = `<polygon points="${outer}" fill="url(#caseGrad)"/>${screws}`;
+      dialShape = `<polygon points="${inner}" fill="url(#dialGrad)"/>`;
+      if (state.dial === 'squelette_bleu') {
+        // Cadran squelette : mouvement apparent, décentré comme sur notre pièce de référence.
+        texture = `
+          <circle cx="${cx-6}" cy="${cy+8}" r="30" fill="#00000055" stroke="#00000033" stroke-width="1"/>
+          <circle cx="${cx-6}" cy="${cy+8}" r="17" fill="none" stroke="${handColor}" stroke-width="1"/>
+          <circle cx="${cx-6}" cy="${cy+8}" r="4" fill="${handColor}"/>
+          <circle cx="${cx+16}" cy="${cy-6}" r="9" fill="none" stroke="${handColor}" stroke-width="1"/>
+          <circle cx="${cx-24}" cy="${cy-4}" r="7" fill="none" stroke="${handColor}" stroke-width="1"/>
+        `;
+      } else {
+        // Cadran tapisserie : motif quadrillé + guichet date à 3h, comme sur nos pièces réelles.
+        let grid = '';
+        for (let y = cy - 60; y <= cy + 60; y += 9) {
+          grid += `<line x1="${cx-70}" y1="${y}" x2="${cx+70}" y2="${y}" stroke="#00000022" stroke-width="0.8" clip-path="url(#dialClip)"/>`;
+        }
+        for (let x = cx - 70; x <= cx + 70; x += 9) {
+          grid += `<line x1="${x}" y1="${cy-70}" x2="${x}" y2="${cy+70}" stroke="#00000022" stroke-width="0.8" clip-path="url(#dialClip)"/>`;
+        }
+        texture = grid + `
+          <rect x="${cx+50}" y="${cy-9}" width="17" height="18" rx="2" fill="#f2ede4" stroke="#00000044" stroke-width="0.6"/>
+          <text x="${cx+58.5}" y="${cy+4}" text-anchor="middle" font-size="9" font-family="'Space Grotesk', sans-serif" fill="#15171a">24</text>
+        `;
+      }
+      crown = `<rect x="248" y="142" width="12" height="16" rx="2" fill="url(#caseGrad)"/>`;
     } else {
       // globetrotter — lunette bicolore
       const [colA, colB] = state.caseMetal.split('_').map(k => BEZEL_HEX[k]);
@@ -640,6 +722,10 @@
     document.getElementById('preview-summary').innerHTML = rows.map(r =>
       `<div class="summary-row"><span class="label">${r[0]}</span><span class="value">${r[1]}</span></div>`
     ).join('');
+
+    if (m.handsAuto) {
+      document.getElementById('hands-note').textContent = m.handsNote + ' Actuellement : ' + m.caseMetals[state.caseMetal].toLowerCase() + '.';
+    }
   }
 
   function refresh() {
@@ -658,11 +744,12 @@
   }
 
   const NUMERAL_ICONS = { batons: '❙❙', romains: 'XII', arabes: '١٢' };
-  const BRACELET_ICONS = { jubile: '▥', acier: '▤', integre: '▧', cuir_bleu: null };
+  const BRACELET_ICONS = { jubile: '▥', acier: '▤', integre: '▧', metal: '▧' };
   const CASE_METAL_GRAD = {
     acier: 'linear-gradient(135deg,#eef1f3,#8b9096)',
     or: 'linear-gradient(135deg,#f0d998,#8a6a26)',
     orrose: 'linear-gradient(135deg,#f0c3b0,#8a5744)',
+    noir: 'linear-gradient(135deg,#57575c,#1b1b1d)',
     noir_bleu: 'linear-gradient(135deg,#1a1a1a,#1c3f65)',
     noir_rouge: 'linear-gradient(135deg,#1a1a1a,#7a2020)',
     bleu_rouge: 'linear-gradient(135deg,#1c3f65,#7a2020)'
@@ -684,9 +771,16 @@
       iconSwatch(key, m.numerals[key], NUMERAL_ICONS[key], 'numerals')
     ).join('');
 
-    document.getElementById('group-handFinish').innerHTML = Object.keys(m.handFinishes).map(key =>
-      dotSwatch(key, m.handFinishes[key], HAND_FINISH_HEX[key], 'handFinish')
-    ).join('');
+    const handsGroup = document.getElementById('group-handFinish');
+    if (m.handsAuto) {
+      handsGroup.style.display = 'none';
+      document.getElementById('hands-note').textContent = m.handsNote + ' Actuellement : ' + m.caseMetals[state.caseMetal].toLowerCase() + '.';
+    } else {
+      handsGroup.style.display = '';
+      handsGroup.innerHTML = Object.keys(m.handFinishes).map(key =>
+        dotSwatch(key, m.handFinishes[key], HAND_FINISH_HEX[key], 'handFinish')
+      ).join('');
+    }
 
     const accentBlock = document.getElementById('accent-block');
     const hasAccents = Object.keys(m.accents).length > 0;
@@ -699,7 +793,7 @@
     }
 
     document.getElementById('group-bracelet').innerHTML = Object.keys(m.bracelets).map(key => {
-      if (key === 'cuir_bleu') return dotSwatch(key, m.bracelets[key], '#1c3f65', 'bracelet');
+      if (key.indexOf('cuir') === 0) return dotSwatch(key, m.bracelets[key], LEATHER_HEX[key] || '#161616', 'bracelet');
       return iconSwatch(key, m.bracelets[key], BRACELET_ICONS[key] || '▥', 'bracelet');
     }).join('');
 
@@ -716,6 +810,9 @@
       group.querySelectorAll('.swatch').forEach(swatch => {
         swatch.addEventListener('click', () => {
           state[key] = swatch.dataset.value;
+          if (key === 'caseMetal' && MODELS[state.model].handsAuto) {
+            state.handFinish = swatch.dataset.value;
+          }
           group.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
           swatch.classList.add('active');
           refresh();
