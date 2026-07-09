@@ -463,6 +463,17 @@
 
   function firstKey(obj) { return Object.keys(obj)[0]; }
 
+  // Pré-sélection de la base via ?base=... (lien direct depuis le carrousel de la page d'accueil).
+  // applyModelDefaults() est appelée pour remettre cadran/aiguilles/bracelet/boîtier
+  // à des valeurs valides pour cette base (les valeurs par défaut ci-dessus visent "meridian").
+  (function applyBaseFromUrl() {
+    var requested = new URLSearchParams(window.location.search).get('base');
+    if (requested && Object.prototype.hasOwnProperty.call(MODELS, requested)) {
+      state.model = requested;
+      applyModelDefaults();
+    }
+  })();
+
   function applyModelDefaults() {
     const m = MODELS[state.model];
     if (!(state.dial in m.dials)) state.dial = firstKey(m.dials);
