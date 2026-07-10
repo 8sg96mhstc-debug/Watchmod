@@ -267,13 +267,14 @@
       <div class="config-section" data-section="model">
         <div class="section-num">01 / 05</div>
         <h2>Base du boîtier</h2>
-        <p>Cinq styles réels, chacun avec ses propres options ensuite.</p>
+        <p>Six styles réels, chacun avec ses propres options ensuite.</p>
         <div class="swatch-grid" data-group="model" id="group-model">
           <div class="swatch" data-value="meridian"><div class="swatch-icon">◯</div>Meridian — rond</div>
           <div class="swatch" data-value="aviateur"><div class="swatch-icon">▢</div>Aviateur — carré</div>
           <div class="swatch" data-value="marina"><div class="swatch-icon">⯃</div>Marina — octogonal</div>
           <div class="swatch" data-value="globetrotter"><div class="swatch-icon">◐</div>Globetrotter — GMT</div>
           <div class="swatch" data-value="octant"><div class="swatch-icon">◈</div>Octant — vis apparentes</div>
+          <div class="swatch" data-value="abysse"><div class="swatch-icon">◉</div>Abysse — plongée</div>
         </div>
       </div>
 
@@ -354,7 +355,7 @@
 
   const LEATHER_HEX = { cuir_noir: '#161616', cuir_bleu: '#1c3f65', cuir_marron: '#5c3a22' };
 
-  const BEZEL_HEX = { noir: '#1a1a1a', bleu: '#1c3f65', rouge: '#7a2020' };
+  const BEZEL_HEX = { noir: '#1a1a1a', bleu: '#1c3f65', rouge: '#7a2020', vert: '#1a4a2e', argent: '#c7ccd1' };
 
   const HAND_FINISH_HEX = { or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a' };
   const ACCENT_HEX = { bleu: '#3d7fce', rouge: '#c14636', orange: '#d68b3a', vert: '#3a9c5f', jaune: '#d6bf3a', noir: '#1c1c1c' };
@@ -448,6 +449,27 @@
       handsNote: "Les aiguilles suivent toujours la couleur du boîtier — pas de choix indépendant sur ce style.",
       braceletNote: "Cuir (boucle assortie au boîtier) ou métal intégré (couleur assortie au boîtier) — jamais de combinaison croisée.",
       caseNote: "Boîtier octogonal à vis apparentes, 4 finitions réelles."
+    },
+    abysse: {
+      label: 'Abysse — plongée',
+      dials: { noir: 'Noir' },
+      numerals: { batons: 'Bâtons' },
+      handFinishes: { argent: 'Argent' },
+      accents: {},
+      bracelets: { oyster: 'Oyster acier' },
+      caseMetals: {
+        noir_bleu: 'Lunette noir / bleu',
+        noir_vert: 'Lunette noir / vert',
+        argent: 'Lunette argent',
+        vert: 'Lunette vert',
+        bleu: 'Lunette bleu',
+        noir: 'Lunette noir'
+      },
+      gmt: false,
+      dialNote: "Cadran noir fixe — la lunette fait toute la différence sur ce style plongée.",
+      handsNote: "Aiguilles Mercedes argent, 3 aiguilles — pas de complication sur ce style.",
+      braceletNote: "Bracelet Oyster acier, notre seule version pour l'instant.",
+      caseNote: "Lunette tournante bicolore ou unie, 6 finitions réelles."
     }
   };
 
@@ -606,7 +628,7 @@
     const svg = document.getElementById('watch-svg');
     const cx = 150, cy = 150;
     const dial = DIAL_HEX[state.dial];
-    const bodyMetal = CASE_METAL_HEX[state.model === 'globetrotter' ? 'acier' : state.caseMetal];
+    const bodyMetal = CASE_METAL_HEX[(state.model === 'globetrotter' || state.model === 'abysse') ? 'acier' : state.caseMetal];
     const handColor = HAND_FINISH_HEX[state.handFinish];
     const accentColor = ACCENT_HEX[state.accent] || handColor;
     const gmtColor = MODELS[state.model].gmt ? (ACCENT_HEX[state.accent] || '#c14636') : null;
@@ -701,6 +723,24 @@
         `;
       }
       crown = `<rect x="248" y="142" width="12" height="16" rx="2" fill="url(#caseGrad)"/>`;
+    } else if (state.model === 'abysse') {
+      const isBicolor = state.caseMetal.indexOf('_') !== -1;
+      const bezel = isBicolor
+        ? (() => {
+            const [colA, colB] = state.caseMetal.split('_').map(k => BEZEL_HEX[k]);
+            return `
+              <path d="${ringSectorPath(cx, cy, 96, 84, 0, 180)}" fill="${colA}"/>
+              <path d="${ringSectorPath(cx, cy, 96, 84, 180, 360)}" fill="${colB}"/>
+            `;
+          })()
+        : `<circle cx="${cx}" cy="${cy}" r="90" fill="none" stroke="${BEZEL_HEX[state.caseMetal]}" stroke-width="12"/>`;
+      caseShape = `
+        <circle cx="${cx}" cy="${cy}" r="98" fill="url(#caseGrad)"/>
+        ${bezel}
+        <circle cx="${cx}" cy="${cy}" r="84" fill="none" stroke="#00000022" stroke-width="1"/>
+      `;
+      dialShape = `<circle cx="${cx}" cy="${cy}" r="76" fill="url(#dialGrad)"/>`;
+      crown = `<rect x="246" y="141" width="14" height="18" rx="3" fill="url(#caseGrad)"/>`;
     } else {
       // globetrotter — lunette bicolore
       const [colA, colB] = state.caseMetal.split('_').map(k => BEZEL_HEX[k]);
@@ -763,7 +803,11 @@
     noir: 'linear-gradient(135deg,#57575c,#1b1b1d)',
     noir_bleu: 'linear-gradient(135deg,#1a1a1a,#1c3f65)',
     noir_rouge: 'linear-gradient(135deg,#1a1a1a,#7a2020)',
-    bleu_rouge: 'linear-gradient(135deg,#1c3f65,#7a2020)'
+    bleu_rouge: 'linear-gradient(135deg,#1c3f65,#7a2020)',
+    noir_vert: 'linear-gradient(135deg,#1a1a1a,#1a4a2e)',
+    argent: 'linear-gradient(135deg,#e8eaed,#a8adb3)',
+    vert: 'linear-gradient(135deg,#2e8a5a,#1a4a2e)',
+    bleu: 'linear-gradient(135deg,#3d6fa0,#1c3f65)'
   };
 
   function renderOptions() {
