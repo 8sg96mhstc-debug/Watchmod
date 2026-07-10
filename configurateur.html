@@ -390,7 +390,10 @@
 
   const BEZEL_HEX = { noir: '#1a1a1a', bleu: '#1c3f65', rouge: '#7a2020', vert: '#1a4a2e', argent: '#c7ccd1' };
 
-  const HAND_FINISH_HEX = { or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a', orrose: '#c98b74', eclair: '#e0793a', noir: '#2a2a2a', gunmetal: '#4a4d52' };
+  const HAND_FINISH_HEX = {
+    or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a', orrose: '#c98b74', eclair: '#e0793a', noir: '#2a2a2a', gunmetal: '#4a4d52',
+    eclair_bleu: '#3d7fce', eclair_rouge: '#c14636', eclair_orange: '#e0793a', eclair_vert: '#3a9c5f', eclair_jaune: '#d6bf3a'
+  };
   const NUMERAL_STYLE_LABELS = { batons: 'Bâtons', arabes: 'Arabes', romains: 'Romains', text: 'Texte peint main' };
   const ACCENT_HEX = { bleu: '#3d7fce', rouge: '#c14636', orange: '#d68b3a', vert: '#3a9c5f', jaune: '#d6bf3a', noir: '#1c1c1c', argent: '#c7ccd1' };
 
@@ -414,7 +417,7 @@
         whocares: {
           label: 'Who cares I\'m already late',
           numeralStyle: 'text',
-          forcesHandOptions: { eclair: 'Éclair' },
+          forcesHandOptions: { eclair_bleu: 'Éclair bleu', eclair_rouge: 'Éclair rouge', eclair_orange: 'Éclair orange', eclair_vert: 'Éclair vert', eclair_jaune: 'Éclair jaune' },
           dials: { noir: 'Noir', blanc: 'Blanc', vert: 'Vert', bleu: 'Bleu', rouge: 'Rouge' }
         },
         arabes: {
@@ -481,7 +484,7 @@
         whocares: {
           label: 'Who cares I\'m already late',
           numeralStyle: 'text',
-          forcesHandOptions: { eclair: 'Éclair' },
+          forcesHandOptions: { eclair_bleu: 'Éclair bleu', eclair_rouge: 'Éclair rouge', eclair_orange: 'Éclair orange', eclair_vert: 'Éclair vert', eclair_jaune: 'Éclair jaune' },
           dials: { noir: 'Noir', blanc: 'Blanc', vert: 'Vert', bleu: 'Bleu', rouge: 'Rouge' }
         }
       },
