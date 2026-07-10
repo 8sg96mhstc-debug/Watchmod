@@ -316,6 +316,10 @@
         <h2>Couleur du boîtier</h2>
         <p id="case-note">Le métal du boîtier (et de la lunette).</p>
         <div class="swatch-grid" data-group="caseMetal" id="group-caseMetal"></div>
+        <div id="caseback-block" style="display:none;">
+          <p style="margin-top:22px;">Fond du boîtier</p>
+          <div class="swatch-grid" data-group="caseBack" id="group-caseBack"></div>
+        </div>
       </div>
 
     </div>
@@ -363,7 +367,13 @@
     menthe: { base: '#7fc9a8', light: '#a8e0c4' },
     champagne: { base: '#d4c4a0', light: '#f0e4c8' },
     cuivre: { base: '#8a5030', light: '#b87a4e' },
-    bleugris: { base: '#4a5a68', light: '#6f8494' }
+    bleugris: { base: '#4a5a68', light: '#6f8494' },
+    orange: { base: '#8a4a1e', light: '#c17a3e' },
+    argente: { base: '#c9cdd2', light: '#e8eaed' },
+    violet: { base: '#4a2e5c', light: '#7a4f8a' },
+    fuck95: { base: '#e2ddd0', light: '#ffffff' },
+    itsok: { base: '#e2ddd0', light: '#ffffff' },
+    timemoney: { base: '#e2ddd0', light: '#ffffff' }
   };
 
   const CASE_METAL_HEX = {
@@ -371,15 +381,16 @@
     or: { base: '#c9a24b', light: '#f0d998', dark: '#8a6a26' },
     orrose: { base: '#c98b74', light: '#f0c3b0', dark: '#8a5744' },
     noir: { base: '#3a3a3d', light: '#57575c', dark: '#1b1b1d' },
-    orjaune: { base: '#c9a24b', light: '#f0d998', dark: '#8a6a26' }
+    orjaune: { base: '#c9a24b', light: '#f0d998', dark: '#8a6a26' },
+    bicolor: { base: '#c9a8a0', light: '#e8d4c8', dark: '#8b7a72' }
   };
 
-  const LEATHER_HEX = { cuir_noir: '#161616', cuir_bleu: '#1c3f65', cuir_marron: '#5c3a22' };
+  const LEATHER_HEX = { cuir_noir: '#161616', cuir_bleu: '#1c3f65', cuir_marron: '#5c3a22', cuir_vert: '#1a4a2e', cuir_blanc: '#ddd3c4' };
   const RUBBER_HEX = { caoutchouc_bleu: '#1c3f65', caoutchouc_vert: '#1a4a2e', caoutchouc_orange: '#c1652e', caoutchouc_jaune: '#d6bf3a', caoutchouc_turquoise: '#1f8a8a' };
 
   const BEZEL_HEX = { noir: '#1a1a1a', bleu: '#1c3f65', rouge: '#7a2020', vert: '#1a4a2e', argent: '#c7ccd1' };
 
-  const HAND_FINISH_HEX = { or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a', orrose: '#c98b74', eclair: '#e0793a', noir: '#2a2a2a' };
+  const HAND_FINISH_HEX = { or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a', orrose: '#c98b74', eclair: '#e0793a', noir: '#2a2a2a', gunmetal: '#4a4d52' };
   const NUMERAL_STYLE_LABELS = { batons: 'Bâtons', arabes: 'Arabes', romains: 'Romains', text: 'Texte peint main' };
   const ACCENT_HEX = { bleu: '#3d7fce', rouge: '#c14636', orange: '#d68b3a', vert: '#3a9c5f', jaune: '#d6bf3a', noir: '#1c1c1c', argent: '#c7ccd1' };
 
@@ -425,17 +436,29 @@
     },
     aviateur: {
       label: 'Aviateur — carré',
-      dials: { blanc: 'Blanc', noir: 'Noir' },
-      numerals: { romains: 'Romains', batons: 'Bâtons' },
-      handFinishes: { bleu: 'Bleu', argent: 'Argent' },
+      dialFamilies: {
+        classique: {
+          label: 'Classique guilloché',
+          numeralStyle: 'romains',
+          dials: { orange: 'Orange/brun', argente: 'Argenté', rouge: 'Rouge', noir: 'Noir', violet: 'Violet', blanc: 'Blanc', bleu: 'Bleu' }
+        },
+        texte: {
+          label: 'Édition texte',
+          numeralStyle: 'romains',
+          dials: { fuck95: 'FUCK 9-5', itsok: 'IT\'S OK', timemoney: 'TIME IS MONEY' }
+        }
+      },
+      handFinishes: { bleu: 'Bleu', argent: 'Argent/silver', gunmetal: 'Gunmetal', or: 'Doré', orrose: 'Rose/rosé' },
+      handDefaultFromCase: { acier: 'argent', noir: 'gunmetal', or: 'or', orrose: 'orrose', bicolor: 'orrose' },
       accents: {},
-      bracelets: { acier: 'Acier', cuir_bleu: 'Cuir bleu' },
-      caseMetals: { acier: 'Acier' },
+      bracelets: { metal: 'Métal intégré', cuir_noir: 'Cuir noir', cuir_bleu: 'Cuir bleu', cuir_vert: 'Cuir vert', cuir_marron: 'Cuir marron', cuir_blanc: 'Cuir blanc' },
+      caseMetals: { acier: 'Silver (acier poli)', noir: 'Black (PVD noir)', or: 'Gold (or jaune)', orrose: 'Rose Gold intégral', bicolor: 'Bicolor (acier/or rose)' },
+      caseBacks: { dense: 'Fond plein', transparent: 'Fond saphir' },
       gmt: false,
-      dialNote: "Cadran blanc chiffres romains vu sur nos Aviateur, variante noire proposée.",
-      handsNote: "Aiguilles bleues, comme sur notre pièce de référence.",
-      braceletNote: "Acier ou cuir bleu — les deux versions que nous avons réellement.",
-      caseNote: "Boîtier acier brossé à vis apparentes, couronne cabochon."
+      dialNote: "Deux catégories : cadrans classiques guillochés (chiffres romains) ou édition texte peinte main.",
+      handsNote: "Cinq finitions épée/dauphin — une couleur par défaut suit le boîtier, librement modifiable ensuite.",
+      braceletNote: "Métal intégré (assorti au boîtier — le bicolor donne bracelet acier et boucle or rose) ou cuir alligator, 5 couleurs, boucle toujours assortie au boîtier.",
+      caseNote: "5 finitions de boîtier, en fond plein ou saphir transparent."
     },
     marina: {
       label: 'Marina — octogonal',
@@ -556,7 +579,8 @@
     handFinish: 'argent',
     accent: 'bleu',
     caseMetal: 'acier',
-    bracelet: 'jubile'
+    bracelet: 'jubile',
+    caseBack: 'dense'
   };
 
   function firstKey(obj) { return Object.keys(obj)[0]; }
@@ -597,9 +621,12 @@
 
     if (!(state.bracelet in m.bracelets)) state.bracelet = firstKey(m.bracelets);
     if (!(state.caseMetal in m.caseMetals)) state.caseMetal = firstKey(m.caseMetals);
+    if (m.caseBacks && !(state.caseBack in m.caseBacks)) state.caseBack = firstKey(m.caseBacks);
 
     if (m.handsAuto) {
       state.handFinish = state.caseMetal;
+    } else if (m.handDefaultFromCase) {
+      state.handFinish = m.handDefaultFromCase[state.caseMetal];
     }
     if (m.braceletFromCase) {
       state.bracelet = m.braceletFromCase[state.caseMetal];
@@ -687,7 +714,8 @@
     const isLeather = b.indexOf('cuir') === 0;
     const isRubber = b.indexOf('caoutchouc') === 0;
     const isStrap = isLeather || isRubber;
-    const color = isLeather ? (LEATHER_HEX[b] || '#161616') : isRubber ? (RUBBER_HEX[b] || '#1c1c1c') : 'url(#caseGrad)';
+    const metalOverride = (state.model === 'aviateur' && state.caseMetal === 'bicolor' && b === 'metal') ? 'url(#acierGrad)' : 'url(#caseGrad)';
+    const color = isLeather ? (LEATHER_HEX[b] || '#161616') : isRubber ? (RUBBER_HEX[b] || '#1c1c1c') : metalOverride;
     const lugTop = state.model === 'aviateur' ? 60 : 40;
     const lugBottom = 300 - lugTop;
     let links = '';
@@ -710,6 +738,11 @@
       if (state.model === 'octant') {
         // Boucle cuir assortie au boîtier ; boucle caoutchouc toujours acier.
         const buckleColor = isRubber ? CASE_METAL_HEX.acier.base : CASE_METAL_HEX[state.caseMetal].base;
+        links += `<rect x="130" y="${lugBottom + 40}" width="40" height="18" rx="3" fill="${buckleColor}" stroke="#00000033"/>`;
+      } else if (state.model === 'aviateur' && isLeather) {
+        // Boucle déployante toujours assortie au boîtier — le bicolor donne une boucle or rose.
+        const buckleKey = state.caseMetal === 'bicolor' ? 'orrose' : state.caseMetal;
+        const buckleColor = CASE_METAL_HEX[buckleKey].base;
         links += `<rect x="130" y="${lugBottom + 40}" width="40" height="18" rx="3" fill="${buckleColor}" stroke="#00000033"/>`;
       }
     }
@@ -747,6 +780,16 @@
           <stop offset="55%" stop-color="${bodyMetal.base}"/>
           <stop offset="100%" stop-color="${bodyMetal.dark}"/>
         </linearGradient>
+        <linearGradient id="acierGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="${CASE_METAL_HEX.acier.light}"/>
+          <stop offset="55%" stop-color="${CASE_METAL_HEX.acier.base}"/>
+          <stop offset="100%" stop-color="${CASE_METAL_HEX.acier.dark}"/>
+        </linearGradient>
+        <linearGradient id="orroseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="${CASE_METAL_HEX.orrose.light}"/>
+          <stop offset="55%" stop-color="${CASE_METAL_HEX.orrose.base}"/>
+          <stop offset="100%" stop-color="${CASE_METAL_HEX.orrose.dark}"/>
+        </linearGradient>
         <clipPath id="dialClip"><circle cx="${cx}" cy="${cy}" r="76"/></clipPath>
       </defs>
     `;
@@ -767,11 +810,22 @@
       }
       crown = `<rect x="246" y="141" width="14" height="18" rx="3" fill="url(#caseGrad)"/>`;
     } else if (state.model === 'aviateur') {
-      caseShape = `<rect x="58" y="58" width="184" height="184" rx="22" fill="url(#caseGrad)"/>`;
+      const isBicolor = state.caseMetal === 'bicolor';
+      caseShape = `<rect x="58" y="58" width="184" height="184" rx="22" fill="url(#caseGrad)"/>` +
+        (isBicolor ? `<rect x="58" y="58" width="184" height="184" rx="22" fill="none" stroke="url(#orroseGrad)" stroke-width="4"/>` : '');
       dialShape = `<rect x="80" y="80" width="140" height="140" rx="8" fill="url(#dialGrad)"/>`;
       const screwPos = [[74,74],[226,74],[74,226],[226,226],[150,66],[150,234]];
-      texture = screwPos.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="#00000040"/><circle cx="${p[0]}" cy="${p[1]}" r="1.4" fill="#ffffff55"/>`).join('');
-      crown = `<rect x="238" y="138" width="14" height="22" rx="3" fill="url(#caseGrad)"/><circle cx="245" cy="136" r="5" fill="#2c6fbb"/>`;
+      texture = screwPos.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="${isBicolor ? 'url(#orroseGrad)' : '#00000040'}"/><circle cx="${p[0]}" cy="${p[1]}" r="1.4" fill="#ffffff55"/>`).join('');
+      if (state.dialFamily === 'texte') {
+        // Édition texte peinte main, rouge, sur cadran blanc — chiffres romains en fond (rendus génériquement).
+        const messages = { fuck95: ['FUCK', '9-5'], itsok: ['IT\'S', 'OK'], timemoney: ['TIME IS', 'MONEY'] };
+        const lines = messages[state.dial] || ['', ''];
+        texture += `
+          <text x="${cx}" y="${cy - 4}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-style="italic" font-size="15" fill="#c1272d" transform="rotate(-6 ${cx} ${cy - 4})">${lines[0]}</text>
+          <text x="${cx}" y="${cy + 16}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-style="italic" font-size="15" fill="#c1272d" transform="rotate(-6 ${cx} ${cy + 16})">${lines[1]}</text>
+        `;
+      }
+      crown = `<rect x="238" y="138" width="14" height="22" rx="3" fill="${isBicolor ? 'url(#orroseGrad)' : 'url(#caseGrad)'}"/><circle cx="245" cy="136" r="5" fill="#2c6fbb"/>`;
     } else if (state.model === 'marina') {
       const outer = octagonPoints(cx, cy, 100, 22.5);
       const inner = octagonPoints(cx, cy, 76, 22.5);
@@ -887,6 +941,7 @@
       ['Bracelet', m.bracelets[state.bracelet]],
       ['Boîtier', m.caseMetals[state.caseMetal]]
     ];
+    if (m.caseBacks) rows.push(['Fond', m.caseBacks[state.caseBack]]);
     document.getElementById('preview-summary').innerHTML = rows.map(r =>
       `<div class="summary-row"><span class="label">${r[0]}</span><span class="value">${r[1]}</span></div>`
     ).join('');
@@ -935,7 +990,8 @@
     noir_noir: 'linear-gradient(135deg,#2a2a2a,#0f0f0f)',
     argent: 'linear-gradient(135deg,#e8eaed,#a8adb3)',
     vert: 'linear-gradient(135deg,#2e8a5a,#1a4a2e)',
-    bleu: 'linear-gradient(135deg,#3d6fa0,#1c3f65)'
+    bleu: 'linear-gradient(135deg,#3d6fa0,#1c3f65)',
+    bicolor: 'linear-gradient(135deg,#e8d4c8,#8b7a72)'
   };
 
   function renderOptions() {
@@ -1019,6 +1075,16 @@
       dotSwatch(key, m.caseMetals[key], CASE_METAL_GRAD[key], 'caseMetal')
     ).join('');
 
+    const casebackBlock = document.getElementById('caseback-block');
+    if (m.caseBacks) {
+      casebackBlock.style.display = 'block';
+      document.getElementById('group-caseBack').innerHTML = Object.keys(m.caseBacks).map(key =>
+        iconSwatch(key, m.caseBacks[key], key === 'transparent' ? '◎' : '●', 'caseBack')
+      ).join('');
+    } else {
+      casebackBlock.style.display = 'none';
+    }
+
     attachSwatchHandlers();
   }
 
@@ -1038,6 +1104,9 @@
           if (key === 'caseMetal' && m.braceletFromCase) {
             state.bracelet = m.braceletFromCase[swatch.dataset.value];
           }
+          if (key === 'caseMetal' && m.handDefaultFromCase) {
+            state.handFinish = m.handDefaultFromCase[swatch.dataset.value];
+          }
 
           if (key === 'dialFamily') {
             const fam = m.dialFamilies[swatch.dataset.value];
@@ -1045,6 +1114,10 @@
             state.numerals = fam.numeralStyle;
             const handOptions = fam.forcesHandOptions || m.handFinishes;
             state.handFinish = firstKey(handOptions);
+            renderOptions();
+          } else if (key === 'caseMetal' && m.handDefaultFromCase) {
+            // Le choix du boîtier redéfinit la couleur d'aiguille par défaut —
+            // il faut regénérer le groupe aiguilles pour refléter le nouvel actif.
             renderOptions();
           } else {
             group.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
