@@ -358,7 +358,7 @@
   const BEZEL_HEX = { noir: '#1a1a1a', bleu: '#1c3f65', rouge: '#7a2020', vert: '#1a4a2e', argent: '#c7ccd1' };
 
   const HAND_FINISH_HEX = { or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a' };
-  const ACCENT_HEX = { bleu: '#3d7fce', rouge: '#c14636', orange: '#d68b3a', vert: '#3a9c5f', jaune: '#d6bf3a', noir: '#1c1c1c' };
+  const ACCENT_HEX = { bleu: '#3d7fce', rouge: '#c14636', orange: '#d68b3a', vert: '#3a9c5f', jaune: '#d6bf3a', noir: '#1c1c1c', argent: '#c7ccd1' };
 
   const NUMERAL_GLYPHS = {
     batons: null,
@@ -416,14 +416,20 @@
       dials: { noir: 'Noir', bleu: 'Bleu' },
       numerals: { batons: 'Bâtons' },
       handFinishes: { argent: 'Argent', or: 'Or' },
-      accents: { rouge: 'Rouge', bleu: 'Bleu', noir: 'Noir' },
+      accents: { rouge: 'Rouge', vert: 'Vert', bleu: 'Bleu', argent: 'Argent' },
+      accentFromCase: { bleu_rouge: 'rouge', noir_vert: 'vert', noir_bleu: 'bleu', noir_noir: 'argent' },
       bracelets: { jubile: 'Jubilé acier' },
-      caseMetals: { noir_bleu: 'Lunette noir / bleu', noir_rouge: 'Lunette noir / rouge', bleu_rouge: 'Lunette bleu / rouge' },
+      caseMetals: {
+        bleu_rouge: 'Lunette bleu/rouge',
+        noir_vert: 'Lunette noir/vert',
+        noir_bleu: 'Lunette noir/bleu',
+        noir_noir: 'Lunette noir/noir'
+      },
       gmt: true,
       dialNote: "Cadran noir (photo de référence) ou bleu, avec la 4ᵉ aiguille GMT.",
       handsNote: "L'aiguille GMT est spécifique à ce modèle — jamais disponible sur les autres bases.",
       braceletNote: "Bracelet jubilé acier, comme sur notre pièce de référence.",
-      caseNote: "Lunette bicolore céramique — la signature de ce modèle."
+      caseNote: "Lunette bicolore céramique — la couleur de l'aiguille GMT suit automatiquement la lunette choisie."
     },
     octant: {
       label: 'Octant — vis apparentes',
@@ -507,7 +513,11 @@
     } else if (!(state.handFinish in m.handFinishes)) {
       state.handFinish = firstKey(m.handFinishes);
     }
-    if (Object.keys(m.accents).length && !(state.accent in m.accents)) state.accent = firstKey(m.accents);
+    if (m.accentFromCase) {
+      state.accent = m.accentFromCase[state.caseMetal];
+    } else if (Object.keys(m.accents).length && !(state.accent in m.accents)) {
+      state.accent = firstKey(m.accents);
+    }
   }
 
   function handPoint(cx, cy, length, minuteUnits) {
@@ -777,6 +787,11 @@
     if (m.handsAuto) {
       document.getElementById('hands-note').textContent = m.handsNote + ' Actuellement : ' + m.caseMetals[state.caseMetal].toLowerCase() + '.';
     }
+    if (m.accentFromCase) {
+      const accentLabelBase = m.gmt ? "Couleur de l'aiguille GMT" : 'Couleur de la trotteuse';
+      document.getElementById('accent-label').textContent =
+        accentLabelBase + ' — assortie automatiquement à la lunette. Actuellement : ' + m.accents[state.accent].toLowerCase() + '.';
+    }
   }
 
   function refresh() {
@@ -805,6 +820,7 @@
     noir_rouge: 'linear-gradient(135deg,#1a1a1a,#7a2020)',
     bleu_rouge: 'linear-gradient(135deg,#1c3f65,#7a2020)',
     noir_vert: 'linear-gradient(135deg,#1a1a1a,#1a4a2e)',
+    noir_noir: 'linear-gradient(135deg,#2a2a2a,#0f0f0f)',
     argent: 'linear-gradient(135deg,#e8eaed,#a8adb3)',
     vert: 'linear-gradient(135deg,#2e8a5a,#1a4a2e)',
     bleu: 'linear-gradient(135deg,#3d6fa0,#1c3f65)'
@@ -838,13 +854,22 @@
     }
 
     const accentBlock = document.getElementById('accent-block');
+    const accentGroup = document.getElementById('group-accent');
     const hasAccents = Object.keys(m.accents).length > 0;
     accentBlock.style.display = hasAccents ? 'block' : 'none';
-    document.getElementById('accent-label').textContent = m.gmt ? "Couleur de l'aiguille GMT" : 'Couleur de la trotteuse';
-    if (hasAccents) {
-      document.getElementById('group-accent').innerHTML = Object.keys(m.accents).map(key =>
-        dotSwatch(key, m.accents[key], ACCENT_HEX[key], 'accent')
-      ).join('');
+    const accentLabelBase = m.gmt ? "Couleur de l'aiguille GMT" : 'Couleur de la trotteuse';
+    if (m.accentFromCase) {
+      accentGroup.style.display = 'none';
+      document.getElementById('accent-label').textContent =
+        accentLabelBase + ' — assortie automatiquement à la lunette. Actuellement : ' + m.accents[state.accent].toLowerCase() + '.';
+    } else {
+      accentGroup.style.display = '';
+      document.getElementById('accent-label').textContent = accentLabelBase;
+      if (hasAccents) {
+        accentGroup.innerHTML = Object.keys(m.accents).map(key =>
+          dotSwatch(key, m.accents[key], ACCENT_HEX[key], 'accent')
+        ).join('');
+      }
     }
 
     document.getElementById('group-bracelet').innerHTML = Object.keys(m.bracelets).map(key => {
@@ -867,6 +892,9 @@
           state[key] = swatch.dataset.value;
           if (key === 'caseMetal' && MODELS[state.model].handsAuto) {
             state.handFinish = swatch.dataset.value;
+          }
+          if (key === 'caseMetal' && MODELS[state.model].accentFromCase) {
+            state.accent = MODELS[state.model].accentFromCase[swatch.dataset.value];
           }
           group.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
           swatch.classList.add('active');
