@@ -359,7 +359,11 @@
     turquoise: { base: '#1f8a8a', light: '#3fc4c4' },
     vertsapin: { base: '#0d3d24', light: '#1f6b45' },
     bleumarine: { base: '#0f2847', light: '#1e4570' },
-    jaune: { base: '#c9a812', light: '#f2d81a' }
+    jaune: { base: '#c9a812', light: '#f2d81a' },
+    menthe: { base: '#7fc9a8', light: '#a8e0c4' },
+    champagne: { base: '#d4c4a0', light: '#f0e4c8' },
+    cuivre: { base: '#8a5030', light: '#b87a4e' },
+    bleugris: { base: '#4a5a68', light: '#6f8494' }
   };
 
   const CASE_METAL_HEX = {
@@ -374,7 +378,7 @@
 
   const BEZEL_HEX = { noir: '#1a1a1a', bleu: '#1c3f65', rouge: '#7a2020', vert: '#1a4a2e', argent: '#c7ccd1' };
 
-  const HAND_FINISH_HEX = { or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a', orrose: '#c98b74', eclair: '#e0793a' };
+  const HAND_FINISH_HEX = { or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a', orrose: '#c98b74', eclair: '#e0793a', noir: '#2a2a2a' };
   const NUMERAL_STYLE_LABELS = { batons: 'Bâtons', arabes: 'Arabes', romains: 'Romains', text: 'Texte peint main' };
   const ACCENT_HEX = { bleu: '#3d7fce', rouge: '#c14636', orange: '#d68b3a', vert: '#3a9c5f', jaune: '#d6bf3a', noir: '#1c1c1c', argent: '#c7ccd1' };
 
@@ -434,17 +438,38 @@
     },
     marina: {
       label: 'Marina — octogonal',
-      dials: { noir: 'Noir', brun: 'Brun' },
-      numerals: { batons: 'Bâtons' },
-      handFinishes: { argent: 'Argent', or: 'Or' },
+      dialFamilies: {
+        uni: {
+          label: 'Uni / bâtons',
+          numeralStyle: 'batons',
+          dials: { bleu: 'Bleu', blanc: 'Blanc', menthe: 'Menthe', vert: 'Vert', champagne: 'Champagne', rouge: 'Rouge', bleumarine: 'Bleu marine', noir: 'Noir' }
+        },
+        raye: {
+          label: 'Rayé horizontal',
+          numeralStyle: 'batons',
+          dials: { bleuciel: 'Bleu ciel', turquoise: 'Turquoise', blanc: 'Blanc', vert: 'Vert', bleumarine: 'Bleu marine', cuivre: 'Cuivre', noir: 'Noir' }
+        },
+        arabes: {
+          label: 'Chiffres arabes',
+          numeralStyle: 'arabes',
+          dials: { bleu: 'Bleu', noir: 'Noir', menthe: 'Menthe', vert: 'Vert', bleugris: 'Bleu-gris', marron: 'Marron', blanc: 'Blanc' }
+        },
+        whocares: {
+          label: 'Who cares I\'m already late',
+          numeralStyle: 'text',
+          forcesHandOptions: { eclair: 'Éclair' },
+          dials: { noir: 'Noir', blanc: 'Blanc', vert: 'Vert', bleu: 'Bleu', rouge: 'Rouge' }
+        }
+      },
+      handFinishes: { argent: 'Argent / blanc', noir: 'Noir', orrose: 'Or rose' },
       accents: {},
       bracelets: { integre: 'Intégré' },
-      caseMetals: { acier: 'Acier', orrose: 'Or rose' },
+      caseMetals: { acier: 'Acier', noir: 'Noir PVD', orrose: 'Or rose' },
       gmt: false,
-      dialNote: "Cadran strié horizontal : noir avec ouverture open-heart (acier) ou brun avec guichet date (or rose) — nos deux vraies finitions.",
-      handsNote: "Aiguilles assorties au boîtier.",
+      dialNote: "Quatre familles de cadran, chacune avec ses propres teintes.",
+      handsNote: "Trois finitions indépendantes du boîtier — sauf famille \"Who cares\", qui impose l'éclair.",
       braceletNote: "Bracelet intégré au boîtier, couleur assortie.",
-      caseNote: "Boîtier octogonal acier ou plaqué or rose."
+      caseNote: "Boîtier octogonal acier, PVD noir ou plaqué or rose."
     },
     globetrotter: {
       label: 'Globetrotter — GMT',
@@ -741,24 +766,28 @@
       const inner = octagonPoints(cx, cy, 76, 22.5);
       caseShape = `<polygon points="${outer}" fill="url(#caseGrad)"/>`;
       dialShape = `<polygon points="${inner}" fill="url(#dialGrad)"/>`;
-      let ribs = '';
-      for (let y = cy - 60; y <= cy + 60; y += 10) {
-        ribs += `<line x1="${cx-70}" y1="${y}" x2="${cx+70}" y2="${y}" stroke="#00000022" stroke-width="1" clip-path="url(#dialClip)"/>`;
-      }
-      texture = ribs;
-      if (state.dial === 'noir') {
-        // Ouverture "open-heart" à 9h — vue sur nos pièces Marina acier/cadran noir.
-        texture += `
+      if (state.dialFamily === 'raye') {
+        // Cadran rayé horizontal avec guichet date à 3h — famille "Rayé horizontal".
+        let ribs = '';
+        for (let y = cy - 60; y <= cy + 60; y += 10) {
+          ribs += `<line x1="${cx-70}" y1="${y}" x2="${cx+70}" y2="${y}" stroke="#00000022" stroke-width="1" clip-path="url(#dialClip)"/>`;
+        }
+        texture = ribs + `
+          <rect x="${cx+50}" y="${cy-9}" width="17" height="18" rx="2" fill="#f2ede4" stroke="#00000044" stroke-width="0.6"/>
+          <text x="${cx+58.5}" y="${cy+4}" text-anchor="middle" font-size="9" font-family="'Space Grotesk', sans-serif" fill="#15171a">24</text>
+        `;
+      } else if (state.dialFamily === 'uni' && state.dial === 'noir') {
+        // Ouverture "open-heart" à 9h — vue sur notre pièce Marina acier/cadran noir de référence.
+        texture = `
           <circle cx="${cx-38}" cy="${cy}" r="15" fill="#00000060" stroke="#00000044" stroke-width="1"/>
           <circle cx="${cx-38}" cy="${cy}" r="15" fill="none" stroke="${handColor}" stroke-width="1" stroke-dasharray="2 2"/>
           <circle cx="${cx-38}" cy="${cy}" r="6" fill="none" stroke="${handColor}" stroke-width="1.2"/>
           <line x1="${cx-38}" y1="${cy-6}" x2="${cx-38}" y2="${cy-15}" stroke="${handColor}" stroke-width="1"/>
         `;
-      } else if (state.dial === 'brun') {
-        // Guichet de date à 3h — vu sur notre pièce Marina or rose/cadran brun.
-        texture += `
-          <rect x="${cx+50}" y="${cy-9}" width="17" height="18" rx="2" fill="#f2ede4" stroke="#00000044" stroke-width="0.6"/>
-          <text x="${cx+58.5}" y="${cy+4}" text-anchor="middle" font-size="9" font-family="'Space Grotesk', sans-serif" fill="#15171a">24</text>
+      } else if (state.dialFamily === 'whocares') {
+        texture = `
+          <text x="${cx}" y="${cy - 6}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-style="italic" font-size="13" fill="${handColor}" transform="rotate(-8 ${cx} ${cy - 6})">who cares</text>
+          <text x="${cx}" y="${cy + 12}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-style="italic" font-size="10" fill="${handColor}" transform="rotate(-8 ${cx} ${cy + 12})">I'm already late</text>
         `;
       }
       crown = `<rect x="248" y="142" width="12" height="16" rx="2" fill="url(#caseGrad)"/>`;
