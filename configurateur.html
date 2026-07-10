@@ -281,10 +281,16 @@
       <div class="config-section" data-section="dial">
         <div class="section-num">02 / 05</div>
         <h2>Couleur du cadran</h2>
-        <p id="dial-note">Teintes disponibles pour ce modèle.</p>
+        <div id="dial-family-block" style="display:none;">
+          <p>Famille de cadran</p>
+          <div class="swatch-grid" data-group="dialFamily" id="group-dialFamily"></div>
+        </div>
+        <p style="margin-top:22px;" id="dial-note">Teintes disponibles pour ce modèle.</p>
         <div class="swatch-grid" data-group="dial" id="group-dial"></div>
-        <p style="margin-top:22px;" id="numerals-label">Style d'index</p>
-        <div class="swatch-grid" data-group="numerals" id="group-numerals"></div>
+        <div id="numerals-block">
+          <p style="margin-top:22px;" id="numerals-label">Style d'index</p>
+          <div class="swatch-grid" data-group="numerals" id="group-numerals"></div>
+        </div>
       </div>
 
       <div class="config-section" data-section="hands">
@@ -343,21 +349,33 @@
     tapisserie_kaki: { base: '#6b6b3a', light: '#9c9c5a' },
     tapisserie_rouge: { base: '#1a0505', light: '#a5182a' },
     tapisserie_jaune: { base: '#c9a812', light: '#f2d81a' },
-    tapisserie_vert: { base: '#0d1f0d', light: '#1f7a3f' }
+    tapisserie_vert: { base: '#0d1f0d', light: '#1f7a3f' },
+    marron: { base: '#5c3a22', light: '#8a6040' },
+    bleuciel: { base: '#7ba7c9', light: '#a8c9e0' },
+    rose: { base: '#c98ba0', light: '#e8b8c8' },
+    anthracite: { base: '#3a3d42', light: '#565a61' },
+    rouge: { base: '#8a2020', light: '#c1453f' },
+    saumon: { base: '#d98a6e', light: '#f0b399' },
+    turquoise: { base: '#1f8a8a', light: '#3fc4c4' },
+    vertsapin: { base: '#0d3d24', light: '#1f6b45' },
+    bleumarine: { base: '#0f2847', light: '#1e4570' },
+    jaune: { base: '#c9a812', light: '#f2d81a' }
   };
 
   const CASE_METAL_HEX = {
     acier: { base: '#c7ccd1', light: '#eef1f3', dark: '#8b9096' },
     or: { base: '#c9a24b', light: '#f0d998', dark: '#8a6a26' },
     orrose: { base: '#c98b74', light: '#f0c3b0', dark: '#8a5744' },
-    noir: { base: '#3a3a3d', light: '#57575c', dark: '#1b1b1d' }
+    noir: { base: '#3a3a3d', light: '#57575c', dark: '#1b1b1d' },
+    orjaune: { base: '#c9a24b', light: '#f0d998', dark: '#8a6a26' }
   };
 
   const LEATHER_HEX = { cuir_noir: '#161616', cuir_bleu: '#1c3f65', cuir_marron: '#5c3a22' };
 
   const BEZEL_HEX = { noir: '#1a1a1a', bleu: '#1c3f65', rouge: '#7a2020', vert: '#1a4a2e', argent: '#c7ccd1' };
 
-  const HAND_FINISH_HEX = { or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a' };
+  const HAND_FINISH_HEX = { or: '#d8b569', argent: '#e9edf0', bleu: '#3d5f8a', orrose: '#c98b74', eclair: '#e0793a' };
+  const NUMERAL_STYLE_LABELS = { batons: 'Bâtons', arabes: 'Arabes', romains: 'Romains', text: 'Texte peint main' };
   const ACCENT_HEX = { bleu: '#3d7fce', rouge: '#c14636', orange: '#d68b3a', vert: '#3a9c5f', jaune: '#d6bf3a', noir: '#1c1c1c', argent: '#c7ccd1' };
 
   const NUMERAL_GLYPHS = {
@@ -371,17 +389,34 @@
   const MODELS = {
     meridian: {
       label: 'Meridian — rond',
-      dials: { vert: 'Vert', bleu: 'Bleu', blanc: 'Blanc', bordeaux: 'Bordeaux' },
-      numerals: { arabes: 'Arabes', batons: 'Bâtons' },
-      handFinishes: { argent: 'Argent', or: 'Or' },
-      accents: { bleu: 'Bleu', rouge: 'Rouge', vert: 'Vert', jaune: 'Jaune', orange: 'Orange' },
-      bracelets: { jubile: 'Jubilé' },
-      caseMetals: { acier: 'Acier', orrose: 'Acier / or rose' },
+      dialFamilies: {
+        classique: {
+          label: 'Classique',
+          numeralStyle: 'batons',
+          dials: { marron: 'Marron', blanc: 'Blanc', bleuciel: 'Bleu ciel', rose: 'Rose', noir: 'Noir', anthracite: 'Anthracite', vert: 'Vert' }
+        },
+        whocares: {
+          label: 'Who cares I\'m already late',
+          numeralStyle: 'text',
+          forcesHandOptions: { eclair: 'Éclair' },
+          dials: { noir: 'Noir', blanc: 'Blanc', vert: 'Vert', bleu: 'Bleu', rouge: 'Rouge' }
+        },
+        arabes: {
+          label: 'Chiffres arabes',
+          numeralStyle: 'arabes',
+          dials: { saumon: 'Saumon', turquoise: 'Turquoise', bordeaux: 'Bordeaux', vertsapin: 'Vert sapin', rose: 'Rose', bleumarine: 'Bleu marine', noir: 'Noir', jaune: 'Jaune', bleuciel: 'Bleu ciel', blanc: 'Blanc' }
+        }
+      },
+      handFinishes: { argent: 'Argent', or: 'Or', orrose: 'Or rose' },
+      accents: {},
+      bracelets: { oyster: 'Maillons acier', jubile: 'Jubilé' },
+      braceletFromCase: { acier: 'oyster', orrose: 'jubile', orjaune: 'jubile' },
+      caseMetals: { acier: 'Acier', orrose: 'Acier / or rose', orjaune: 'Acier / or jaune' },
       gmt: false,
-      dialNote: "Cadrans sunburst vus sur nos pièces Meridian.",
-      handsNote: "Aiguilles dauphine, comme sur nos Meridian réelles.",
-      braceletNote: "Bracelet jubilé — la couleur suit le boîtier.",
-      caseNote: "Boîtier acier ou bi-ton acier/or rose, lunette cannelée."
+      dialNote: "Trois familles de cadran, chacune avec ses propres teintes.",
+      handsNote: "Aiguilles classiques (or, argent, or rose) — sauf famille \"Who cares\", qui impose l'éclair.",
+      braceletNote: "Type de bracelet assorti au boîtier — maillons acier sur la version acier, Jubilé sur les versions bicolores.",
+      caseNote: "Boîtier acier ou bi-ton acier/or rose/or jaune, lunette cannelée."
     },
     aviateur: {
       label: 'Aviateur — carré',
@@ -462,7 +497,7 @@
       numerals: { batons: 'Bâtons' },
       handFinishes: { argent: 'Argent' },
       accents: {},
-      bracelets: { oyster: 'Oyster acier' },
+      bracelets: { oyster: 'Maillons acier' },
       caseMetals: {
         noir_bleu: 'Lunette noir / bleu',
         noir_vert: 'Lunette noir / vert',
@@ -474,13 +509,14 @@
       gmt: false,
       dialNote: "Cadran noir fixe — la lunette fait toute la différence sur ce style plongée.",
       handsNote: "Aiguilles Mercedes argent, 3 aiguilles — pas de complication sur ce style.",
-      braceletNote: "Bracelet Oyster acier, notre seule version pour l'instant.",
+      braceletNote: "Bracelet maillons acier, notre seule version pour l'instant.",
       caseNote: "Lunette tournante bicolore ou unie, 6 finitions réelles."
     }
   };
 
   const state = {
     model: 'meridian',
+    dialFamily: null,
     dial: 'vert',
     numerals: 'arabes',
     handFinish: 'argent',
@@ -502,16 +538,37 @@
     }
   })();
 
+  function currentDialDict(m) { return m.dialFamilies ? m.dialFamilies[state.dialFamily].dials : m.dials; }
+  function currentHandDict(m) {
+    if (m.dialFamilies) return m.dialFamilies[state.dialFamily].forcesHandOptions || m.handFinishes;
+    return m.handFinishes;
+  }
+
   function applyModelDefaults() {
     const m = MODELS[state.model];
-    if (!(state.dial in m.dials)) state.dial = firstKey(m.dials);
-    if (!(state.numerals in m.numerals)) state.numerals = firstKey(m.numerals);
+
+    if (m.dialFamilies) {
+      if (!(state.dialFamily in m.dialFamilies)) state.dialFamily = firstKey(m.dialFamilies);
+      const fam = m.dialFamilies[state.dialFamily];
+      if (!(state.dial in fam.dials)) state.dial = firstKey(fam.dials);
+      state.numerals = fam.numeralStyle;
+      const handOptions = fam.forcesHandOptions || m.handFinishes;
+      if (!(state.handFinish in handOptions)) state.handFinish = firstKey(handOptions);
+    } else {
+      state.dialFamily = null;
+      if (!(state.dial in m.dials)) state.dial = firstKey(m.dials);
+      if (!(state.numerals in m.numerals)) state.numerals = firstKey(m.numerals);
+      if (!(state.handFinish in m.handFinishes)) state.handFinish = firstKey(m.handFinishes);
+    }
+
     if (!(state.bracelet in m.bracelets)) state.bracelet = firstKey(m.bracelets);
     if (!(state.caseMetal in m.caseMetals)) state.caseMetal = firstKey(m.caseMetals);
+
     if (m.handsAuto) {
       state.handFinish = state.caseMetal;
-    } else if (!(state.handFinish in m.handFinishes)) {
-      state.handFinish = firstKey(m.handFinishes);
+    }
+    if (m.braceletFromCase) {
+      state.bracelet = m.braceletFromCase[state.caseMetal];
     }
     if (m.accentFromCase) {
       state.accent = m.accentFromCase[state.caseMetal];
@@ -604,7 +661,7 @@
         links += `<rect x="${118 + i * 22}" y="${lugBottom + 4}" width="14" height="26" rx="3" fill="${color}" stroke="#00000033"/>`;
       }
     } else if (!isLeather) {
-      // "acier" (Aviateur, façon oyster) ou "integre"/"metal" (Marina, Octant — liens larges intégrés)
+      // "acier" (Aviateur, façon maillons) ou "integre"/"metal" (Marina, Octant — liens larges intégrés)
       links += `<rect x="105" y="${lugTop - 34}" width="90" height="30" rx="4" fill="${color}" stroke="#00000033"/>`;
       links += `<rect x="105" y="${lugBottom + 4}" width="90" height="30" rx="4" fill="${color}" stroke="#00000033"/>`;
       links += `<line x1="150" y1="${lugTop - 34}" x2="150" y2="${lugTop - 4}" stroke="#00000033"/>`;
@@ -665,6 +722,13 @@
       caseShape = `<circle cx="${cx}" cy="${cy}" r="98" fill="url(#caseGrad)"/>
         <circle cx="${cx}" cy="${cy}" r="87" fill="none" stroke="url(#caseGrad)" stroke-width="15" stroke-dasharray="3.6 3.1"/>`;
       dialShape = `<circle cx="${cx}" cy="${cy}" r="76" fill="url(#dialGrad)"/>`;
+      if (state.dialFamily === 'whocares') {
+        // Cadran texte façon "who cares I'm already late", vu sur notre pièce de référence.
+        texture = `
+          <text x="${cx}" y="${cy - 6}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-style="italic" font-size="13" fill="${handColor}" transform="rotate(-8 ${cx} ${cy - 6})">who cares</text>
+          <text x="${cx}" y="${cy + 12}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-style="italic" font-size="10" fill="${handColor}" transform="rotate(-8 ${cx} ${cy + 12})">I'm already late</text>
+        `;
+      }
       crown = `<rect x="246" y="141" width="14" height="18" rx="3" fill="url(#caseGrad)"/>`;
     } else if (state.model === 'aviateur') {
       caseShape = `<rect x="58" y="58" width="184" height="184" rx="22" fill="url(#caseGrad)"/>`;
@@ -772,11 +836,14 @@
 
   function updateSummary() {
     const m = MODELS[state.model];
+    const dialDict = currentDialDict(m);
+    const handDict = currentHandDict(m);
+    const numeralLabel = m.dialFamilies ? NUMERAL_STYLE_LABELS[state.numerals] : m.numerals[state.numerals];
     const rows = [
       ['Modèle', m.label],
-      ['Cadran', m.dials[state.dial]],
-      ['Index', m.numerals[state.numerals]],
-      ['Aiguilles', m.handFinishes[state.handFinish] + (m.accents[state.accent] ? (m.gmt ? ' · GMT ' : ' · trotteuse ') + m.accents[state.accent].toLowerCase() : '')],
+      ['Cadran', (m.dialFamilies ? m.dialFamilies[state.dialFamily].label + ' — ' : '') + dialDict[state.dial]],
+      ['Index', numeralLabel],
+      ['Aiguilles', handDict[state.handFinish] + (m.accents[state.accent] ? (m.gmt ? ' · GMT ' : ' · trotteuse ') + m.accents[state.accent].toLowerCase() : '')],
       ['Bracelet', m.bracelets[state.bracelet]],
       ['Boîtier', m.caseMetals[state.caseMetal]]
     ];
@@ -791,6 +858,10 @@
       const accentLabelBase = m.gmt ? "Couleur de l'aiguille GMT" : 'Couleur de la trotteuse';
       document.getElementById('accent-label').textContent =
         accentLabelBase + ' — assortie automatiquement à la lunette. Actuellement : ' + m.accents[state.accent].toLowerCase() + '.';
+    }
+    if (m.braceletFromCase) {
+      document.getElementById('bracelet-note').textContent =
+        m.braceletNote + ' Actuellement : ' + m.bracelets[state.bracelet].toLowerCase() + '.';
     }
   }
 
@@ -810,11 +881,12 @@
   }
 
   const NUMERAL_ICONS = { batons: '❙❙', romains: 'XII', arabes: '١٢' };
-  const BRACELET_ICONS = { jubile: '▥', acier: '▤', integre: '▧', metal: '▧' };
+  const BRACELET_ICONS = { jubile: '▥', acier: '▤', integre: '▧', metal: '▧', oyster: '▤' };
   const CASE_METAL_GRAD = {
     acier: 'linear-gradient(135deg,#eef1f3,#8b9096)',
     or: 'linear-gradient(135deg,#f0d998,#8a6a26)',
     orrose: 'linear-gradient(135deg,#f0c3b0,#8a5744)',
+    orjaune: 'linear-gradient(135deg,#f0d998,#8a6a26)',
     noir: 'linear-gradient(135deg,#57575c,#1b1b1d)',
     noir_bleu: 'linear-gradient(135deg,#1a1a1a,#1c3f65)',
     noir_rouge: 'linear-gradient(135deg,#1a1a1a,#7a2020)',
@@ -834,13 +906,29 @@
     document.getElementById('bracelet-note').textContent = m.braceletNote;
     document.getElementById('case-note').textContent = m.caseNote;
 
-    document.getElementById('group-dial').innerHTML = Object.keys(m.dials).map(key =>
-      dotSwatch(key, m.dials[key], DIAL_HEX[key].base, 'dial')
+    const familyBlock = document.getElementById('dial-family-block');
+    const numeralsBlock = document.getElementById('numerals-block');
+    if (m.dialFamilies) {
+      familyBlock.style.display = 'block';
+      numeralsBlock.style.display = 'none';
+      document.getElementById('group-dialFamily').innerHTML = Object.keys(m.dialFamilies).map(key =>
+        iconSwatch(key, m.dialFamilies[key].label, '◆', 'dialFamily')
+      ).join('');
+    } else {
+      familyBlock.style.display = 'none';
+      numeralsBlock.style.display = 'block';
+    }
+
+    const dialDict = currentDialDict(m);
+    document.getElementById('group-dial').innerHTML = Object.keys(dialDict).map(key =>
+      dotSwatch(key, dialDict[key], DIAL_HEX[key].base, 'dial')
     ).join('');
 
-    document.getElementById('group-numerals').innerHTML = Object.keys(m.numerals).map(key =>
-      iconSwatch(key, m.numerals[key], NUMERAL_ICONS[key], 'numerals')
-    ).join('');
+    if (!m.dialFamilies) {
+      document.getElementById('group-numerals').innerHTML = Object.keys(m.numerals).map(key =>
+        iconSwatch(key, m.numerals[key], NUMERAL_ICONS[key], 'numerals')
+      ).join('');
+    }
 
     const handsGroup = document.getElementById('group-handFinish');
     if (m.handsAuto) {
@@ -848,8 +936,9 @@
       document.getElementById('hands-note').textContent = m.handsNote + ' Actuellement : ' + m.caseMetals[state.caseMetal].toLowerCase() + '.';
     } else {
       handsGroup.style.display = '';
-      handsGroup.innerHTML = Object.keys(m.handFinishes).map(key =>
-        dotSwatch(key, m.handFinishes[key], HAND_FINISH_HEX[key], 'handFinish')
+      const handDict = currentHandDict(m);
+      handsGroup.innerHTML = Object.keys(handDict).map(key =>
+        dotSwatch(key, handDict[key], HAND_FINISH_HEX[key], 'handFinish')
       ).join('');
     }
 
@@ -872,10 +961,18 @@
       }
     }
 
-    document.getElementById('group-bracelet').innerHTML = Object.keys(m.bracelets).map(key => {
-      if (key.indexOf('cuir') === 0) return dotSwatch(key, m.bracelets[key], LEATHER_HEX[key] || '#161616', 'bracelet');
-      return iconSwatch(key, m.bracelets[key], BRACELET_ICONS[key] || '▥', 'bracelet');
-    }).join('');
+    const braceletGroup = document.getElementById('group-bracelet');
+    if (m.braceletFromCase) {
+      braceletGroup.style.display = 'none';
+      document.getElementById('bracelet-note').textContent =
+        m.braceletNote + ' Actuellement : ' + m.bracelets[state.bracelet].toLowerCase() + '.';
+    } else {
+      braceletGroup.style.display = '';
+      braceletGroup.innerHTML = Object.keys(m.bracelets).map(key => {
+        if (key.indexOf('cuir') === 0) return dotSwatch(key, m.bracelets[key], LEATHER_HEX[key] || '#161616', 'bracelet');
+        return iconSwatch(key, m.bracelets[key], BRACELET_ICONS[key] || '▥', 'bracelet');
+      }).join('');
+    }
 
     document.getElementById('group-caseMetal').innerHTML = Object.keys(m.caseMetals).map(key =>
       dotSwatch(key, m.caseMetals[key], CASE_METAL_GRAD[key], 'caseMetal')
@@ -890,14 +987,29 @@
       group.querySelectorAll('.swatch').forEach(swatch => {
         swatch.addEventListener('click', () => {
           state[key] = swatch.dataset.value;
-          if (key === 'caseMetal' && MODELS[state.model].handsAuto) {
+          const m = MODELS[state.model];
+          if (key === 'caseMetal' && m.handsAuto) {
             state.handFinish = swatch.dataset.value;
           }
-          if (key === 'caseMetal' && MODELS[state.model].accentFromCase) {
-            state.accent = MODELS[state.model].accentFromCase[swatch.dataset.value];
+          if (key === 'caseMetal' && m.accentFromCase) {
+            state.accent = m.accentFromCase[swatch.dataset.value];
           }
-          group.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
-          swatch.classList.add('active');
+          if (key === 'caseMetal' && m.braceletFromCase) {
+            state.bracelet = m.braceletFromCase[swatch.dataset.value];
+          }
+
+          if (key === 'dialFamily') {
+            const fam = m.dialFamilies[swatch.dataset.value];
+            state.dial = firstKey(fam.dials);
+            state.numerals = fam.numeralStyle;
+            const handOptions = fam.forcesHandOptions || m.handFinishes;
+            state.handFinish = firstKey(handOptions);
+            renderOptions();
+          } else {
+            group.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+            swatch.classList.add('active');
+          }
+
           refresh();
           if (window.gsap) {
             gsap.fromTo('#watch-svg', { scale: 0.96, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.4, ease: 'back.out(2)' });
@@ -922,6 +1034,7 @@
   });
   document.querySelector(`#group-model .swatch[data-value="${state.model}"]`).classList.add('active');
 
+  applyModelDefaults();
   renderOptions();
   refresh();
 
