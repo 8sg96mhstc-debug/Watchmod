@@ -375,6 +375,7 @@
   };
 
   const LEATHER_HEX = { cuir_noir: '#161616', cuir_bleu: '#1c3f65', cuir_marron: '#5c3a22' };
+  const RUBBER_HEX = { caoutchouc_bleu: '#1c3f65', caoutchouc_vert: '#1a4a2e', caoutchouc_orange: '#c1652e', caoutchouc_jaune: '#d6bf3a', caoutchouc_turquoise: '#1f8a8a' };
 
   const BEZEL_HEX = { noir: '#1a1a1a', bleu: '#1c3f65', rouge: '#7a2020', vert: '#1a4a2e', argent: '#c7ccd1' };
 
@@ -493,27 +494,35 @@
     },
     octant: {
       label: 'Octant — vis apparentes',
-      dials: {
-        squelette_bleu: 'Squelette bleu',
-        tapisserie_argent: 'Tapisserie argent',
-        tapisserie_bleu: 'Tapisserie bleu ciel',
-        tapisserie_marine: 'Tapisserie bleu marine',
-        tapisserie_noir: 'Tapisserie noir',
-        tapisserie_kaki: 'Tapisserie kaki',
-        tapisserie_rouge: 'Tapisserie rouge',
-        tapisserie_jaune: 'Tapisserie jaune',
-        tapisserie_vert: 'Tapisserie vert'
+      dialFamilies: {
+        squelette: {
+          label: 'Squelette',
+          numeralStyle: 'batons',
+          dials: { squelette_bleu: 'Bleu' }
+        },
+        arabes: {
+          label: 'Chiffres arabes',
+          numeralStyle: 'arabes',
+          dials: { blanc: 'Blanc', noir: 'Noir', bleuciel: 'Bleu ciel', bleumarine: 'Bleu marine', rouge: 'Rouge', vert: 'Vert', tapisserie_rouge: 'Rouge dégradé', tapisserie_bleu: 'Bleu ciel dégradé' }
+        },
+        batons: {
+          label: 'Index bâtons',
+          numeralStyle: 'batons',
+          dials: { bleuciel: 'Bleu ciel', bleumarine: 'Bleu marine', noir: 'Noir', jaune: 'Jaune', blanc: 'Blanc', vert: 'Vert', champagne: 'Champagne', tapisserie_argent: 'Argent', tapisserie_kaki: 'Kaki', tapisserie_jaune: 'Jaune dégradé', tapisserie_vert: 'Vert dégradé' }
+        }
       },
-      numerals: { batons: 'Bâtons' },
-      handFinishes: { or: 'Or', orrose: 'Or rose', acier: 'Acier', noir: 'Noir' },
-      handsAuto: true,
+      handFinishes: { argent: 'Argent / blanc', noir: 'Noir', orrose: 'Or rose' },
       accents: {},
-      bracelets: { cuir_noir: 'Cuir noir', cuir_bleu: 'Cuir bleu', cuir_marron: 'Cuir marron', metal: 'Métal intégré' },
+      bracelets: {
+        cuir_noir: 'Cuir noir', cuir_bleu: 'Cuir bleu', cuir_marron: 'Cuir marron',
+        metal: 'Métal intégré',
+        caoutchouc_bleu: 'Caoutchouc bleu', caoutchouc_vert: 'Caoutchouc vert', caoutchouc_orange: 'Caoutchouc orange', caoutchouc_jaune: 'Caoutchouc jaune', caoutchouc_turquoise: 'Caoutchouc turquoise'
+      },
       caseMetals: { or: 'Or jaune', orrose: 'Or rose', acier: 'Acier', noir: 'Noir PVD' },
       gmt: false,
-      dialNote: "Cadran squelette (mouvement apparent) ou motif tapisserie en 8 teintes — nos vraies pièces.",
-      handsNote: "Les aiguilles suivent toujours la couleur du boîtier — pas de choix indépendant sur ce style.",
-      braceletNote: "Cuir (boucle assortie au boîtier) ou métal intégré (couleur assortie au boîtier) — jamais de combinaison croisée.",
+      dialNote: "Squelette, chiffres arabes ou index bâtons — motif tapisserie, certaines teintes en dégradé.",
+      handsNote: "Trois finitions indépendantes du boîtier : argent/blanc, noir, or rose.",
+      braceletNote: "Cuir (boucle assortie au boîtier), métal intégré (couleur assortie, aucun choix) ou caoutchouc sport (boucle toujours acier).",
       caseNote: "Boîtier octogonal à vis apparentes, 4 finitions réelles."
     },
     abysse: {
@@ -676,16 +685,18 @@
   function braceletMarkup() {
     const b = state.bracelet;
     const isLeather = b.indexOf('cuir') === 0;
-    const color = isLeather ? (LEATHER_HEX[b] || '#161616') : 'url(#caseGrad)';
+    const isRubber = b.indexOf('caoutchouc') === 0;
+    const isStrap = isLeather || isRubber;
+    const color = isLeather ? (LEATHER_HEX[b] || '#161616') : isRubber ? (RUBBER_HEX[b] || '#1c1c1c') : 'url(#caseGrad)';
     const lugTop = state.model === 'aviateur' ? 60 : 40;
     const lugBottom = 300 - lugTop;
     let links = '';
-    if (!isLeather && b === 'jubile') {
+    if (!isStrap && b === 'jubile') {
       for (let i = 0; i < 3; i++) {
         links += `<rect x="${118 + i * 22}" y="${lugTop - 30}" width="14" height="26" rx="3" fill="${color}" stroke="#00000033"/>`;
         links += `<rect x="${118 + i * 22}" y="${lugBottom + 4}" width="14" height="26" rx="3" fill="${color}" stroke="#00000033"/>`;
       }
-    } else if (!isLeather) {
+    } else if (!isStrap) {
       // "acier" (Aviateur, façon maillons) ou "integre"/"metal" (Marina, Octant — liens larges intégrés)
       links += `<rect x="105" y="${lugTop - 34}" width="90" height="30" rx="4" fill="${color}" stroke="#00000033"/>`;
       links += `<rect x="105" y="${lugBottom + 4}" width="90" height="30" rx="4" fill="${color}" stroke="#00000033"/>`;
@@ -697,8 +708,8 @@
       links += `<line x1="150" y1="${lugTop - 40}" x2="150" y2="${lugTop - 4}" stroke="#ffffff22"/>`;
       links += `<line x1="150" y1="${lugBottom + 4}" x2="150" y2="${lugBottom + 40}" stroke="#ffffff22"/>`;
       if (state.model === 'octant') {
-        // Boucle toujours assortie au boîtier, jamais à la couleur du cuir.
-        const buckleColor = CASE_METAL_HEX[state.caseMetal].base;
+        // Boucle cuir assortie au boîtier ; boucle caoutchouc toujours acier.
+        const buckleColor = isRubber ? CASE_METAL_HEX.acier.base : CASE_METAL_HEX[state.caseMetal].base;
         links += `<rect x="130" y="${lugBottom + 40}" width="40" height="18" rx="3" fill="${buckleColor}" stroke="#00000033"/>`;
       }
     }
@@ -999,6 +1010,7 @@
       braceletGroup.style.display = '';
       braceletGroup.innerHTML = Object.keys(m.bracelets).map(key => {
         if (key.indexOf('cuir') === 0) return dotSwatch(key, m.bracelets[key], LEATHER_HEX[key] || '#161616', 'bracelet');
+        if (key.indexOf('caoutchouc') === 0) return dotSwatch(key, m.bracelets[key], RUBBER_HEX[key] || '#1c1c1c', 'bracelet');
         return iconSwatch(key, m.bracelets[key], BRACELET_ICONS[key] || '▥', 'bracelet');
       }).join('');
     }
