@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
   :root {
     --bg: #FAFAFA;
@@ -87,122 +86,196 @@
 
   /* ---------- Page head ---------- */
 
-  .page-head { padding: 56px 0 36px; border-bottom: 1px solid var(--line); }
+  .page-head { padding: 36px 0 22px; border-bottom: 1px solid var(--line); }
 
   .eyebrow {
     font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent);
-    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px;
     display: flex; align-items: center; gap: 10px;
   }
   .eyebrow::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
 
   .page-head h1 {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(1.9rem, 4vw, 2.6rem);
-    letter-spacing: -0.02em; margin-bottom: 14px; max-width: 640px;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+    letter-spacing: -0.02em; margin-bottom: 12px; max-width: 640px; color: var(--muted);
   }
-
-  .page-head p { color: var(--muted); max-width: 560px; font-size: 1rem; }
 
   .asset-note {
-    margin-top: 20px; padding: 14px 18px; background: var(--bg-panel);
+    margin-top: 6px; padding: 12px 16px; background: var(--bg-panel);
     border: 1px solid var(--line); border-left: 3px solid var(--accent-dim);
-    border-radius: 4px; font-size: 0.85rem; color: var(--muted); max-width: 640px;
+    border-radius: 4px; font-size: 0.82rem; color: var(--muted); max-width: 640px;
   }
 
-  /* ---------- Configurator layout ---------- */
+  /* ---------- Stage ---------- */
 
-  .configurator { padding: 48px 0 120px; }
+  .stage { padding: 28px 0 8px; }
+  .stage-wrap { display: flex; flex-direction: column; gap: 22px; }
 
-  .configurator-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.15fr;
-    gap: 56px;
-    align-items: start;
+  .stage-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+
+  .stage-step-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; color: var(--accent);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
   }
 
-  .preview-col { position: sticky; top: 96px; }
-
-  .preview-panel {
-    background: var(--bg-panel);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 32px;
+  .stage-model-name {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(2rem, 5vw, 3.4rem);
+    letter-spacing: -0.02em; line-height: 1;
   }
 
-  .preview-svg-wrap { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; }
+  .stage-model-sub { color: var(--muted); font-size: 0.95rem; margin-top: 8px; }
 
-  #watch-svg { width: 100%; height: 100%; max-width: 360px; }
+  .stage-step-note { color: var(--muted); font-size: 0.85rem; max-width: 340px; text-align: right; }
 
-  .preview-summary { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 20px; }
-
-  .summary-row {
-    display: flex; justify-content: space-between; padding: 8px 0;
-    font-size: 0.86rem; border-bottom: 1px solid var(--line);
-  }
-  .summary-row:last-child { border-bottom: none; }
-  .summary-row .label { color: var(--muted); }
-  .summary-row .value { font-family: 'JetBrains Mono', monospace; color: var(--text); text-align: right; }
-
-  .preview-note {
-    margin-top: 18px; font-size: 0.78rem; color: var(--muted); text-align: center;
-    padding: 10px; border: 1px dashed var(--line); border-radius: 4px;
+  .stage-main {
+    display: grid; grid-template-columns: 200px 1fr 200px; align-items: center; gap: 8px;
+    min-height: 400px;
   }
 
-  /* ---------- Option sections ---------- */
-
-  .options-col { display: flex; flex-direction: column; gap: 90px; }
-
-  .config-section {
-    opacity: 0;
-    transform: translateY(24px);
+  .stage-watch-wrap {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 1; max-width: 420px; margin: 0 auto; width: 100%;
   }
 
-  .section-num {
-    font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.8rem;
-    margin-bottom: 10px;
+  .stage-light {
+    position: absolute; inset: -12%; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle at 38% 32%, rgba(224,38,62,0.10), rgba(224,38,62,0.02) 45%, transparent 70%);
+    filter: blur(6px);
   }
 
-  .config-section h2 {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 1.5rem; margin-bottom: 8px;
+  .stage-watch-tilt { position: relative; width: 100%; height: 100%; perspective: 900px; }
+
+  #watch-svg {
+    width: 100%; height: 100%;
+    transform: rotateX(8deg) rotateY(-16deg);
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 26px 34px rgba(21,23,26,0.16));
   }
 
-  .config-section > p { color: var(--muted); font-size: 0.92rem; margin-bottom: 24px; max-width: 440px; }
-
-  .swatch-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-    gap: 12px;
-  }
+  .stage-thumbs { display: flex; flex-direction: column; gap: 10px; min-height: 40px; }
+  .stage-thumbs:first-of-type { align-items: flex-end; }
 
   .swatch {
     background: var(--bg-panel);
     border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 14px 10px;
+    border-radius: 10px;
+    padding: 8px 12px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
     font-family: 'Inter', sans-serif;
     color: var(--text);
-    font-size: 0.78rem;
-    text-align: center;
+    font-size: 0.76rem;
+    width: 168px;
+    line-height: 1.25;
   }
 
-  .swatch:hover { border-color: var(--accent-dim); }
-  .swatch.active { border-color: var(--accent); background: var(--bg-panel-2); }
+  .stage-thumbs:first-of-type .swatch:hover { transform: translateX(-3px); border-color: var(--accent-dim); }
+  .stage-thumbs:last-of-type .swatch:hover { transform: translateX(3px); border-color: var(--accent-dim); }
+  .swatch.active { border-color: var(--accent); background: var(--bg-panel-2); box-shadow: 0 0 0 1px var(--accent) inset; }
 
   .swatch-dot {
-    width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.15); flex-shrink: 0;
   }
 
   .swatch-icon {
-    width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
-    font-family: 'Space Grotesk', sans-serif; font-size: 1rem; color: var(--accent);
+    width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; color: var(--accent); flex-shrink: 0;
   }
+
+  .stage-tabs {
+    display: flex; justify-content: center; gap: 26px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--line); padding-bottom: 14px;
+  }
+  .tab {
+    font-size: 0.85rem; color: var(--muted); cursor: pointer; padding: 4px 2px;
+    border-bottom: 2px solid transparent; transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-color: var(--accent); }
+
+  .stage-textlist { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; }
+  .text-opt { font-size: 0.85rem; color: var(--muted); cursor: pointer; transition: color 0.2s ease; }
+  .text-opt:hover { color: var(--text); }
+  .text-opt.active { color: var(--accent); font-weight: 600; }
+
+  .stage-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+
+  .pill-btn {
+    border: 1px solid var(--line); background: var(--bg-panel); color: var(--text);
+    font-size: 0.85rem; padding: 10px 22px; border-radius: 999px; cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+    font-family: 'Inter', sans-serif;
+  }
+  .pill-btn:hover:not(:disabled) { border-color: var(--accent-dim); }
+  .pill-btn:disabled { opacity: 0.35; cursor: default; }
+  .pill-btn-accent { background: var(--text); color: #FFFFFF; border-color: var(--text); }
+  .pill-btn-accent:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); }
+
+  .stage-dots { display: flex; gap: 8px; }
+  .stage-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--line); cursor: pointer;
+    transition: background 0.2s ease, width 0.2s ease, border-radius 0.2s ease;
+  }
+  .stage-dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
+
+  .stage-disclaimer { text-align: center; font-size: 0.76rem; color: var(--muted); padding: 4px 0 8px; }
+
+  /* ---------- Summary bar ---------- */
+
+  .summary-bar {
+    position: sticky; bottom: 0; z-index: 20;
+    background: rgba(250, 250, 250, 0.92); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line); margin-top: 16px;
+  }
+  .summary-bar-inner { display: flex; align-items: center; justify-content: space-between; height: 54px; font-size: 0.86rem; }
+  .summary-model { font-weight: 600; }
+  .summary-sep { color: var(--line); margin: 0 10px; }
+  .summary-variant { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+  .story-trigger {
+    border: none; background: none; color: var(--accent); font-size: 0.82rem;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+  }
+  .story-trigger:hover { text-decoration: underline; }
+
+  /* ---------- Storytelling panel ---------- */
+
+  .story-backdrop {
+    position: fixed; inset: 0; background: rgba(21,23,26,0.4); opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease; z-index: 40;
+  }
+  .story-backdrop.open { opacity: 1; pointer-events: auto; }
+
+  .story-panel {
+    position: fixed; top: 0; right: 0; height: 100%; width: min(480px, 92vw);
+    background: var(--bg-panel); z-index: 41; transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.16,1,.3,1);
+    display: flex; flex-direction: column; box-shadow: -20px 0 40px rgba(21,23,26,0.12);
+  }
+  .story-panel.open { transform: translateX(0); }
+
+  .story-close {
+    position: absolute; top: 18px; right: 18px; background: none; border: none;
+    font-size: 1.1rem; color: var(--muted); cursor: pointer; z-index: 1;
+  }
+  .story-close:hover { color: var(--text); }
+
+  .story-media {
+    height: 40%; display: flex; align-items: center; justify-content: center; background: var(--bg-panel-2);
+    flex-shrink: 0;
+  }
+  .story-media svg { width: 62%; height: 62%; }
+
+  .story-copy { padding: 26px 30px; overflow-y: auto; }
+  .story-eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .story-copy h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.3rem; margin-bottom: 14px; }
+  .story-copy p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
 
   /* ---------- Footer ---------- */
 
@@ -213,11 +286,15 @@
 
   @media (max-width: 900px) {
     nav { display: none; }
-    .configurator-grid { grid-template-columns: 1fr; gap: 32px; }
-    .preview-col { position: sticky; top: 72px; z-index: 5; }
-    .preview-panel { padding: 20px; }
-    #watch-svg { max-width: 220px; }
-    .options-col { gap: 64px; }
+    .stage-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .stage-step-note { text-align: left; }
+    .stage-main { display: flex; flex-direction: column; gap: 16px; }
+    .stage-watch-wrap { max-width: 240px; order: 1; }
+    .stage-thumbs { flex-direction: row; overflow-x: auto; padding-bottom: 4px; width: 100%; }
+    .stage-thumbs:first-of-type { order: 2; justify-content: flex-start; }
+    .stage-thumbs:last-of-type { order: 3; justify-content: flex-start; }
+    .swatch { width: auto; flex-shrink: 0; }
+    .story-panel { width: 100vw; }
   }
 </style>
 </head>
@@ -241,90 +318,71 @@
 <section class="page-head">
   <div class="wrap">
     <div class="eyebrow">Configurateur — bêta</div>
-    <h1>Compose ta montre, pièce par pièce.</h1>
-    <p>Fais défiler pour choisir le boîtier, le cadran, les aiguilles, le bracelet et la couleur du boîtier. Les options changent selon le modèle choisi — seules les combinaisons réelles sont proposées.</p>
+    <h1>Compose ta montre, pièce par pièce — les options changent selon le modèle choisi, seules les combinaisons réelles sont proposées.</h1>
     <div class="asset-note">
       Illustration schématique dessinée d'après nos vraies pièces (formes et couleurs réelles) — pas des photos. Les photos définitives de chaque pièce arriveront une fois la sélection validée.
     </div>
   </div>
 </section>
 
-<section class="configurator">
-  <div class="wrap configurator-grid">
+<section class="stage" id="stage">
+  <div class="wrap stage-wrap">
 
-    <div class="preview-col">
-      <div class="preview-panel">
-        <div class="preview-svg-wrap">
+    <div class="stage-header">
+      <div>
+        <div class="stage-step-label" id="stage-step-label">Étape 1/5</div>
+        <h2 class="stage-model-name" id="stage-model-name">Meridian</h2>
+        <p class="stage-model-sub" id="stage-model-sub"></p>
+      </div>
+      <p class="stage-step-note" id="stage-step-note"></p>
+    </div>
+
+    <div class="stage-main">
+      <div class="stage-thumbs" id="thumbs-left"></div>
+
+      <div class="stage-watch-wrap">
+        <div class="stage-light" aria-hidden="true"></div>
+        <div class="stage-watch-tilt">
           <svg id="watch-svg" viewBox="0 0 300 300"></svg>
         </div>
-        <div class="preview-summary" id="preview-summary"></div>
-        <div class="preview-note">Configuration visuelle uniquement — le panier et le paiement seront activés après validation du design.</div>
       </div>
+
+      <div class="stage-thumbs" id="thumbs-right"></div>
     </div>
 
-    <div class="options-col">
+    <div class="stage-tabs" id="stage-tabs"></div>
+    <div class="stage-textlist" id="stage-textlist"></div>
 
-      <div class="config-section" data-section="model">
-        <div class="section-num">01 / 05</div>
-        <h2>Base du boîtier</h2>
-        <p>Six styles réels, chacun avec ses propres options ensuite.</p>
-        <div class="swatch-grid" data-group="model" id="group-model">
-          <div class="swatch" data-value="meridian"><div class="swatch-icon">◯</div>Meridian — rond</div>
-          <div class="swatch" data-value="aviateur"><div class="swatch-icon">▢</div>Aviateur — carré</div>
-          <div class="swatch" data-value="marina"><div class="swatch-icon">⯃</div>Marina — octogonal</div>
-          <div class="swatch" data-value="globetrotter"><div class="swatch-icon">◐</div>Globetrotter — GMT</div>
-          <div class="swatch" data-value="octant"><div class="swatch-icon">◈</div>Octant — vis apparentes</div>
-          <div class="swatch" data-value="abysse"><div class="swatch-icon">◉</div>Abysse — plongée</div>
-        </div>
-      </div>
-
-      <div class="config-section" data-section="dial">
-        <div class="section-num">02 / 05</div>
-        <h2>Couleur du cadran</h2>
-        <div id="dial-family-block" style="display:none;">
-          <p>Famille de cadran</p>
-          <div class="swatch-grid" data-group="dialFamily" id="group-dialFamily"></div>
-        </div>
-        <p style="margin-top:22px;" id="dial-note">Teintes disponibles pour ce modèle.</p>
-        <div class="swatch-grid" data-group="dial" id="group-dial"></div>
-        <div id="numerals-block">
-          <p style="margin-top:22px;" id="numerals-label">Style d'index</p>
-          <div class="swatch-grid" data-group="numerals" id="group-numerals"></div>
-        </div>
-      </div>
-
-      <div class="config-section" data-section="hands">
-        <div class="section-num">03 / 05</div>
-        <h2>Aiguilles</h2>
-        <p id="hands-note">Finition des aiguilles pour ce modèle.</p>
-        <div class="swatch-grid" data-group="handFinish" id="group-handFinish"></div>
-        <div id="accent-block" style="display:none;">
-          <p style="margin-top:22px;" id="accent-label">Couleur de la trotteuse</p>
-          <div class="swatch-grid" data-group="accent" id="group-accent"></div>
-        </div>
-      </div>
-
-      <div class="config-section" data-section="bracelet">
-        <div class="section-num">04 / 05</div>
-        <h2>Bracelet</h2>
-        <p id="bracelet-note">Options réellement disponibles pour ce modèle.</p>
-        <div class="swatch-grid" data-group="bracelet" id="group-bracelet"></div>
-      </div>
-
-      <div class="config-section" data-section="case">
-        <div class="section-num">05 / 05</div>
-        <h2>Couleur du boîtier</h2>
-        <p id="case-note">Le métal du boîtier (et de la lunette).</p>
-        <div class="swatch-grid" data-group="caseMetal" id="group-caseMetal"></div>
-        <div id="caseback-block" style="display:none;">
-          <p style="margin-top:22px;">Fond du boîtier</p>
-          <div class="swatch-grid" data-group="caseBack" id="group-caseBack"></div>
-        </div>
-      </div>
-
+    <div class="stage-controls">
+      <button class="pill-btn" id="btn-prev" type="button">‹ Précédent</button>
+      <div class="stage-dots" id="stage-dots"></div>
+      <button class="pill-btn pill-btn-accent" id="btn-next" type="button">Suivant ›</button>
     </div>
+    <p class="stage-disclaimer">Configuration visuelle uniquement — le panier et le paiement seront activés après validation du design.</p>
   </div>
 </section>
+
+<div class="summary-bar" id="summary-bar">
+  <div class="wrap summary-bar-inner">
+    <div>
+      <span class="summary-model" id="summary-model"></span>
+      <span class="summary-sep">·</span>
+      <span class="summary-variant" id="summary-variant"></span>
+    </div>
+    <button class="story-trigger" id="story-trigger" type="button" style="display:none;">ⓘ Découvrir ce détail</button>
+  </div>
+</div>
+
+<div class="story-backdrop" id="story-backdrop"></div>
+<div class="story-panel" id="story-panel">
+  <button class="story-close" id="story-close" type="button" aria-label="Fermer">✕</button>
+  <div class="story-media" id="story-media"></div>
+  <div class="story-copy">
+    <div class="story-eyebrow" id="story-eyebrow"></div>
+    <h3 id="story-title"></h3>
+    <p id="story-text"></p>
+  </div>
+</div>
 
 <footer>
   <div class="wrap">
@@ -931,53 +989,13 @@
     svg.innerHTML = `${defs}${bracelet}${caseShape}${dialShape}${texture}${marks}${crown}${hands}`;
   }
 
-  function updateSummary() {
-    const m = MODELS[state.model];
-    const dialDict = currentDialDict(m);
-    const handDict = currentHandDict(m);
-    const numeralLabel = m.dialFamilies ? NUMERAL_STYLE_LABELS[state.numerals] : m.numerals[state.numerals];
-    const rows = [
-      ['Modèle', m.label],
-      ['Cadran', (m.dialFamilies ? m.dialFamilies[state.dialFamily].label + ' — ' : '') + dialDict[state.dial]],
-      ['Index', numeralLabel],
-      ['Aiguilles', handDict[state.handFinish] + (m.accents[state.accent] ? (m.gmt ? ' · GMT ' : ' · trotteuse ') + m.accents[state.accent].toLowerCase() : '')],
-      ['Bracelet', m.bracelets[state.bracelet]],
-      ['Boîtier', m.caseMetals[state.caseMetal]]
-    ];
-    if (m.caseBacks) rows.push(['Fond', m.caseBacks[state.caseBack]]);
-    document.getElementById('preview-summary').innerHTML = rows.map(r =>
-      `<div class="summary-row"><span class="label">${r[0]}</span><span class="value">${r[1]}</span></div>`
-    ).join('');
+  // ============================================================
+  // Stage — présentation façon "showroom" : titre + montre inclinée
+  // au centre, vignettes flottantes symétriques, onglets/liste texte
+  // pour les options simples, bandeau récap permanent en bas.
+  // ============================================================
 
-    if (m.handsAuto) {
-      document.getElementById('hands-note').textContent = m.handsNote + ' Actuellement : ' + m.caseMetals[state.caseMetal].toLowerCase() + '.';
-    }
-    if (m.accentFromCase) {
-      const accentLabelBase = m.gmt ? "Couleur de l'aiguille GMT" : 'Couleur de la trotteuse';
-      document.getElementById('accent-label').textContent =
-        accentLabelBase + ' — assortie automatiquement à la lunette. Actuellement : ' + m.accents[state.accent].toLowerCase() + '.';
-    }
-    if (m.braceletFromCase) {
-      document.getElementById('bracelet-note').textContent =
-        m.braceletNote + ' Actuellement : ' + m.bracelets[state.bracelet].toLowerCase() + '.';
-    }
-  }
-
-  function refresh() {
-    renderWatch();
-    updateSummary();
-  }
-
-  function dotSwatch(key, label, hexOrGradient, group) {
-    const active = state[group] === key ? ' active' : '';
-    return `<div class="swatch${active}" data-value="${key}"><div class="swatch-dot" style="background:${hexOrGradient};"></div>${label}</div>`;
-  }
-
-  function iconSwatch(key, label, icon, group) {
-    const active = state[group] === key ? ' active' : '';
-    return `<div class="swatch${active}" data-value="${key}"><div class="swatch-icon">${icon}</div>${label}</div>`;
-  }
-
+  const MODEL_ICONS = { meridian: '◯', aviateur: '▢', marina: '⯃', globetrotter: '◐', octant: '◈', abysse: '◉' };
   const NUMERAL_ICONS = { batons: '❙❙', romains: 'XII', arabes: '١٢' };
   const BRACELET_ICONS = { jubile: '▥', acier: '▤', integre: '▧', metal: '▧', oyster: '▤' };
   const CASE_METAL_GRAD = {
@@ -997,184 +1015,305 @@
     bicolor: 'linear-gradient(135deg,#e8d4c8,#8b7a72)'
   };
 
-  function renderOptions() {
+  const STEPS = [
+    { key: 'model', label: 'Base du boîtier' },
+    { key: 'dial', label: 'Cadran' },
+    { key: 'hands', label: 'Aiguilles' },
+    { key: 'bracelet', label: 'Bracelet' },
+    { key: 'case', label: 'Boîtier' }
+  ];
+  let stepIndex = 0;
+
+  function dotSwatch(key, label, hexOrGradient, group) {
+    const active = state[group] === key ? ' active' : '';
+    return `<div class="swatch${active}" data-value="${key}" data-group="${group}"><div class="swatch-dot" style="background:${hexOrGradient};"></div><span>${label}</span></div>`;
+  }
+
+  function iconSwatch(key, label, icon, group) {
+    const active = state[group] === key ? ' active' : '';
+    return `<div class="swatch${active}" data-value="${key}" data-group="${group}"><div class="swatch-icon">${icon}</div><span>${label}</span></div>`;
+  }
+
+  function tabItem(key, label, group) {
+    const active = state[group] === key ? ' active' : '';
+    return `<div class="tab${active}" data-value="${key}" data-group="${group}">${label}</div>`;
+  }
+
+  function textOpt(key, label, group) {
+    const active = state[group] === key ? ' active' : '';
+    return `<div class="text-opt${active}" data-value="${key}" data-group="${group}">${label}</div>`;
+  }
+
+  function splitThumbs(htmlArr) {
+    const left = [], right = [];
+    htmlArr.forEach((html, i) => (i % 2 === 0 ? left : right).push(html));
+    return { left, right };
+  }
+
+  function setThumbs(htmlArr) {
+    const { left, right } = splitThumbs(htmlArr);
+    document.getElementById('thumbs-left').innerHTML = left.join('');
+    document.getElementById('thumbs-right').innerHTML = right.join('');
+  }
+
+  function clearStageExtras() {
+    const tabsEl = document.getElementById('stage-tabs');
+    const listEl = document.getElementById('stage-textlist');
+    tabsEl.innerHTML = '';
+    tabsEl.style.display = 'none';
+    listEl.innerHTML = '';
+    listEl.style.display = 'none';
+  }
+
+  function renderStage() {
     const m = MODELS[state.model];
+    const step = STEPS[stepIndex];
 
-    document.getElementById('dial-note').textContent = m.dialNote;
-    document.getElementById('hands-note').textContent = m.handsNote;
-    document.getElementById('bracelet-note').textContent = m.braceletNote;
-    document.getElementById('case-note').textContent = m.caseNote;
+    document.getElementById('stage-step-label').textContent = `Étape ${stepIndex + 1}/${STEPS.length}`;
+    const nameParts = m.label.split(' — ');
+    document.getElementById('stage-model-name').textContent = nameParts[0];
+    document.getElementById('stage-model-sub').textContent = nameParts[1] || '';
 
-    const familyBlock = document.getElementById('dial-family-block');
-    const numeralsBlock = document.getElementById('numerals-block');
-    if (m.dialFamilies) {
-      familyBlock.style.display = 'block';
-      numeralsBlock.style.display = 'none';
-      document.getElementById('group-dialFamily').innerHTML = Object.keys(m.dialFamilies).map(key =>
-        iconSwatch(key, m.dialFamilies[key].label, '◆', 'dialFamily')
-      ).join('');
-    } else {
-      familyBlock.style.display = 'none';
-      numeralsBlock.style.display = 'block';
-    }
+    const noteMap = { model: 'Six styles réels, chacun avec ses propres options ensuite.', dial: m.dialNote, hands: m.handsNote, bracelet: m.braceletNote, case: m.caseNote };
+    document.getElementById('stage-step-note').textContent = noteMap[step.key] || '';
 
-    const dialDict = currentDialDict(m);
-    document.getElementById('group-dial').innerHTML = Object.keys(dialDict).map(key =>
-      dotSwatch(key, dialDict[key], DIAL_HEX[key].base, 'dial')
-    ).join('');
+    clearStageExtras();
 
-    if (!m.dialFamilies) {
-      document.getElementById('group-numerals').innerHTML = Object.keys(m.numerals).map(key =>
-        iconSwatch(key, m.numerals[key], NUMERAL_ICONS[key], 'numerals')
-      ).join('');
-    }
-
-    const handsGroup = document.getElementById('group-handFinish');
-    if (m.handsAuto) {
-      handsGroup.style.display = 'none';
-      document.getElementById('hands-note').textContent = m.handsNote + ' Actuellement : ' + m.caseMetals[state.caseMetal].toLowerCase() + '.';
-    } else {
-      handsGroup.style.display = '';
-      const handDict = currentHandDict(m);
-      handsGroup.innerHTML = Object.keys(handDict).map(key =>
-        dotSwatch(key, handDict[key], HAND_FINISH_HEX[key], 'handFinish')
-      ).join('');
-    }
-
-    const accentBlock = document.getElementById('accent-block');
-    const accentGroup = document.getElementById('group-accent');
-    const hasAccents = Object.keys(m.accents).length > 0;
-    accentBlock.style.display = hasAccents ? 'block' : 'none';
-    const accentLabelBase = m.gmt ? "Couleur de l'aiguille GMT" : 'Couleur de la trotteuse';
-    if (m.accentFromCase) {
-      accentGroup.style.display = 'none';
-      document.getElementById('accent-label').textContent =
-        accentLabelBase + ' — assortie automatiquement à la lunette. Actuellement : ' + m.accents[state.accent].toLowerCase() + '.';
-    } else {
-      accentGroup.style.display = '';
-      document.getElementById('accent-label').textContent = accentLabelBase;
+    if (step.key === 'model') {
+      setThumbs(Object.keys(MODELS).map(key => iconSwatch(key, MODELS[key].label, MODEL_ICONS[key], 'model')));
+    } else if (step.key === 'dial') {
+      if (m.dialFamilies) {
+        const tabsEl = document.getElementById('stage-tabs');
+        tabsEl.style.display = 'flex';
+        tabsEl.innerHTML = Object.keys(m.dialFamilies).map(key => tabItem(key, m.dialFamilies[key].label, 'dialFamily')).join('');
+      }
+      const dialDict = currentDialDict(m);
+      setThumbs(Object.keys(dialDict).map(key => dotSwatch(key, dialDict[key], DIAL_HEX[key].base, 'dial')));
+      if (!m.dialFamilies) {
+        const listEl = document.getElementById('stage-textlist');
+        listEl.style.display = 'flex';
+        listEl.innerHTML = Object.keys(m.numerals).map(key => textOpt(key, m.numerals[key], 'numerals')).join('');
+      }
+    } else if (step.key === 'hands') {
+      if (m.handsAuto) {
+        setThumbs([]);
+        document.getElementById('stage-step-note').textContent = m.handsNote + ' Actuellement : ' + m.caseMetals[state.caseMetal].toLowerCase() + '.';
+      } else {
+        const handDict = currentHandDict(m);
+        setThumbs(Object.keys(handDict).map(key => dotSwatch(key, handDict[key], HAND_FINISH_HEX[key], 'handFinish')));
+      }
+      const hasAccents = Object.keys(m.accents).length > 0;
       if (hasAccents) {
-        accentGroup.innerHTML = Object.keys(m.accents).map(key =>
-          dotSwatch(key, m.accents[key], ACCENT_HEX[key], 'accent')
-        ).join('');
+        const listEl = document.getElementById('stage-textlist');
+        listEl.style.display = 'flex';
+        if (m.accentFromCase) {
+          const accentLabel = m.gmt ? 'Aiguille GMT' : 'Trotteuse';
+          listEl.innerHTML = `<div class="text-opt active" style="cursor:default;">${accentLabel} assortie automatiquement à la lunette — actuellement ${m.accents[state.accent].toLowerCase()}</div>`;
+        } else {
+          listEl.innerHTML = Object.keys(m.accents).map(key => textOpt(key, m.accents[key], 'accent')).join('');
+        }
+      }
+    } else if (step.key === 'bracelet') {
+      if (m.braceletFromCase) {
+        setThumbs([]);
+        document.getElementById('stage-step-note').textContent = m.braceletNote + ' Actuellement : ' + m.bracelets[state.bracelet].toLowerCase() + '.';
+      } else {
+        setThumbs(Object.keys(m.bracelets).map(key => {
+          if (key.indexOf('cuir') === 0) return dotSwatch(key, m.bracelets[key], LEATHER_HEX[key] || '#161616', 'bracelet');
+          if (key.indexOf('caoutchouc') === 0) return dotSwatch(key, m.bracelets[key], RUBBER_HEX[key] || '#1c1c1c', 'bracelet');
+          return iconSwatch(key, m.bracelets[key], BRACELET_ICONS[key] || '▥', 'bracelet');
+        }));
+      }
+    } else if (step.key === 'case') {
+      setThumbs(Object.keys(m.caseMetals).map(key => dotSwatch(key, m.caseMetals[key], CASE_METAL_GRAD[key], 'caseMetal')));
+      if (m.caseBacks) {
+        const listEl = document.getElementById('stage-textlist');
+        listEl.style.display = 'flex';
+        listEl.innerHTML = Object.keys(m.caseBacks).map(key => textOpt(key, m.caseBacks[key], 'caseBack')).join('');
       }
     }
 
-    const braceletGroup = document.getElementById('group-bracelet');
-    if (m.braceletFromCase) {
-      braceletGroup.style.display = 'none';
-      document.getElementById('bracelet-note').textContent =
-        m.braceletNote + ' Actuellement : ' + m.bracelets[state.bracelet].toLowerCase() + '.';
+    const prevBtn = document.getElementById('btn-prev');
+    prevBtn.textContent = stepIndex > 0 ? ('‹ ' + STEPS[stepIndex - 1].label) : '‹ Précédent';
+    prevBtn.disabled = stepIndex === 0;
+
+    const nextBtn = document.getElementById('btn-next');
+    if (stepIndex < STEPS.length - 1) {
+      nextBtn.textContent = STEPS[stepIndex + 1].label + ' ›';
+      nextBtn.disabled = false;
     } else {
-      braceletGroup.style.display = '';
-      braceletGroup.innerHTML = Object.keys(m.bracelets).map(key => {
-        if (key.indexOf('cuir') === 0) return dotSwatch(key, m.bracelets[key], LEATHER_HEX[key] || '#161616', 'bracelet');
-        if (key.indexOf('caoutchouc') === 0) return dotSwatch(key, m.bracelets[key], RUBBER_HEX[key] || '#1c1c1c', 'bracelet');
-        return iconSwatch(key, m.bracelets[key], BRACELET_ICONS[key] || '▥', 'bracelet');
-      }).join('');
+      nextBtn.textContent = 'Terminé ✓';
+      nextBtn.disabled = true;
     }
 
-    document.getElementById('group-caseMetal').innerHTML = Object.keys(m.caseMetals).map(key =>
-      dotSwatch(key, m.caseMetals[key], CASE_METAL_GRAD[key], 'caseMetal')
-    ).join('');
+    renderDots();
+    attachStageHandlers();
 
-    const casebackBlock = document.getElementById('caseback-block');
-    if (m.caseBacks) {
-      casebackBlock.style.display = 'block';
-      document.getElementById('group-caseBack').innerHTML = Object.keys(m.caseBacks).map(key =>
-        iconSwatch(key, m.caseBacks[key], key === 'transparent' ? '◎' : '●', 'caseBack')
-      ).join('');
-    } else {
-      casebackBlock.style.display = 'none';
+    if (window.gsap) {
+      gsap.from('#thumbs-left .swatch, #thumbs-right .swatch, #stage-tabs .tab, #stage-textlist .text-opt', {
+        opacity: 0, y: 6, duration: 0.3, stagger: 0.03, ease: 'power1.out'
+      });
     }
-
-    attachSwatchHandlers();
   }
 
-  function attachSwatchHandlers() {
-    document.querySelectorAll('.options-col .swatch-grid').forEach(group => {
-      const key = group.dataset.group;
-      group.querySelectorAll('.swatch').forEach(swatch => {
-        swatch.addEventListener('click', () => {
-          state[key] = swatch.dataset.value;
-          const m = MODELS[state.model];
-          if (key === 'caseMetal' && m.handsAuto) {
-            state.handFinish = swatch.dataset.value;
-          }
-          if (key === 'caseMetal' && m.accentFromCase) {
-            state.accent = m.accentFromCase[swatch.dataset.value];
-          }
-          if (key === 'caseMetal' && m.braceletFromCase) {
-            state.bracelet = m.braceletFromCase[swatch.dataset.value];
-          }
-          if (key === 'caseMetal' && m.handDefaultFromCase) {
-            state.handFinish = m.handDefaultFromCase[swatch.dataset.value];
-          }
+  function renderDots() {
+    document.getElementById('stage-dots').innerHTML = STEPS.map((s, i) =>
+      `<div class="stage-dot${i === stepIndex ? ' active' : ''}" data-idx="${i}"></div>`
+    ).join('');
+    document.querySelectorAll('.stage-dot').forEach(d => {
+      d.addEventListener('click', () => { stepIndex = parseInt(d.dataset.idx, 10); renderStage(); });
+    });
+  }
 
-          if (key === 'dialFamily') {
-            const fam = m.dialFamilies[swatch.dataset.value];
-            state.dial = firstKey(fam.dials);
-            state.numerals = fam.numeralStyle;
-            const handOptions = fam.forcesHandOptions || m.handFinishes;
-            state.handFinish = firstKey(handOptions);
-            renderOptions();
-          } else if (key === 'caseMetal' && m.handDefaultFromCase) {
-            // Le choix du boîtier redéfinit la couleur d'aiguille par défaut —
-            // il faut regénérer le groupe aiguilles pour refléter le nouvel actif.
-            renderOptions();
-          } else {
-            group.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
-            swatch.classList.add('active');
-          }
+  function attachStageHandlers() {
+    document.querySelectorAll('#thumbs-left .swatch, #thumbs-right .swatch, #stage-tabs .tab, #stage-textlist .text-opt').forEach(el => {
+      if (el.style.cursor === 'default') return;
+      el.addEventListener('click', () => {
+        const key = el.dataset.group;
+        const value = el.dataset.value;
+        const m = MODELS[state.model];
+        state[key] = value;
 
-          refresh();
-          if (window.gsap) {
-            gsap.fromTo('#watch-svg', { scale: 0.96, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.4, ease: 'back.out(2)' });
-          }
-        });
+        if (key === 'model') applyModelDefaults();
+
+        if (key === 'caseMetal' && m.handsAuto) state.handFinish = value;
+        if (key === 'caseMetal' && m.accentFromCase) state.accent = m.accentFromCase[value];
+        if (key === 'caseMetal' && m.braceletFromCase) state.bracelet = m.braceletFromCase[value];
+        if (key === 'caseMetal' && m.handDefaultFromCase) state.handFinish = m.handDefaultFromCase[value];
+
+        if (key === 'dialFamily') {
+          const fam = m.dialFamilies[value];
+          state.dial = firstKey(fam.dials);
+          state.numerals = fam.numeralStyle;
+          const handOptions = fam.forcesHandOptions || m.handFinishes;
+          state.handFinish = firstKey(handOptions);
+        }
+
+        renderStage();
+        refresh();
       });
     });
   }
 
-  document.getElementById('group-model').querySelectorAll('.swatch').forEach(swatch => {
-    swatch.addEventListener('click', () => {
-      state.model = swatch.dataset.value;
-      document.getElementById('group-model').querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
-      swatch.classList.add('active');
-      applyModelDefaults();
-      renderOptions();
-      refresh();
-      if (window.gsap) {
-        gsap.fromTo('#watch-svg', { scale: 0.92, opacity: 0.4, transformOrigin: '50% 50%' }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.7)' });
-      }
-    });
-  });
-  document.querySelector(`#group-model .swatch[data-value="${state.model}"]`).classList.add('active');
+  function updateSummary() {
+    const m = MODELS[state.model];
+    const dialDict = currentDialDict(m);
+    document.getElementById('summary-model').textContent = m.label.split(' — ')[0];
+    const variantBits = [
+      (m.dialFamilies ? m.dialFamilies[state.dialFamily].label + ' ' : '') + dialDict[state.dial],
+      m.caseMetals[state.caseMetal],
+      m.bracelets[state.bracelet]
+    ];
+    document.getElementById('summary-variant').textContent = variantBits.join(' · ');
+    updateStoryTrigger();
+  }
 
-  applyModelDefaults();
-  renderOptions();
-  refresh();
-
-  // ---------- GSAP scroll-in transitions ----------
-  if (window.gsap && window.ScrollTrigger) {
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.utils.toArray('.config-section').forEach((section, i) => {
-      gsap.to(section, {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 82%',
-          end: 'top 40%',
-          toggleActions: 'play none none reverse'
+  function refresh() {
+    if (window.gsap) {
+      gsap.killTweensOf('#watch-svg');
+      gsap.to('#watch-svg', {
+        opacity: 0, duration: 0.15, ease: 'power1.out',
+        onComplete: () => {
+          renderWatch();
+          gsap.fromTo('#watch-svg', { opacity: 0 }, { opacity: 1, duration: 0.28, ease: 'power1.out' });
         }
       });
-    });
-  } else {
-    document.querySelectorAll('.config-section').forEach(s => { s.style.opacity = 1; s.style.transform = 'none'; });
+    } else {
+      renderWatch();
+    }
+    updateSummary();
   }
+
+  // ---------- Storytelling — panneau coulissant, options ancrées dans nos vraies photos de référence ----------
+
+  const STORY_MAP = {
+    'meridian:whocares': {
+      eyebrow: 'Cadran édition texte',
+      title: '« Who cares, I\'m already late »',
+      text: "Cadran laqué avec lettrage peint main en italique, dans l'esprit des pièces d'atelier vues sur nos photos de référence fournisseur. La couleur du texte suit la finition d'aiguille « Éclair » choisie — cinq teintes réellement disponibles.",
+      render: () => `<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="56" fill="${DIAL_HEX[state.dial].base}"/><text x="60" y="54" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-style="italic" font-size="11" fill="${HAND_FINISH_HEX[state.handFinish]}">who cares</text><text x="60" y="68" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-style="italic" font-size="8.5" fill="${HAND_FINISH_HEX[state.handFinish]}">I'm already late</text></svg>`
+    },
+    'marina:whocares': {
+      eyebrow: 'Cadran édition texte',
+      title: '« Who cares, I\'m already late »',
+      text: "Cadran laqué avec lettrage peint main en italique, dans l'esprit des pièces d'atelier vues sur nos photos de référence fournisseur. La couleur du texte suit la finition d'aiguille « Éclair » choisie — cinq teintes réellement disponibles.",
+      render: () => `<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="56" fill="${DIAL_HEX[state.dial].base}"/><text x="60" y="54" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-style="italic" font-size="11" fill="${HAND_FINISH_HEX[state.handFinish]}">who cares</text><text x="60" y="68" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-style="italic" font-size="8.5" fill="${HAND_FINISH_HEX[state.handFinish]}">I'm already late</text></svg>`
+    },
+    'aviateur:texte': {
+      eyebrow: 'Édition texte peinte main',
+      title: 'Messages d\'atelier',
+      text: "Cadran guilloché avec message peint à la main en rouge, dans la veine des pièces d'atelier « FUCK 9-5 », « IT'S OK » ou « TIME IS MONEY ». Disponible uniquement sur la base Aviateur.",
+      render: () => {
+        const messages = { fuck95: ['FUCK', '9-5'], itsok: ['IT\'S', 'OK'], timemoney: ['TIME IS', 'MONEY'] };
+        const lines = messages[state.dial] || ['', ''];
+        return `<svg viewBox="0 0 120 120"><rect x="10" y="10" width="100" height="100" rx="10" fill="${DIAL_HEX[state.dial].base}"/><text x="60" y="56" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-style="italic" font-size="13" fill="#c1272d">${lines[0]}</text><text x="60" y="74" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-style="italic" font-size="13" fill="#c1272d">${lines[1]}</text></svg>`;
+      }
+    },
+    'octant:squelette_bleu': {
+      eyebrow: 'Construction squelette',
+      title: 'Platine ajourée',
+      text: "Platine ajourée qui laisse apparaître une partie du mouvement, ponts et rouages visibles en surimpression. Monté ici sur le boîtier octogonal à vis apparentes — une construction qu'on ne retrouve sur aucune autre de nos bases.",
+      render: () => `<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="56" fill="${DIAL_HEX.squelette_bleu.base}"/><circle cx="52" cy="68" r="26" fill="#00000055" stroke="#00000033" stroke-width="1"/><circle cx="52" cy="68" r="15" fill="none" stroke="#e9edf0" stroke-width="1"/><circle cx="70" cy="50" r="8" fill="none" stroke="#e9edf0" stroke-width="1"/><circle cx="36" cy="52" r="6" fill="none" stroke="#e9edf0" stroke-width="1"/></svg>`
+    }
+  };
+
+  function currentStoryKey() {
+    const familyKey = state.model + ':' + state.dialFamily;
+    if (STORY_MAP[familyKey]) return familyKey;
+    const dialKey = state.model + ':' + state.dial;
+    if (STORY_MAP[dialKey]) return dialKey;
+    return null;
+  }
+
+  function updateStoryTrigger() {
+    const key = currentStoryKey();
+    const btn = document.getElementById('story-trigger');
+    if (key) {
+      btn.style.display = '';
+      btn.onclick = () => openStory(key);
+    } else {
+      btn.style.display = 'none';
+    }
+  }
+
+  function openStory(key) {
+    const story = STORY_MAP[key];
+    if (!story) return;
+    document.getElementById('story-eyebrow').textContent = story.eyebrow;
+    document.getElementById('story-title').textContent = story.title;
+    document.getElementById('story-text').textContent = story.text;
+    document.getElementById('story-media').innerHTML = story.render();
+    document.getElementById('story-panel').classList.add('open');
+    document.getElementById('story-backdrop').classList.add('open');
+  }
+
+  function closeStory() {
+    document.getElementById('story-panel').classList.remove('open');
+    document.getElementById('story-backdrop').classList.remove('open');
+  }
+
+  document.getElementById('story-close').addEventListener('click', closeStory);
+  document.getElementById('story-backdrop').addEventListener('click', closeStory);
+
+  // ---------- Navigation étapes ----------
+
+  document.getElementById('btn-next').addEventListener('click', () => {
+    if (stepIndex < STEPS.length - 1) { stepIndex++; renderStage(); }
+  });
+  document.getElementById('btn-prev').addEventListener('click', () => {
+    if (stepIndex > 0) { stepIndex--; renderStage(); }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' && stepIndex < STEPS.length - 1) { stepIndex++; renderStage(); }
+    if (e.key === 'ArrowLeft' && stepIndex > 0) { stepIndex--; renderStage(); }
+    if (e.key === 'Escape') closeStory();
+  });
+
+  // ---------- Init ----------
+
+  applyModelDefaults();
+  renderStage();
+  refresh();
 
   (function () {
     var badge = document.getElementById('cart-badge');
