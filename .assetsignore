@@ -1,0 +1,10 @@
+_worker.js
+functions/
+wrangler.toml
+package.json
+package-lock.json
+.env.example
+.gitignore
+supabase/
+.agents/
+skills-lock.json
