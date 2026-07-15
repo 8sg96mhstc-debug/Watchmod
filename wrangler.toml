@@ -1,7 +1,0 @@
-# Configuration Cloudflare Pages (remplace netlify.toml).
-# Le dossier "functions/" est détecté automatiquement : chaque fichier y devient
-# une route (ex: functions/api/create-checkout-session.js -> /api/create-checkout-session).
-name = "watchmods-ch"
-pages_build_output_dir = "."
-compatibility_date = "2026-07-15"
-compatibility_flags = ["nodejs_compat"]
