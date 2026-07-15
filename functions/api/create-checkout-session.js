@@ -1,6 +1,4 @@
-const Stripe = require('stripe');
-
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+import Stripe from 'stripe';
 
 // Source de vérité des prix et stocks, côté serveur — ne jamais faire confiance
 // aux prix envoyés par le navigateur. À remplacer par une lecture Supabase
@@ -16,32 +14,31 @@ const PRODUITS = [
   { reference: 'WM-401', nom: 'Globetrotter GMT', prix: 339, stock: 3 }
 ];
 
-exports.handler = async function (event) {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
-  }
+export async function onRequestPost(context) {
+  const { request, env } = context;
+  const stripe = new Stripe(env.STRIPE_SECRET_KEY, { httpClient: Stripe.createFetchHttpClient() });
 
   let payload;
   try {
-    payload = JSON.parse(event.body);
+    payload = await request.json();
   } catch (e) {
-    return { statusCode: 400, body: 'JSON invalide' };
+    return new Response('JSON invalide', { status: 400 });
   }
 
   const items = payload.items;
   if (!Array.isArray(items) || items.length === 0) {
-    return { statusCode: 400, body: 'Panier vide' };
+    return new Response('Panier vide', { status: 400 });
   }
 
   const line_items = [];
   for (const item of items) {
     const produit = PRODUITS.find(p => p.reference === item.reference);
     if (!produit) {
-      return { statusCode: 400, body: `Produit inconnu : ${item.reference}` };
+      return new Response(`Produit inconnu : ${item.reference}`, { status: 400 });
     }
     const quantite = Math.max(1, Math.min(10, parseInt(item.quantite, 10) || 1));
     if (produit.stock < quantite) {
-      return { statusCode: 400, body: `Stock insuffisant pour ${produit.nom}` };
+      return new Response(`Stock insuffisant pour ${produit.nom}`, { status: 400 });
     }
     line_items.push({
       quantity: quantite,
@@ -56,7 +53,7 @@ exports.handler = async function (event) {
     });
   }
 
-  const siteUrl = process.env.URL || `https://${event.headers.host}`;
+  const siteUrl = new URL(request.url).origin;
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -70,12 +67,12 @@ exports.handler = async function (event) {
       cancel_url: `${siteUrl}/panier.html`
     });
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ url: session.url })
-    };
+    return new Response(JSON.stringify({ url: session.url }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
   } catch (err) {
     console.error('Erreur création session Stripe:', err);
-    return { statusCode: 500, body: 'Impossible de créer le paiement pour le moment.' };
+    return new Response('Impossible de créer le paiement pour le moment.', { status: 500 });
   }
-};
+}

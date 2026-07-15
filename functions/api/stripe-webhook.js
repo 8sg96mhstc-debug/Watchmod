@@ -1,22 +1,26 @@
-const Stripe = require('stripe');
-const { createClient } = require('@supabase/supabase-js');
+import Stripe from 'stripe';
+import { createClient } from '@supabase/supabase-js';
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+export async function onRequestPost(context) {
+  const { request, env } = context;
+  const stripe = new Stripe(env.STRIPE_SECRET_KEY, { httpClient: Stripe.createFetchHttpClient() });
+  const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
 
-exports.handler = async function (event) {
-  const signature = event.headers['stripe-signature'];
+  const signature = request.headers.get('stripe-signature');
+  const body = await request.text();
 
   let stripeEvent;
   try {
-    stripeEvent = stripe.webhooks.constructEvent(event.body, signature, process.env.STRIPE_WEBHOOK_SECRET);
+    // constructEventAsync (et non constructEvent) : le runtime Workers de Cloudflare
+    // n'a pas l'API crypto synchrone de Node, la vérification de signature doit être asynchrone.
+    stripeEvent = await stripe.webhooks.constructEventAsync(body, signature, env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
     console.error('Signature webhook invalide:', err.message);
-    return { statusCode: 400, body: `Webhook signature invalide: ${err.message}` };
+    return new Response(`Webhook signature invalide: ${err.message}`, { status: 400 });
   }
 
   if (stripeEvent.type !== 'checkout.session.completed') {
-    return { statusCode: 200, body: 'ignoré (événement non traité)' };
+    return new Response('ignoré (événement non traité)', { status: 200 });
   }
 
   const session = stripeEvent.data.object;
@@ -54,11 +58,11 @@ exports.handler = async function (event) {
   if (error) {
     if (error.code === '23505') {
       // Webhook déjà traité pour cette session (Stripe peut renvoyer l'événement plusieurs fois).
-      return { statusCode: 200, body: 'ok (déjà traité)' };
+      return new Response('ok (déjà traité)', { status: 200 });
     }
     console.error('Erreur insertion commande Supabase:', error);
-    return { statusCode: 500, body: 'Erreur enregistrement commande' };
+    return new Response('Erreur enregistrement commande', { status: 500 });
   }
 
-  return { statusCode: 200, body: 'ok' };
-};
+  return new Response('ok', { status: 200 });
+}
