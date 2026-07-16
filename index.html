@@ -729,9 +729,130 @@
     .process { grid-template-columns: 1fr; gap: 32px; }
     .waitlist { grid-template-columns: 1fr; padding: 36px 24px; }
   }
+
+  /* ---------- Intro splash ---------- */
+
+  body.intro-active { overflow: hidden; }
+
+  .intro-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0c0c0d;
+    cursor: pointer;
+    overflow: hidden;
+    transition: opacity 0.7s ease;
+  }
+
+  .intro-splash.intro-hidden { opacity: 0; pointer-events: none; }
+
+  .intro-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('assets/intro-atelier.jpg');
+    background-image: image-set(url('assets/intro-atelier.webp') 1x);
+    background-size: cover;
+    background-position: center;
+    transform: scale(1);
+    animation: introKenBurns 3.6s ease-out forwards;
+  }
+
+  @keyframes introKenBurns {
+    from { transform: scale(1); }
+    to { transform: scale(1.08); }
+  }
+
+  .intro-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.68) 100%);
+  }
+
+  .intro-title {
+    position: relative;
+    z-index: 1;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.6rem, 7vw, 4rem);
+    color: #FAFAFA;
+    letter-spacing: 0.6em;
+    padding-left: 0.6em;
+    opacity: 0;
+    animation: introTitleIn 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+  }
+
+  @keyframes introTitleIn {
+    from { opacity: 0; letter-spacing: 0.7em; }
+    to { opacity: 1; letter-spacing: 0.12em; }
+  }
+
+  .intro-skip {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #FAFAFA;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    padding: 9px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .intro-skip:hover { border-color: rgba(255, 255, 255, 0.6); background: rgba(255, 255, 255, 0.15); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro-bg { animation: none; }
+    .intro-title { animation: none; opacity: 1; letter-spacing: 0.12em; }
+  }
+
+  @media (max-width: 640px) {
+    .intro-skip { bottom: 22px; right: 22px; }
+  }
 </style>
 </head>
 <body>
+
+<div class="intro-splash" id="introSplash">
+  <div class="intro-bg"></div>
+  <div class="intro-vignette"></div>
+  <h1 class="intro-title">WATCHMODS</h1>
+  <button class="intro-skip" id="introSkip" type="button">Passer</button>
+</div>
+<script>
+(function () {
+  var splash = document.getElementById('introSplash');
+  if (!splash) return;
+  if (sessionStorage.getItem('watchmods_intro_seen')) {
+    splash.remove();
+    return;
+  }
+  document.body.classList.add('intro-active');
+
+  function dismiss() {
+    if (splash.dataset.dismissed) return;
+    splash.dataset.dismissed = '1';
+    sessionStorage.setItem('watchmods_intro_seen', '1');
+    splash.classList.add('intro-hidden');
+    document.body.classList.remove('intro-active');
+    setTimeout(function () { splash.remove(); }, 750);
+  }
+
+  splash.addEventListener('click', dismiss);
+  document.getElementById('introSkip').addEventListener('click', function (e) {
+    e.stopPropagation();
+    dismiss();
+  });
+  setTimeout(dismiss, 3500);
+})();
+</script>
 
 <header>
   <div class="wrap">
