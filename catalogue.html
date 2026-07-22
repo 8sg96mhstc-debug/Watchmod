@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalogue — watchmods.ch</title>
+<meta name="description" content="Le catalogue complet des montres Seiko modifiées watchmods.ch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAFA;
+    --bg-panel: #FFFFFF;
+    --bg-panel-2: #F1F2F4;
+    --accent: #E0263E;
+    --accent-dim: #B01F32;
+    --warning: #C2600F;
+    --text: #15171A;
+    --muted: #6B7078;
+    --line: #E4E5E9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- Header ---------- */
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(250, 250, 250, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  header .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .header-right { display: flex; align-items: center; gap: 28px; }
+
+  nav { display: flex; gap: 32px; }
+
+  nav a {
+    position: relative;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: -4px;
+    height: 1px;
+    background: var(--accent);
+    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  nav a:hover, nav a.active { color: var(--text); }
+  nav a:hover::after, nav a.active::after { right: 0; }
+
+  header { transition: box-shadow 0.3s ease; }
+  header.scrolled { box-shadow: 0 12px 28px -20px rgba(0, 0, 0, 0.7); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.in-view { opacity: 1; transform: none; }
+
+    .card-enter {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: cardFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes cardFadeUp { to { opacity: 1; transform: none; } }
+  }
+
+  .btn { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(224, 38, 62, 0.35); }
+  .btn-primary:active { transform: translateY(0) scale(0.97); }
+  .btn-ghost:hover { transform: translateY(-2px); }
+
+  .cart-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+
+  .cart-badge {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #FFFFFF;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  /* ---------- Page head ---------- */
+
+  .page-head {
+    padding: 64px 0 40px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .page-head h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+
+  .page-head p {
+    color: var(--muted);
+    max-width: 520px;
+    font-size: 1rem;
+  }
+
+  /* ---------- Filters ---------- */
+
+  .filters {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 72px;
+    background: var(--bg);
+    z-index: 10;
+  }
+
+  .filters-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .filter-field label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .filter-field select {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 3px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    min-width: 190px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .filter-field select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224, 38, 62, 0.15); }
+  .filter-reset { transition: color 0.2s ease; }
+
+  .filter-field select:focus { outline: none; border-color: var(--accent); }
+
+  .filter-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text);
+    cursor: pointer;
+    padding-top: 22px;
+  }
+
+  .filter-check input {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--accent);
+  }
+
+  .filter-reset {
+    margin-left: auto;
+    padding-top: 22px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .filter-reset:hover { color: var(--text); }
+
+  .result-count {
+    margin-top: 16px;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Grid ---------- */
+
+  .catalogue-section { padding: 48px 0 100px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .card {
+    background: var(--bg-panel);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    transition: background 0.2s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  }
+
+  .card:hover {
+    background: var(--bg-panel-2);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 36px -24px rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+
+  .card .card-face { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .card:hover .card-face { transform: rotate(8deg); }
+
+  .card-face {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, #2a2f38, #14171c 70%);
+    border: 1px solid var(--line);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-face::before {
+    content: '';
+    position: absolute;
+    inset: 14%;
+    border-radius: 50%;
+    border: 1px solid var(--accent-dim);
+    opacity: 0.5;
+  }
+
+  .card-face .hand {
+    position: absolute;
+    width: 2px;
+    background: var(--accent);
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    border-radius: 2px;
+  }
+
+  .card-face .hand:nth-of-type(1) { height: 27%; }
+  .card-face .hand:nth-of-type(2) { height: 34%; width: 1.5px; }
+
+  .card-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-panel-2);
+  }
+
+  .card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card:hover .card-photo img { transform: scale(1.06); }
+
+  .stock-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  .stock-badge.rupture { color: var(--warning); border-color: var(--warning); }
+
+  .card-collection {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+
+  .card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .card-meta .price {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 0.95rem;
+  }
+
+  .empty-state {
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .empty-state h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--text);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  /* ---------- Footer ---------- */
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 36px 0;
+  }
+
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Responsive ---------- */
+
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .grid { grid-template-columns: 1fr; }
+    .filters { position: static; }
+    .filter-field select { min-width: 0; flex: 1; }
+    .filters-row { gap: 12px; }
+    .filter-reset { margin-left: 0; padding-top: 8px; }
+  }
+
+  @media (max-width: 520px) {
+    .filter-field { flex: 1 1 calc(50% - 6px); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">watch<span>mods</span>.ch</a>
+    <div class="header-right">
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="catalogue.html" class="active">Catalogue</a>
+        <a href="configurateur.html">Configurateur</a>
+        <a href="index.html#waitlist">Contact</a>
+      </nav>
+      <a href="panier.html" class="cart-link">Panier <span class="cart-badge" id="cart-badge">0</span></a>
+    </div>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap reveal">
+    <div class="eyebrow">Catalogue</div>
+    <h1>Toutes nos montres</h1>
+    <p>Chaque pièce est modifiée puis contrôlée à la main avant expédition. Stock limité par modèle.</p>
+  </div>
+</section>
+
+<section class="filters">
+  <div class="wrap">
+    <div class="filters-row">
+      <div class="filter-field">
+        <label for="filter-collection">Modèle</label>
+        <select id="filter-collection">
+          <option value="all">Tous les modèles</option>
+          <option value="Meridian">Meridian</option>
+          <option value="Aviateur">Aviateur</option>
+          <option value="Marina">Marina</option>
+          <option value="Globetrotter">Globetrotter</option>
+        </select>
+      </div>
+      <div class="filter-field">
+        <label for="filter-prix">Prix</label>
+        <select id="filter-prix">
+          <option value="all">Tous les prix</option>
+          <option value="0-259">Jusqu'à CHF 259</option>
+          <option value="260-300">CHF 260 – 300</option>
+          <option value="301-9999">CHF 301 et plus</option>
+        </select>
+      </div>
+      <label class="filter-check">
+        <input type="checkbox" id="filter-dispo">
+        En stock uniquement
+      </label>
+      <button class="filter-reset" id="filter-reset">Réinitialiser</button>
+    </div>
+    <div class="result-count" id="result-count"></div>
+  </div>
+</section>
+
+<section class="catalogue-section">
+  <div class="wrap">
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 watchmods.ch</span>
+    <span>Genève, Suisse</span>
+  </div>
+</footer>
+
+<script>
+  // Données statiques temporaires — seront remplacées par une lecture Supabase (table "produits").
+  const PHOTO_BASE = 'https://dthpbmiyebbhrtaqcoan.supabase.co/storage/v1/object/public/produits-photos/';
+  const produits = [
+    { reference: 'WM-101', nom: 'Meridian Émeraude', collection: 'Meridian', prix: 279, stock: 5, description: "Boîtier rond à lunette cannelée, cadran vert sunburst à chiffres arabes, bracelet jubilé acier.", photos: [PHOTO_BASE + 'wm-101/01.jpg'] },
+    { reference: 'WM-102', nom: 'Meridian Azur', collection: 'Meridian', prix: 279, stock: 3, description: "Même boîtier Meridian, cadran bleu sunburst à chiffres arabes, bracelet jubilé acier.", photos: [PHOTO_BASE + 'wm-102/01.jpg'] },
+    { reference: 'WM-103', nom: 'Meridian Rosé', collection: 'Meridian', prix: 319, stock: 2, description: "Boîtier bi-ton acier et or rose, cadran vert sunburst, bracelet jubilé assorti.", photos: [] },
+    { reference: 'WM-201', nom: 'Aviateur Blanc', collection: 'Aviateur', prix: 259, stock: 6, description: "Boîtier carré à vis apparentes, cadran blanc chiffres romains, aiguilles bleues, bracelet acier.", photos: ['images/produits/wm-201.jpg'] },
+    { reference: 'WM-202', nom: 'Aviateur Cuir Bleu', collection: 'Aviateur', prix: 249, stock: 4, description: "Même boîtier Aviateur, bracelet cuir bleu à surpiqûres, boucle déployante acier.", photos: ['images/produits/wm-202.jpg'] },
+    { reference: 'WM-301', nom: 'Marina Noire', collection: 'Marina', prix: 289, stock: 5, description: "Boîtier octogonal intégré, cadran noir strié horizontal, bracelet acier intégré.", photos: [PHOTO_BASE + 'wm-301/01.jpg'] },
+    { reference: 'WM-302', nom: 'Marina Cuivre', collection: 'Marina', prix: 329, stock: 2, description: "Boîtier octogonal plaqué or rose, cadran brun strié horizontal, bracelet assorti.", photos: [PHOTO_BASE + 'wm-302/01.jpg'] },
+    { reference: 'WM-401', nom: 'Globetrotter GMT', collection: 'Globetrotter', prix: 339, stock: 3, description: "Boîtier rond, lunette bicolore noir/bleu, aiguille GMT, cadran noir, bracelet jubilé acier.", photos: [] }
+  ];
+
+  const grid = document.getElementById('grid');
+  const resultCount = document.getElementById('result-count');
+  const filterCollection = document.getElementById('filter-collection');
+  const filterPrix = document.getElementById('filter-prix');
+  const filterDispo = document.getElementById('filter-dispo');
+  const filterReset = document.getElementById('filter-reset');
+
+  function render() {
+    const collection = filterCollection.value;
+    const prixRange = filterPrix.value;
+    const dispoOnly = filterDispo.checked;
+
+    let filtered = produits.filter(p => {
+      if (collection !== 'all' && p.collection !== collection) return false;
+      if (dispoOnly && p.stock <= 0) return false;
+      if (prixRange !== 'all') {
+        const [min, max] = prixRange.split('-').map(Number);
+        if (p.prix < min || p.prix > max) return false;
+      }
+      return true;
+    });
+
+    resultCount.textContent = filtered.length + (filtered.length > 1 ? ' montres trouvées' : ' montre trouvée');
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><h3>Aucune montre ne correspond</h3><p>Essaie d\'élargir tes critères de recherche.</p></div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map((p, i) => `
+      <a class="card card-enter" style="animation-delay:${Math.min(i, 8) * 0.06}s" href="produit.html?ref=${encodeURIComponent(p.reference)}">
+        <span class="stock-badge ${p.stock <= 0 ? 'rupture' : ''}">${p.stock <= 0 ? 'Rupture de stock' : 'En stock'}</span>
+        ${p.photos && p.photos.length
+          ? `<div class="card-photo"><img src="${p.photos[0]}" alt="${p.nom}" loading="lazy"></div>`
+          : `<div class="card-face"><div class="hand"></div><div class="hand"></div></div>`}
+        <div>
+          <div class="card-collection">${p.collection}</div>
+          <h3>${p.nom}</h3>
+        </div>
+        <div class="card-meta">
+          <span class="mono">${p.reference}</span>
+          <span class="price">CHF ${p.prix}</span>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  filterCollection.addEventListener('change', render);
+  filterPrix.addEventListener('change', render);
+  filterDispo.addEventListener('change', render);
+  filterReset.addEventListener('click', () => {
+    filterCollection.value = 'all';
+    filterPrix.value = 'all';
+    filterDispo.checked = false;
+    render();
+  });
+
+  render();
+
+  (function () {
+    var badge = document.getElementById('cart-badge');
+    function updateCartBadge() {
+      var cart = [];
+      try { cart = JSON.parse(localStorage.getItem('watchmods_cart') || '[]'); } catch (e) {}
+      var count = cart.reduce(function (sum, item) { return sum + (item.quantite || 1); }, 0);
+      if (!badge) return;
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+    updateCartBadge();
+    window.addEventListener('storage', updateCartBadge);
+  })();
+
+  (function () {
+    var header = document.querySelector('header');
+    function onScroll() { if (header) header.classList.toggle('scrolled', window.scrollY > 8); }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+
+  (function () {
+    var targets = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('in-view'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    targets.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>

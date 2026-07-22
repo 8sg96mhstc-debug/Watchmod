@@ -1,0 +1,11 @@
+# Configuration Cloudflare Workers (site statique + fonctions Stripe).
+# "main" route tout le trafic vers _worker.js, qui sert les pages statiques
+# via env.ASSETS et appelle les fonctions Stripe pour les routes /api/*.
+name = "watchmod"
+main = "_worker.js"
+compatibility_date = "2026-07-15"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "."
+binding = "ASSETS"

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panier — watchmods.ch</title>
+<meta name="description" content="Votre panier watchmods.ch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAFA;
+    --bg-panel: #FFFFFF;
+    --bg-panel-2: #F1F2F4;
+    --accent: #E0263E;
+    --accent-dim: #B01F32;
+    --warning: #C2600F;
+    --text: #15171A;
+    --muted: #6B7078;
+    --line: #E4E5E9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  /* ---------- Header ---------- */
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(250, 250, 250, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  header .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .header-right { display: flex; align-items: center; gap: 28px; }
+
+  nav { display: flex; gap: 32px; }
+
+  nav a {
+    position: relative;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: -4px;
+    height: 1px;
+    background: var(--accent);
+    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  nav a:hover, nav a.active { color: var(--text); }
+  nav a:hover::after, nav a.active::after { right: 0; }
+
+  header { transition: box-shadow 0.3s ease; }
+  header.scrolled { box-shadow: 0 12px 28px -20px rgba(0, 0, 0, 0.7); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .row-enter {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: rowFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes rowFadeUp { to { opacity: 1; transform: none; } }
+  }
+
+  .btn { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.2s ease; }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(224, 38, 62, 0.35); }
+  .btn-primary:active:not(:disabled) { transform: translateY(0) scale(0.97); }
+
+  .cart-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .cart-badge {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #FFFFFF;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  /* ---------- Page head ---------- */
+
+  .page-head {
+    padding: 56px 0 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .page-head h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    letter-spacing: -0.02em;
+  }
+
+  /* ---------- Cart ---------- */
+
+  .cart-section { padding: 40px 0 100px; }
+
+  .cart-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .cart-item {
+    display: grid;
+    grid-template-columns: 64px 1fr auto auto;
+    gap: 18px;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .item-face {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, #2a2f38, #14171c 70%);
+    border: 1px solid var(--line);
+  }
+
+  .item-name { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 500; }
+  .item-ref { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
+
+  .item-qty {
+    width: 60px;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 8px 10px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    text-align: center;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .item-qty:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224, 38, 62, 0.15); }
+
+  .item-price {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .item-remove {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    padding: 0;
+    transition: color 0.2s ease;
+  }
+
+  .item-remove:hover { color: var(--accent); }
+
+  .empty-cart {
+    padding: 60px 0;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .empty-cart h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--text);
+    font-size: 1.3rem;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  /* ---------- Summary ---------- */
+
+  .summary-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 26px 28px;
+    position: sticky;
+    top: 96px;
+  }
+
+  .summary-card h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+    font-size: 0.92rem;
+  }
+
+  .summary-row.total {
+    border-top: 1px solid var(--line);
+    margin-top: 8px;
+    padding-top: 18px;
+    font-size: 1.1rem;
+  }
+
+  .summary-row.total .value { color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 26px;
+    border-radius: 3px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+
+  .btn-primary { background: var(--accent); color: #FFFFFF; }
+  .btn-primary:hover { background: var(--accent-dim); }
+  .btn-primary:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
+
+  .btn-ghost {
+    border-color: var(--line);
+    color: var(--text);
+    background: transparent;
+  }
+
+  .btn-ghost:hover { border-color: var(--accent-dim); }
+
+  .summary-note {
+    margin-top: 14px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .checkout-error {
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: var(--accent);
+    display: none;
+  }
+
+  /* ---------- Footer ---------- */
+
+  footer { border-top: 1px solid var(--line); padding: 36px 0; }
+
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Responsive ---------- */
+
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .cart-grid { grid-template-columns: 1fr; gap: 32px; }
+    .summary-card { position: static; }
+    .cart-item { grid-template-columns: 48px 1fr; row-gap: 10px; }
+    .item-qty, .item-price, .item-remove { grid-column: 2; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">watch<span>mods</span>.ch</a>
+    <div class="header-right">
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="configurateur.html">Configurateur</a>
+        <a href="index.html#waitlist">Contact</a>
+      </nav>
+      <a href="panier.html" class="cart-link">Panier <span class="cart-badge" id="cart-badge">0</span></a>
+    </div>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <h1>Votre panier</h1>
+  </div>
+</section>
+
+<section class="cart-section">
+  <div class="wrap">
+    <div class="cart-grid">
+      <div id="cart-items"></div>
+      <div class="summary-card">
+        <h3>Résumé de la commande</h3>
+        <div class="summary-row"><span>Articles</span><span id="summary-count">0</span></div>
+        <div class="summary-row total"><span>Total</span><span class="value" id="summary-total">CHF 0</span></div>
+        <button class="btn btn-primary" id="checkout-btn" style="margin-top:20px;">Passer au paiement</button>
+        <div class="summary-note">Paiement sécurisé par Stripe. L'adresse de livraison et l'email sont demandés sur la page de paiement.</div>
+        <div class="checkout-error" id="checkout-error"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 watchmods.ch</span>
+    <span>Genève, Suisse</span>
+  </div>
+</footer>
+
+<script>
+  // Source de vérité pour le stock disponible (même liste que catalogue.html / produit.html).
+  // Sera remplacée par une lecture Supabase une fois les produits synchronisés en base.
+  const produitsRef = {
+    'WM-101': { stock: 5 }, 'WM-102': { stock: 3 }, 'WM-103': { stock: 2 },
+    'WM-201': { stock: 6 }, 'WM-202': { stock: 4 },
+    'WM-301': { stock: 5 }, 'WM-302': { stock: 2 },
+    'WM-401': { stock: 3 }
+  };
+
+  function getCart() {
+    try { return JSON.parse(localStorage.getItem('watchmods_cart') || '[]'); } catch (e) { return []; }
+  }
+
+  function saveCart(cart) {
+    localStorage.setItem('watchmods_cart', JSON.stringify(cart));
+    window.dispatchEvent(new Event('storage'));
+  }
+
+  const itemsEl = document.getElementById('cart-items');
+  const summaryCount = document.getElementById('summary-count');
+  const summaryTotal = document.getElementById('summary-total');
+  const checkoutBtn = document.getElementById('checkout-btn');
+  const checkoutError = document.getElementById('checkout-error');
+
+  function render() {
+    const cart = getCart();
+
+    if (cart.length === 0) {
+      itemsEl.innerHTML = `
+        <div class="empty-cart">
+          <h3>Ton panier est vide</h3>
+          <p><a href="catalogue.html" class="mono" style="color:var(--accent);">Voir le catalogue →</a></p>
+        </div>
+      `;
+      summaryCount.textContent = '0';
+      summaryTotal.textContent = 'CHF 0';
+      checkoutBtn.disabled = true;
+      return;
+    }
+
+    let total = 0;
+    let count = 0;
+
+    itemsEl.innerHTML = cart.map((item, index) => {
+      const maxStock = (produitsRef[item.reference] && produitsRef[item.reference].stock) || item.quantite;
+      const sousTotal = item.prix * item.quantite;
+      total += sousTotal;
+      count += item.quantite;
+      return `
+        <div class="cart-item row-enter" style="animation-delay:${Math.min(index, 6) * 0.05}s">
+          <div class="item-face"></div>
+          <div>
+            <div class="item-name">${item.nom}</div>
+            <div class="item-ref mono">${item.reference}</div>
+          </div>
+          <div>
+            <input type="number" class="item-qty" data-index="${index}" min="1" max="${maxStock}" value="${item.quantite}">
+            <button class="item-remove" data-index="${index}" style="display:block;margin-top:8px;">Retirer</button>
+          </div>
+          <div class="item-price">CHF ${sousTotal}</div>
+        </div>
+      `;
+    }).join('');
+
+    summaryCount.textContent = count;
+    summaryTotal.textContent = 'CHF ' + total;
+    checkoutBtn.disabled = false;
+
+    itemsEl.querySelectorAll('.item-qty').forEach(input => {
+      input.addEventListener('change', () => {
+        const cart = getCart();
+        const idx = parseInt(input.dataset.index, 10);
+        const maxStock = (produitsRef[cart[idx].reference] && produitsRef[cart[idx].reference].stock) || 99;
+        cart[idx].quantite = Math.max(1, Math.min(maxStock, parseInt(input.value, 10) || 1));
+        saveCart(cart);
+        render();
+      });
+    });
+
+    itemsEl.querySelectorAll('.item-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cart = getCart();
+        cart.splice(parseInt(btn.dataset.index, 10), 1);
+        saveCart(cart);
+        render();
+      });
+    });
+  }
+
+  checkoutBtn.addEventListener('click', async () => {
+    checkoutError.style.display = 'none';
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = 'Redirection vers le paiement…';
+
+    try {
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: getCart() })
+      });
+
+      if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || 'Erreur lors de la création du paiement.');
+      }
+
+      const data = await response.json();
+      window.location.href = data.url;
+    } catch (err) {
+      checkoutError.textContent = err.message || 'Une erreur est survenue. Réessaie dans un instant.';
+      checkoutError.style.display = 'block';
+      checkoutBtn.disabled = false;
+      checkoutBtn.textContent = 'Passer au paiement';
+    }
+  });
+
+  render();
+
+  (function () {
+    var badge = document.getElementById('cart-badge');
+    function updateCartBadge() {
+      var cart = getCart();
+      var count = cart.reduce(function (sum, item) { return sum + (item.quantite || 1); }, 0);
+      if (!badge) return;
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+    updateCartBadge();
+    window.addEventListener('storage', updateCartBadge);
+  })();
+
+  (function () {
+    var header = document.querySelector('header');
+    function onScroll() { if (header) header.classList.toggle('scrolled', window.scrollY > 8); }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
+
+</body>
+</html>
